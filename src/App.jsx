@@ -1,9 +1,14 @@
 import { useState } from "react";
+import Footer from "./components/Footer";
+import NavBar from "./components/NavBar";
+import ProductCard from "./components/ProductCard";
 
 function App() {
   return (
     <>
-      <h1>user</h1>
+      <NavBar />
+      <ProductCard />
+      <Footer />
     </>
   );
 }
