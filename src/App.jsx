@@ -11,8 +11,10 @@ import { useState } from "react";
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import ProductCard from "./components/ProductCard";
-import Home from "./pages/Home";
 
+import Shop from "./pages/Shop";
+
+import Home from "./pages/Home";
 
 function App() {
   const router = createBrowserRouter(
@@ -20,6 +22,7 @@ function App() {
       <>
         <Route path="/" element={<Home />} />
         <Route path="/productDetails" element={<ProductDetails />} />
+        <Route path="/shop" element={<Shop />} />
         {/* <Route path="*" element={<Error />} /> */}
       </>
     )
@@ -27,15 +30,18 @@ function App() {
 
   return (
     <>
-
       <NavBar />
+
+      {/* <ProductCard /> */}
+      {/* <Shop /> */}
+
       <div>
-        <RouterProvider router={router}/>
+        <RouterProvider router={router} />
       </div>
 
       {/* <ProductCard /> */}
-      <Footer />
 
+      <Footer />
     </>
   );
 }
