@@ -7,25 +7,25 @@ import LocationIcon from "../assets/icons/LocationIcon";
 import PhoneIcon from "../assets/icons/PhoneIcon";
 
 export default function ProductDetails() {
-    useEffect(() => {
-        async function getProductDetails() {
-          try {
-            const { data } = await axios.get(
-              "https://blog-backend-amwb.onrender.com/v1/post"
-            );
-            console.log(data.data);
-            // setPosts(data?.data?.reverse());
-            setLoading(false);
-          } catch (error) {
-            setLoading(true);
-            // setError(error);
-            console.log(error);
-            if (error.message === "Network Error")
-              toast.error("No Internet, Please check your connectivity");
-          }
-        }
-        getProductDetails();
-      }, []);
+    // useEffect(() => {
+    //     async function getProductDetails() {
+    //       try {
+    //         const { data } = await axios.get(
+    //           "https://blog-backend-amwb.onrender.com/v1/post"
+    //         );
+    //         console.log(data.data);
+    //         // setPosts(data?.data?.reverse());
+    //         setLoading(false);
+    //       } catch (error) {
+    //         setLoading(true);
+    //         // setError(error);
+    //         console.log(error);
+    //         if (error.message === "Network Error")
+    //           toast.error("No Internet, Please check your connectivity");
+    //       }
+    //     }
+    //     getProductDetails();
+    //   }, []);
   const [images, setImages] = useState([
     {
       id: 1,
