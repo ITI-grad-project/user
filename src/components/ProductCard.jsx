@@ -1,12 +1,12 @@
-function ProductCard() {
+function ProductCard({ ItemImg, ItemTitle, ItemPrice, User }) {
   return (
     <>
       <div className="card w-96 bg-base-100 shadow-xl">
         <figure>
           <div className="relative">
             <img
-              className="w-[405px] h-[301]"
-              src="https://avatars.mds.yandex.net/i?id=0bea427b46963d9d9ff3749d0ca1f825-5661150-images-thumbs&n=13"
+              className="w-[400px] h-[300px] object-cover object-center"
+              src={ItemImg}
               alt="Shoes"
             />
             <div className="bg-white w-[40px] h-[40px] rounded-lg  m-[16px] absolute top-0 right-0 flex justify-center items-center  ">
@@ -29,18 +29,20 @@ function ProductCard() {
             </div>
           </div>
         </figure>
-        <div className="card-body ">
+        <div className="card-body">
           <div className="flex justify-between">
-            <h2 className="card-title text-[22px]">Product title</h2>
-            <h2 className="text-primary font-bold text-[22px]">EGP 200</h2>
+            <h2 className="card-title text-[22px] line-clamp-2">{ItemTitle}</h2>
+            <h2 className="text-primary font-bold text-[22px]">
+              EGP {ItemPrice}
+            </h2>
           </div>
           <div className="flex justify-between">
             <div className="flex gap-2 mt-[16px] self-center">
               <img
-                className="rounded-full w-[40px]"
-                src="https://yandex-images.clstorage.net/r5fFc3179/60d6facjV/KJ9YvaQaxdSNyvq0t1mR-ZhEWiUdXWlDcsJYpp_Z9a6zOERUHNsiMQXicN4cZldIqA5DhpCX1ctPTOf5hQm0oGWCDaiUdrzopc76uIN9_d2EaHoZPU05X3ujBS82ADU_BtCFodxvkkBAnnGHOAcOEf2r3o-d39w2q0AeCASwyU3Ew3RxkLqApOGeZ-xvOS0hVGkmjS0wjXYG-vFb6tQN02J0aan43yIsBBqJ2833YpldF6unjWt4hr8YRsgANNmxgBfw0QRyLCTZ8mswt8nBWZghRrEBNB0qzkLFx0Ko0a-uDFEBmBsyzHCCuR9dq5Y1cYuHEx1r_MobAO40fNx9qUQfVNV0njA4iWqfRIvBCfGEMTYVHezJYkqOYQdeGCEHLgzppXgPZkygNonP1XfW4Q3Du5-Fdwx6q9weoJRYKaH8pzwJLArY5OE6E-QHyelhiOVqDVXQmX4i9u0P_sxpKx54eVFEV47k1P59JzHrwpnRG2uHkZdwRq-E-sD4FMXt6B_M6bzmMPyZOg_Y601p9ciVoomdzGHO3lZp_-qY8Zc2MJURaNuiDNiGQUtVn9YdqeuD25XnNJpTNFp4nGBd4bAnZEU4VrgkLUYTRNt9IT3UNcIJ2ci9VqpKAdsO7O2r0rwdRaDPFgwsDt1L5RMOxe1bf-f9cxgO01iuBBDw0Sm0L1hdNMo0WIFSG-RbjeGluLkC3elMRbKCcsXbwkSl4yoIGa2Alz743OYh922TzinVNxdf7efg-osU3hAk6OGhpEu8MQj2RNztdh8kC201sbwJ9vlpTJX6HtrtlxbA7QOuINHl4GfKCKz-yQ-9j5Ix6ec3LzETXKYHaDpk8ECVDWz7vOWAflA0sYITRNdhlUEIHUJNISxpRtpO0XMKAFU_vizJ3VQXtmQEIlUzyStWDVk3D4OZbzgiQ9gqCISUFUUEI4R9wG6QRCXimzTrybkxCCEywaEAiWKCjoVDQiwU"
+                className="rounded-full w-[50px] h-[50px] object-cover object-center"
+                src={User?.profileImg}
               />
-              <h3 className="self-center text-[16px]">User Name</h3>
+              <h3 className="self-center text-[20px]">{User?.userName}</h3>
             </div>
             <div className="self-center flex">
               <div>
