@@ -1,47 +1,29 @@
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
 
-import ProductDetails from "./pages/ProudctDetails";
+import Login from "../src/pages/Login";
+import ForgetPassword from "./pages/ForgetPassword";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Signup from "./pages/Signup";
+import NewPassword from "./pages/NewPassword";
+import VerifyCode from "./pages/VerifyCode";
 
-import { useState } from "react";
-import Footer from "./components/Footer";
-import NavBar from "./components/NavBar";
-import ProductCard from "./components/ProductCard";
 
-import Shop from "./pages/Shop";
 
-import Home from "./pages/Home";
 
-function App() {
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <>
-        <Route path="/" element={<Home />} />
-        <Route path="/productDetails" element={<ProductDetails />} />
-        <Route path="/shop" element={<Shop />} />
-        {/* <Route path="*" element={<Error />} /> */}
-      </>
-    )
-  );
 
   return (
     <>
-      <NavBar />
 
-      {/* <ProductCard /> */}
-      {/* <Shop /> */}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgotPassword" element={<ForgetPassword />} />
+          <Route path="/newPassword" element={<NewPassword />} />
+          <Route path="/verify" element={<VerifyCode />} />
+        </Routes>
+      </BrowserRouter>
 
-      <div>
-        <RouterProvider router={router} />
-      </div>
-
-      {/* <ProductCard /> */}
-
-      <Footer />
     </>
   );
 }
