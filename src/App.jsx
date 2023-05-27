@@ -17,9 +17,7 @@ import Home from "./pages/Home";
 
 function App() {
   const [items, setItems] = useState([]);
-  // const [categories, setCategories] = useState([]);
-
-  // const [currentCategory, setCurrentCategory] = useState(0);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     async function getItems() {
@@ -28,34 +26,45 @@ function App() {
           "https://bekya.onrender.com/api/v1/products"
         );
         setItems(data);
-        console.log("hello data", data);
+        // console.log("hello data", data);
         // Calculate noOfPages
         // setNoOfPages(Math.ceil(data.length / pageSize));
       } catch (error) {
         // TODO: handle error
       }
     }
-    // async function getCategories() {
-    //   try {
-    //     const { data } = await axios.get(
-    //       "https://bekya.onrender.com/api/v1/categories"
-    //     );
-    //     setCategories(data);
-    //   } catch (error) {
-    //     // TODO: handle error
-    //   }
-    // }
-    console.log("hello items", items);
+    async function getCategories() {
+      try {
+        const { data } = await axios.get(
+          "https://bekya.onrender.com/api/v1/categories"
+        );
+        setCategories(data);
+      } catch (error) {
+        // TODO: handle error
+      }
+    }
+    // console.log("hello items", items);
     getItems();
-    // getCategories();
+    getCategories();
   }, []);
-  console.log("items", items.data);
+  console.log("items", items);
+  console.log("category", categories.data);
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route path="/" element={<Home />} />
         <Route path="/productDetails" element={<ProductDetails />} />
-        <Route path="/shop" element={<Shop Items={items?.data} />} />
+        <Route
+          path="/shop"
+          element={
+            <Shop
+              Items={items?.data}
+              Categories={categories?.data}
+              Pagination={items?.pagination}
+            />
+          }
+        />
         {/* <Route path="*" element={<Error />} /> */}
       </>
     )
@@ -64,16 +73,9 @@ function App() {
   return (
     <>
       <NavBar />
-
-      {/* <ProductCard /> */}
-      {/* <Shop /> */}
-
       <div>
         <RouterProvider router={router} />
       </div>
-
-      {/* <ProductCard /> */}
-
       <Footer />
     </>
   );
