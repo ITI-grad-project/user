@@ -1,23 +1,41 @@
-function ProductCard() {
+import { useState } from "react";
+
+function ProductCard({ product }) {
+  // console.log("product from card", product);
+
+  const [wishListed, setWishListed] = useState(true);
+
+  const toggleWishListed = () => {
+    setWishListed((prevState) => !prevState);
+  };
+
+  const maxRating = 5;
+  const filledStar = Array(product.user.ratingQuantity).fill(0);
+  const unFilledStar = Array(maxRating - product.user.ratingQuantity).fill(0);
+  // console.log(unFilledStar);
+
   return (
     <>
-      <div className="card w-96 bg-base-100 shadow-xl">
+      <div className="card w-72 shadow-xl" key={product.id}>
         <figure>
-          <div className="relative">
+          <div className="relative w-full">
             <img
-              className="w-[405px] h-[301]"
-              src="https://avatars.mds.yandex.net/i?id=0bea427b46963d9d9ff3749d0ca1f825-5661150-images-thumbs&n=13"
-              alt="Shoes"
+              className="w-full h-full max-h-60"
+              src={`${product.images[0].image}`}
+              alt={product.title}
             />
-            <div className="bg-white w-[40px] h-[40px] rounded-lg  m-[16px] absolute top-0 right-0 flex justify-center items-center  ">
-              <div>
+            <button
+              onClick={toggleWishListed}
+              className="bg-white w-10 h-10 rounded-lg  m-2 absolute top-0 right-0 flex justify-center items-center  "
+            >
+              <div className=" text-primary hover:text-red-700">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
+                  fill={wishListed ? "none" : "currentColor"}
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-7 h-7"
                 >
                   <path
                     strokeLinecap="round"
@@ -26,106 +44,74 @@ function ProductCard() {
                   />
                 </svg>
               </div>
-            </div>
+            </button>
           </div>
         </figure>
-        <div className="card-body ">
-          <div className="flex justify-between">
-            <h2 className="card-title text-[22px]">Product title</h2>
-            <h2 className="text-primary font-bold text-[22px]">EGP 200</h2>
+        <div className="p-3 ">
+          <div>
+            <div className="prod-card-container ">
+              <h2 className="prod-card-title text-lg  ">{product.title}</h2>
+            </div>
+            <h2 className="text-primary font-bold text-lg">
+              EGP {product.price}
+            </h2>
           </div>
           <div className="flex justify-between">
-            <div className="flex gap-2 mt-[16px] self-center">
+            <div className="flex gap-2 mt-2 self-center">
               <img
-                className="rounded-full w-[40px]"
-                src="https://yandex-images.clstorage.net/r5fFc3179/60d6facjV/KJ9YvaQaxdSNyvq0t1mR-ZhEWiUdXWlDcsJYpp_Z9a6zOERUHNsiMQXicN4cZldIqA5DhpCX1ctPTOf5hQm0oGWCDaiUdrzopc76uIN9_d2EaHoZPU05X3ujBS82ADU_BtCFodxvkkBAnnGHOAcOEf2r3o-d39w2q0AeCASwyU3Ew3RxkLqApOGeZ-xvOS0hVGkmjS0wjXYG-vFb6tQN02J0aan43yIsBBqJ2833YpldF6unjWt4hr8YRsgANNmxgBfw0QRyLCTZ8mswt8nBWZghRrEBNB0qzkLFx0Ko0a-uDFEBmBsyzHCCuR9dq5Y1cYuHEx1r_MobAO40fNx9qUQfVNV0njA4iWqfRIvBCfGEMTYVHezJYkqOYQdeGCEHLgzppXgPZkygNonP1XfW4Q3Du5-Fdwx6q9weoJRYKaH8pzwJLArY5OE6E-QHyelhiOVqDVXQmX4i9u0P_sxpKx54eVFEV47k1P59JzHrwpnRG2uHkZdwRq-E-sD4FMXt6B_M6bzmMPyZOg_Y601p9ciVoomdzGHO3lZp_-qY8Zc2MJURaNuiDNiGQUtVn9YdqeuD25XnNJpTNFp4nGBd4bAnZEU4VrgkLUYTRNt9IT3UNcIJ2ci9VqpKAdsO7O2r0rwdRaDPFgwsDt1L5RMOxe1bf-f9cxgO01iuBBDw0Sm0L1hdNMo0WIFSG-RbjeGluLkC3elMRbKCcsXbwkSl4yoIGa2Alz743OYh922TzinVNxdf7efg-osU3hAk6OGhpEu8MQj2RNztdh8kC201sbwJ9vlpTJX6HtrtlxbA7QOuINHl4GfKCKz-yQ-9j5Ix6ec3LzETXKYHaDpk8ECVDWz7vOWAflA0sYITRNdhlUEIHUJNISxpRtpO0XMKAFU_vizJ3VQXtmQEIlUzyStWDVk3D4OZbzgiQ9gqCISUFUUEI4R9wG6QRCXimzTrybkxCCEywaEAiWKCjoVDQiwU"
+                className="rounded-full w-8 h-8"
+                src={`${product.user.profileImg}`}
               />
-              <h3 className="self-center text-[16px]">User Name</h3>
+              <h3 className="self-center capitalize text-sm">
+                {product.user.userName}
+              </h3>
             </div>
             <div className="self-center flex">
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="fill"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="fill"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="fill"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-                  />
-                </svg>
-              </div>
+              {filledStar.map((fStar) => {
+                console.log("fStar", fStar);
+                return (
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="fill"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-4 h-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                  </div>
+                );
+              })}
+              {unFilledStar.map((unfStar) => {
+                console.log("unfStar", unfStar);
+                return (
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-4 h-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          <div className="card-actions w-full mt-[24px]">
+          <div className="card-actions w-full mt-2">
             <button className="btn btn-primary text-white w-full">
               Add To Cart
             </button>
