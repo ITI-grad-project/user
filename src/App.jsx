@@ -1,14 +1,18 @@
+
 import Login from "../src/pages/Login";
 import ForgetPassword from "./pages/ForgetPassword";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./pages/Signup";
 import NewPassword from "./pages/NewPassword";
 import VerifyCode from "./pages/VerifyCode";
-import Home from "./pages/Home";
 
-function App() {
+
+
+
+
   return (
     <>
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -19,6 +23,7 @@ function App() {
           <Route path="/verify" element={<VerifyCode />} />
         </Routes>
       </BrowserRouter>
+
     </>
   );
 }
