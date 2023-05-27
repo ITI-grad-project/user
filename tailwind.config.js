@@ -5,7 +5,7 @@ export default {
     themes: [
       {
         mytheme: {
-          primary: "#933D24",
+          primary: "#FFD336",
           secondary: "#252525",
           accent: "#FFF8F4",
           neutral: "#3d4451",
