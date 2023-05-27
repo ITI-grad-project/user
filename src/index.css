@@ -12,6 +12,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .prod-card-container {
   width: 100%;
   height: 2rem;
@@ -22,4 +23,5 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+
 }
