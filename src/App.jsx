@@ -4,7 +4,7 @@ import ForgetPassword from "./pages/ForgetPassword";
 import Signup from "./pages/Signup";
 import NewPassword from "./pages/NewPassword";
 import VerifyCode from "./pages/VerifyCode";
-
+import Shop from "./pages/Shop";
 import Home from "./pages/Home";
 import { ProductsProvider } from "./context/ProductContext";
 import { useEffect, useState } from "react";
@@ -50,6 +50,10 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/favorite" element={<Favorite />} />
+              <Route
+                path="/shop"
+                element={<Shop Categories={listOfCategories} />}
+              />
             </Route>
           </Routes>
           {/* <Footer /> */}

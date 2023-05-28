@@ -155,10 +155,11 @@ function Shop({ Categories }) {
             return (
               <ProductCard
                 key={index}
-                ItemImg={item?.images[0].image}
-                ItemTitle={item?.title}
-                ItemPrice={item?.price}
-                User={item?.user}
+                // ItemImg={item?.images[0].image}
+                // ItemTitle={item?.title}
+                // ItemPrice={item?.price}
+                product={item}
+                // User={item?.user}
               />
             );
           })}
