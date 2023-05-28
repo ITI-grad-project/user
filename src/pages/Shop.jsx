@@ -67,7 +67,7 @@ function Shop({ Categories }) {
         Shop
       </h1> */}
       <div className="px-36 py-10 flex gap-8">
-        <div className="rounded-lg border-[2px] border-[#ECE8E8] w-[25vw] h-[900px] font-['Roboto'] px-10">
+        <div className="rounded-lg border-[2px] border-[#ECE8E8] w-[18vw] h-[900px] font-['Roboto'] px-10">
           <h2 className="text-[35px] text-primary font-[700] mb-5 mt-3">
             Categories
           </h2>
