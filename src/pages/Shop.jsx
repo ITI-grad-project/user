@@ -1,39 +1,57 @@
-import RangeSlider from "react-range-slider-input";
-import "react-range-slider-input/dist/style.css";
 import ProductCard from "../components/ProductCard.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PaginationPage from "../components/Pagination.jsx";
 // import { useMemo } from "react";
+import axios from "axios";
+import RangeInput from "../components/RangeInput.jsx";
+
 const MIN = 0;
 const MAX = 10000;
 
-function Shop({ Items, Categories, Pagination }) {
+function Shop({ Categories }) {
   const [Values, setValues] = useState([MIN, MAX]);
-  // console.log("Values", Values);
+  const [CurrentPage, setCurrentPage] = useState(1);
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    async function getItemsByPage() {
+      try {
+        const { data } = await axios.get(
+          CurrentPage === 1
+            ? "https://bekya.onrender.com/api/v1/products?page=1&limit=4"
+            : `https://bekya.onrender.com/api/v1/products?page=${CurrentPage}&limit=4`
+        );
+        setItems(data);
+      } catch (error) {}
+    }
+
+    getItemsByPage();
+  }, [CurrentPage]);
+  console.log("items", items);
 
   const [currentCategory, setCurrentCategory] = useState(0);
   const [currentCountry, setCurrentCountry] = useState(0);
 
   let FilteredItems = () => {
     return currentCategory === 0 && currentCountry === 0
-      ? Items?.filter(
+      ? items.data?.filter(
           (item) => item.price > Values[0] && item.price < Values[1]
         )
       : currentCategory === 0 && currentCountry !== 0
-      ? Items?.filter(
+      ? items.data?.filter(
           (item) =>
             item?._id === currentCountry &&
             item.price > Values[0] &&
             item.price < Values[1]
         )
       : currentCountry === 0 && currentCategory !== 0
-      ? Items?.filter(
+      ? items.data?.filter(
           (item) =>
             item?.category._id === currentCategory &&
             item.price > Values[0] &&
             item.price < Values[1]
         )
-      : Items?.filter(
+      : items.data?.filter(
           (item) =>
             item?.category._id === currentCategory &&
             item?._id === currentCountry &&
@@ -48,8 +66,8 @@ function Shop({ Items, Categories, Pagination }) {
       {/* <h1 className="text-[60px] text-[#2D2D2D] text-center font-[600] font-['Rubik']">
         Shop
       </h1> */}
-      <div className="px-36 py-10 flex gap-9">
-        <div className="rounded-lg border-[2px] border-[#ECE8E8] w-[28%] font-['Roboto'] px-10">
+      <div className="px-36 py-10 flex gap-8">
+        <div className="rounded-lg border-[2px] border-[#ECE8E8] w-[25vw] h-[900px] font-['Roboto'] px-10">
           <h2 className="text-[35px] text-primary font-[700] mb-5 mt-3">
             Categories
           </h2>
@@ -103,7 +121,7 @@ function Shop({ Items, Categories, Pagination }) {
               </span>
             </label>
           </div>
-          {Items?.map((item, index) => {
+          {items.data?.map((item, index) => {
             return (
               <div className="form-control" key={index}>
                 <label className="label cursor-pointer justify-start">
@@ -125,20 +143,14 @@ function Shop({ Items, Categories, Pagination }) {
           <h2 className="text-[35px] text-primary font-[700] mb-5 mt-3">
             Price Range
           </h2>
-          <div className="flex gap-3 mb-10">
-            <div className="border-2 text-[20px] font-[600] text-[#3d3b3b] border-[#ECE8E8] w-28 text-center p-3 rounded-lg">
-              {Values[0]}
-            </div>
-            <div className="text-[20px] font-[600] text-[#3d3b3b] w-6 text-center p-3 rounded-lg">
-              -
-            </div>
-            <div className="border-2 text-[20px] font-[600] text-[#3d3b3b] border-[#ECE8E8] w-28 text-center p-3 rounded-lg">
-              {Values[1]}
-            </div>
-          </div>
-          <RangeSlider min={MIN} max={MAX} value={Values} onInput={setValues} />
+          <RangeInput
+            Values={Values}
+            setValues={setValues}
+            MIN={MIN}
+            MAX={MAX}
+          />
         </div>
-        <div className="flex gap-10 flex-wrap">
+        <div className="flex gap-8 flex-wrap">
           {FilteredItems()?.map((item, index) => {
             return (
               <ProductCard
@@ -153,7 +165,10 @@ function Shop({ Items, Categories, Pagination }) {
         </div>
       </div>
       <div className="px-36">
-        <PaginationPage />
+        <PaginationPage
+          setCurrentPage={setCurrentPage}
+          CurrentPage={CurrentPage}
+        />
       </div>
     </div>
   );
