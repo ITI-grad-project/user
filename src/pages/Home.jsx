@@ -1,4 +1,3 @@
-
 import CategoryCard from "../components/CategoryCard";
 import Slider from "../components/Slider";
 import ProductCard from "../components/ProductCard";
