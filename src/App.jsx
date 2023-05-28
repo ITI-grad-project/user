@@ -54,7 +54,7 @@ function App() {
     createRoutesFromElements(
       <>
         <Route path="/" element={<Home />} />
-        <Route path="/productDetails" element={<ProductDetails />} />
+        <Route path="/productDetails/:productId" element={<ProductDetails />} />
         <Route
           path="/shop"
           element={

@@ -1,4 +1,6 @@
-function ProductCard({ ItemImg, ItemTitle, ItemPrice, User }) {
+import { Link } from "react-router-dom";
+
+function ProductCard({ ItemId, ItemImg, ItemTitle, ItemPrice, User }) {
   return (
     <>
       <div className="card w-96 bg-base-100 shadow-xl">
@@ -31,7 +33,9 @@ function ProductCard({ ItemImg, ItemTitle, ItemPrice, User }) {
         </figure>
         <div className="card-body">
           <div className="flex justify-between">
-            <h2 className="card-title text-[22px] line-clamp-2">{ItemTitle}</h2>
+            <Link to={`/productDetails/${ItemId}`}>
+              <h2 className="card-title text-[22px] line-clamp-2">{ItemTitle}</h2>
+            </Link>
             <h2 className="text-primary font-bold text-[22px]">
               EGP {ItemPrice}
             </h2>

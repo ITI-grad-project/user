@@ -143,6 +143,7 @@ function Shop({ Items, Categories, Pagination }) {
             return (
               <ProductCard
                 key={index}
+                ItemId={item?._id}
                 ItemImg={item?.images[0].image}
                 ItemTitle={item?.title}
                 ItemPrice={item?.price}
