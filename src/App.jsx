@@ -1,82 +1,66 @@
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
-import axios from "axios";
-
-import { useEffect, useState } from "react";
-
-import ProductDetails from "./pages/ProudctDetails";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Login from "../src/pages/Login";
+import ForgetPassword from "./pages/ForgetPassword";
+import Signup from "./pages/Signup";
+import NewPassword from "./pages/NewPassword";
+import VerifyCode from "./pages/VerifyCode";
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
-import ProductCard from "./components/ProductCard";
-import Shop from "./pages/Shop";
 import Home from "./pages/Home";
+import Shop from "./pages/Shop";
+import ProductDetails from "./pages/ProudctDetails";
+
+import { ProductsProvider } from "./context/ProductContext";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
-  const [items, setItems] = useState([]);
-  const [categories, setCategories] = useState([]);
+
+  const [listOfCategories, setListOfCategories] = useState([]);
+
+  const BaseURL = "https://bekya.onrender.com";
 
   useEffect(() => {
-    async function getItems() {
-      try {
-        const { data } = await axios.get(
-          "https://bekya.onrender.com/api/v1/products"
-        );
-        setItems(data);
-        // console.log("hello data", data);
-        // Calculate noOfPages
-        // setNoOfPages(Math.ceil(data.length / pageSize));
-      } catch (error) {
-        // TODO: handle error
-      }
+    async function getAllCategories() {
+      const { data } = await axios.get(`${BaseURL}/api/v1/categories`);
+      setListOfCategories(data.data);
+      console.log("category data", data.data);
     }
-    async function getCategories() {
-      try {
-        const { data } = await axios.get(
-          "https://bekya.onrender.com/api/v1/categories"
-        );
-        setCategories(data);
-      } catch (error) {
-        // TODO: handle error
-      }
-    }
-    // console.log("hello items", items);
-    getItems();
-    getCategories();
+    getAllCategories();
   }, []);
-  console.log("items", items);
-  console.log("category", categories.data);
-
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <>
-        <Route path="/" element={<Home />} />
-        <Route path="/productDetails/:productId" element={<ProductDetails />} />
-        <Route
-          path="/shop"
-          element={
-            <Shop
-              Items={items?.data}
-              Categories={categories?.data}
-              Pagination={items?.pagination}
-            />
-          }
-        />
-        {/* <Route path="*" element={<Error />} /> */}
-      </>
-    )
-  );
 
   return (
     <>
-      <NavBar />
-      <div>
-        <RouterProvider router={router} />
-      </div>
-      <Footer />
+      <BrowserRouter>
+        <ProductsProvider>
+          <NavBar listOfCategories={listOfCategories} />
+          <Routes>
+            <Route
+              path="/"
+              element={<Home listOfCategories={listOfCategories} />}
+            />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgotPassword" element={<ForgetPassword />} />
+          <Route path="/newPassword" element={<NewPassword />} />
+          <Route path="/verify" element={<VerifyCode />} />
+          <Route path="/productDetails/:productId" element={<ProductDetails />} />
+          <Route
+            path="/shop"
+            element={
+              <Shop
+                Items={items?.data}
+                Categories={categories?.data}
+                Pagination={items?.pagination}
+              />
+            }
+          />
+          </Routes>
+          <Footer />
+        </ProductsProvider>
+      </BrowserRouter>
+
     </>
   );
 }
