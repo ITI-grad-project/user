@@ -16,6 +16,7 @@ import Favorite from "./pages/Favourite";
 
 function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
+  const [loginState, setLoginState] = useState(false);
 
   const BaseURL = "https://bekya.onrender.com";
 
@@ -41,11 +42,23 @@ function App() {
             <Route path="/verify" element={<VerifyCode />} />
             <Route
               path="/"
-              element={<Layout listOfCategories={listOfCategories} />}
+              element={
+                <Layout
+                  listOfCategories={listOfCategories}
+                  setLoginState={setLoginState}
+                  loginState={loginState}
+                />
+              }
             >
               <Route
                 index
-                element={<Home listOfCategories={listOfCategories} />}
+                element={
+                  <Home
+                    listOfCategories={listOfCategories}
+                    setLoginState={setLoginState}
+                    loginState={loginState}
+                  />
+                }
               />
               <Route path="/profile" element={<Profile />} />
               <Route path="/cart" element={<Cart />} />
