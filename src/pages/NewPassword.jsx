@@ -137,7 +137,7 @@ const NewPassword = () => {
 
           <div className="flex justify-center">
             {isLoading ? (
-              <ThreeDots color="#933D24" />
+              <ThreeDots color="#FFD336" />
             ) : (
               <button className="w-full py-3 bg-primary border  border-primary hover:bg-white hover:border-primary hover:text-primary rounded-lg text-white font-semibold text-[20px]">
                 Change Password

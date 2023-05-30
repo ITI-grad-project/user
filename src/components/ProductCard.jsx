@@ -1,18 +1,35 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import notify from "../hooks/useNotification";
+import { ToastContainer } from "react-toastify";
 
-function ProductCard({ product }) {
-  // console.log("product from card", product);
+function ProductCard({ product, loginState, setLoginState }) {
+  console.log("product from card", product);
+  const navigate = useNavigate();
 
   const [wishListed, setWishListed] = useState(true);
 
   const toggleWishListed = () => {
-    setWishListed((prevState) => !prevState);
+    if (loginState === true) {
+      setWishListed((prevState) => !prevState);
+    } else {
+      notify("You must login first", "warn");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
   };
 
   const handleAddToCart = (event) => {
-    event.stopPropagation();
+    // event.stopPropagation();
+    if (loginState === true) {
+    } else {
+      notify("You must login first", "warn");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
   };
 
   const maxRating = 5;
@@ -22,12 +39,8 @@ function ProductCard({ product }) {
 
   return (
     <>
-      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-        <Link
-          to="/details"
-          className="card w-72 hover:shadow-2xl"
-          key={product.id}
-        >
+      <motion.div whileHover={{ scale: 1.05 }}>
+        <div className="card w-72 hover:shadow-2xl" key={product._id}>
           <figure>
             <div className="relative w-full">
               <img
@@ -37,9 +50,9 @@ function ProductCard({ product }) {
               />
               <button
                 onClick={toggleWishListed}
-                className="bg-white w-10 h-10 rounded-lg  m-2 absolute top-0 right-0 flex justify-center items-center  "
+                className="bg-white w-10 h-10 rounded-lg  m-2 absolute top-0 right-0 flex justify-center items-center hover:shadow-lg "
               >
-                <div className=" text-primary hover:text-yellow-600">
+                <div className=" text-primary hover:text-yellow-600 ">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill={wishListed ? "none" : "currentColor"}
@@ -60,9 +73,14 @@ function ProductCard({ product }) {
           </figure>
           <div className="p-3 ">
             <div>
-              <div className="prod-card-container ">
-                <h2 className="prod-card-title text-lg  ">{product.title}</h2>
-              </div>
+              <Link
+                to={`/productDetails/${product._id}`}
+                className="prod-card-container "
+              >
+                <h2 className="prod-card-title text-lg hover:underline hover:text-primary ">
+                  {product.title}
+                </h2>
+              </Link>
               <h2 className="text-primary font-bold text-lg">
                 EGP {product.price}
               </h2>
@@ -102,7 +120,7 @@ function ProductCard({ product }) {
                 {unFilledStar.map((unfStar) => {
                   console.log("unfStar", unfStar);
                   return (
-                    <div>
+                    <div className="self-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -120,6 +138,9 @@ function ProductCard({ product }) {
                     </div>
                   );
                 })}
+                <div class=" text-xs font-semibold mr-2 px-2.5 py-0.5 rounded bg-yellow-200  ml-1">
+                  5.0
+                </div>
               </div>
             </div>
             <div className="card-actions w-full mt-2">
@@ -131,7 +152,7 @@ function ProductCard({ product }) {
               </button>
             </div>
           </div>
-        </Link>
+        </div>
       </motion.div>
     </>
   );
