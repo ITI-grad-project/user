@@ -1,7 +1,25 @@
-import { Link, NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import notify from "../hooks/useNotification";
 
-function NavBar({ listOfCategories }) {
+function NavBar({ listOfCategories, loginState, setLoginState }) {
   // console.log("List of categories from navbar", listOfCategories.data);
+  // const [loginState, setLoginState] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("token") != null) {
+      setLoginState(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setLoginState(false);
+    window.location.href = "/";
+  };
+
   return (
     <>
       <header className="navbar flex-col sm:flex-row ">
@@ -95,7 +113,7 @@ function NavBar({ listOfCategories }) {
               </li>
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost normal-case text-xl">
+          <Link to="/" className="btn btn-primary normal-case text-xl">
             MYReFurB
           </Link>
         </div>
@@ -124,9 +142,20 @@ function NavBar({ listOfCategories }) {
             </div>
           </div>
         </div>
-        <div className="navbar-end flex gap-4 mx-auto mt-3 sm:mr-28 ">
+        <div className="navbar-end flex gap-4 ml-auto mt-3 sm:mr-28 sm:ml-0 ">
           <NavLink
-            to="/favourite"
+            onClick={(e) => {
+              e.preventDefault();
+              if (loginState !== true) {
+                notify("You must login first", "warn");
+                setTimeout(() => {
+                  navigate("/login");
+                }, 2000);
+              } else {
+                navigate("/favorite");
+              }
+            }}
+            to="/favorite"
             className={({ isActive }) =>
               isActive ? "text-primary text-2xl" : "hover:text-primary text-2xl"
             }
@@ -134,6 +163,17 @@ function NavBar({ listOfCategories }) {
             <i class="far fa-heart"></i>
           </NavLink>
           <NavLink
+            onClick={(e) => {
+              e.preventDefault();
+              if (loginState !== true) {
+                notify("You must login first", "warn");
+                setTimeout(() => {
+                  navigate("/login");
+                }, 2000);
+              } else {
+                navigate("/cart");
+              }
+            }}
             to="/cart"
             className={({ isActive }) =>
               isActive ? "text-primary text-2xl" : "hover:text-primary text-2xl"
@@ -141,17 +181,64 @@ function NavBar({ listOfCategories }) {
           >
             <i class="fas fa-shopping-bag"></i>
           </NavLink>
-          <NavLink
-            to="/signup"
-            className={({ isActive }) =>
-              isActive ? "text-primary text-2xl" : "hover:text-primary text-2xl"
-            }
+          {loginState != true ? (
+            <>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-primary text-2xl"
+                    : "hover:text-primary text-2xl"
+                }
+              >
+                <i class="far fa-user"></i>
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <div className="dropdown dropdown-end">
+                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 rounded-full">
+                    <img src="https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png" />
+                  </div>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  <li>
+                    <NavLink
+                      to="/profile"
+                      className={({ isActive }) =>
+                        isActive ? "bg-primary" : ""
+                      }
+                    >
+                      Profile
+                    </NavLink>
+                  </li>
+                  <li>
+                    <button onClick={handleLogout}>Logout</button>
+                  </li>
+                </ul>
+              </div>
+            </>
+          )}
+
+          <button
+            onClick={() => {
+              if (loginState !== true) {
+                notify("You must login first", "warn");
+                setTimeout(() => {
+                  navigate("/login");
+                }, 2000);
+              } else {
+                navigate("/addProduct");
+              }
+            }}
+            className="btn btn-outline btn-md btn-primary w-40 text-base"
           >
-            <i class="far fa-user"></i>
-          </NavLink>
-          <a className="btn btn-outline btn-md btn-primary w-40 text-base">
             SELL PRODUCT
-          </a>
+          </button>
         </div>
       </header>
       <header>
