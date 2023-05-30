@@ -179,7 +179,7 @@ function Footer() {
           </p>
         </div>
       </div> */}
-      <footer className="footer p-10 bg-secondary text-white justify-around">
+      <footer className="footer p-10 bg-secondary text-white justify-around mt-12">
         <div>
           <span className="footer-title">Services</span>
           <a className="link link-hover">Branding</a>

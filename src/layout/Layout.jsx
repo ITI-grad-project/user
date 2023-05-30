@@ -2,7 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 
-const Layout = ({ listOfCategories }) => {
+const Layout = ({ listOfCategories, setLoginState, loginState }) => {
   const location = useLocation();
 
   // Check if the current route is the login route
@@ -24,7 +24,11 @@ const Layout = ({ listOfCategories }) => {
   } else {
     return (
       <>
-        <NavBar listOfCategories={listOfCategories} />
+        <NavBar
+          listOfCategories={listOfCategories}
+          loginState={loginState}
+          setLoginState={setLoginState}
+        />
         <Outlet />
         <Footer />
       </>
