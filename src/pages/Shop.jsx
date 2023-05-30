@@ -63,25 +63,23 @@ function Shop({ Categories }) {
   console.log("FilteredItems", FilteredItems());
   return (
     <div>
-      {/* <h1 className="text-[60px] text-[#2D2D2D] text-center font-[600] font-['Rubik']">
-        Shop
-      </h1> */}
-      <div className="px-36 py-10 flex gap-8">
-        <div className="rounded-lg border-[2px] border-[#ECE8E8] w-[18vw] h-[900px] font-['Roboto'] px-10">
-          <h2 className="text-[35px] text-primary font-[700] mb-5 mt-3">
+      <div className="px-32 py-10 grid md:grid-cols-12 grid-rows-2 gap-4">
+        <div className="rounded-lg border-[2px] border-[#ECE8E8] max-md:col-span-4 xl:2xl:col-span-3 font-['Roboto'] px-10 h-[46rem]">
+          <h2 className="text-[24px] text-primary font-[700] mb-2 mt-3">
             Categories
           </h2>
           <div className="form-control">
             <label className="label cursor-pointer justify-start">
               <input
-                type="checkbox"
+                type="radio"
+                name="radio-6"
+                className="radio radio-primary mr-5"
                 defaultChecked
-                className="checkbox w-[2rem] h-[2rem] checkbox-primary mr-5"
                 onClick={() => {
                   setCurrentCategory(0);
                 }}
               />
-              <span className="label-text text-[26px] text-[#2D2D2D] font-[700]">
+              <span className="label-text text-[19px] text-[#2D2D2D] font-[700]">
                 All
               </span>
             </label>
@@ -91,13 +89,14 @@ function Shop({ Categories }) {
               <div className="form-control" key={index}>
                 <label className="label cursor-pointer justify-start">
                   <input
-                    type="checkbox"
-                    className="checkbox w-[2rem] h-[2rem] checkbox-primary mr-5"
+                    type="radio"
+                    name="radio-6"
+                    className="radio radio-primary mr-5"
                     onClick={() => {
                       setCurrentCategory(category?._id);
                     }}
                   />
-                  <span className="label-text text-[26px] text-[#2D2D2D] font-[700]">
+                  <span className="label-text text-[19px] text-[#2D2D2D] font-[700]">
                     {category?.name}
                   </span>
                 </label>
@@ -105,18 +104,19 @@ function Shop({ Categories }) {
             );
           })}
 
-          <h2 className="text-[35px] text-primary font-[700] my-5">Country</h2>
+          <h2 className="text-[24px] text-primary font-[700] my-5">Country</h2>
           <div className="form-control">
             <label className="label cursor-pointer justify-start">
               <input
-                type="checkbox"
+                type="radio"
+                name="radio-7"
+                className="radio radio-primary mr-5"
                 defaultChecked
-                className="checkbox w-[2rem] h-[2rem] checkbox-primary mr-5"
                 onClick={() => {
                   setCurrentCountry(0);
                 }}
               />
-              <span className="label-text text-[26px] text-[#2D2D2D] font-[700]">
+              <span className="label-text text-[19px] text-[#2D2D2D] font-[700]">
                 All
               </span>
             </label>
@@ -126,13 +126,14 @@ function Shop({ Categories }) {
               <div className="form-control" key={index}>
                 <label className="label cursor-pointer justify-start">
                   <input
-                    type="checkbox"
-                    className="checkbox w-[2rem] h-[2rem] checkbox-primary mr-5"
+                    type="radio"
+                    name="radio-7"
+                    className="radio radio-primary mr-5"
                     onClick={() => {
                       setCurrentCountry(item?._id);
                     }}
                   />
-                  <span className="label-text text-[26px] text-[#2D2D2D] font-[700]">
+                  <span className="label-text text-[19px] text-[#2D2D2D] font-[700]">
                     {item?.country}
                   </span>
                 </label>
@@ -140,7 +141,7 @@ function Shop({ Categories }) {
             );
           })}
 
-          <h2 className="text-[35px] text-primary font-[700] mb-5 mt-3">
+          <h2 className="text-[24px] text-primary font-[700] mb-2 mt-3">
             Price Range
           </h2>
           <RangeInput
@@ -150,19 +151,16 @@ function Shop({ Categories }) {
             MAX={MAX}
           />
         </div>
-        <div className="flex gap-8 flex-wrap">
-          {FilteredItems()?.map((item, index) => {
-            return (
-              <ProductCard
-                key={index}
-                // ItemImg={item?.images[0].image}
-                // ItemTitle={item?.title}
-                // ItemPrice={item?.price}
-                product={item}
-                // User={item?.user}
-              />
-            );
-          })}
+        <div className="col-span-9 border-2 border-red-300">
+          <div className="grid grid-cols-3 max-md:grid-cols-3 min-[1200px]:grid-cols-3 min-[1500px]:grid-cols-4 grid-flow-row-dense justify-items-center">
+            {FilteredItems()?.map((item, index) => {
+              return (
+                <div className="border-2 border-blue-700 col-span-1">
+                  <ProductCard key={index} product={item} />
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
       <div className="px-36">

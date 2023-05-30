@@ -8,13 +8,13 @@ function RangeInput({ Values, setValues, MIN, MAX }) {
   return (
     <>
       <div className="flex gap-3 mb-10">
-        <div className="border-2 text-[20px] font-[600] text-[#3d3b3b] border-[#ECE8E8] w-28 text-center p-3 rounded-lg">
+        <div className="border-2 text-[15px] font-[600] text-[#3d3b3b] border-[#ECE8E8] w-28 text-center p-3 rounded-lg">
           {Values[0]}
         </div>
-        <div className="text-[20px] font-[600] text-[#3d3b3b] w-6 text-center p-3 rounded-lg">
+        <div className="text-[15px] font-[600] text-[#3d3b3b] w-6 text-center p-3 rounded-lg">
           -
         </div>
-        <div className="border-2 text-[20px] font-[600] text-[#3d3b3b] border-[#ECE8E8] w-28 text-center p-3 rounded-lg">
+        <div className="border-2 text-[15px] font-[600] text-[#3d3b3b] border-[#ECE8E8] w-28 text-center p-3 rounded-lg">
           {Values[1]}
         </div>
       </div>
