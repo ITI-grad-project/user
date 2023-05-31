@@ -1,10 +1,7 @@
 import { Pagination } from "antd";
 import { ConfigProvider } from "antd";
 const PaginationPage = ({ setCurrentPage }) => {
-  // const [current, setCurrent] = useState(1);
   const onChange = (page) => {
-    // console.log(page);
-    // setCurrent(page);
     setCurrentPage(page);
   };
 

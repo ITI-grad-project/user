@@ -62,9 +62,9 @@ function Shop({ Categories }) {
 
   console.log("FilteredItems", FilteredItems());
   return (
-    <div>
-      <div className="px-32 py-10 grid md:grid-cols-12 grid-rows-2 gap-4">
-        <div className="rounded-lg border-[2px] border-[#ECE8E8] max-md:col-span-4 xl:2xl:col-span-3 font-['Roboto'] px-10 h-[46rem]">
+    <div className="px-20 py-10">
+      <div className="grid md:grid-cols-12 max-[700px]:grid-rows-2 gap-8 2xl:gap-0 xl:gap-10 min-2xl:gap-0 md:justify-items-center">
+        <div className="rounded-lg border-[2px] border-[#ECE8E8] md:col-span-4 col-span-3 font-['Roboto'] px-10 h-[46rem]">
           <h2 className="text-[24px] text-primary font-[700] mb-2 mt-3">
             Categories
           </h2>
@@ -151,16 +151,16 @@ function Shop({ Categories }) {
             MAX={MAX}
           />
         </div>
-        <div className="col-span-9 border-2 border-red-300">
-          <div className="grid grid-cols-3 max-md:grid-cols-3 min-[1200px]:grid-cols-3 min-[1500px]:grid-cols-4 grid-flow-row-dense justify-items-center">
-            {FilteredItems()?.map((item, index) => {
-              return (
-                <div className="border-2 border-blue-700 col-span-1">
-                  <ProductCard key={index} product={item} />
-                </div>
-              );
-            })}
-          </div>
+        <div className="col-span-9 lg:col-span-8 grid grid-cols-6 md:gap-10 lg:gap-4 grid-flow-row-dense justify-items-center">
+          {/* <div className="grid grid-cols-6 md:gap-16 grid-flow-row-dense justify-items-center"> */}
+          {FilteredItems()?.map((item, index) => {
+            return (
+              <div className="col-span-2 lg:col-span-3 2xl:col-span-2 min-[1700px]:col-span-1">
+                <ProductCard key={index} product={item} />
+              </div>
+            );
+          })}
+          {/* </div> */}
         </div>
       </div>
       <div className="px-36">
