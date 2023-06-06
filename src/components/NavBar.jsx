@@ -19,7 +19,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
     setLoginState(false);
     window.location.href = "/";
   };
-
+  console.log(loginState);
   return (
     <>
       <header className="navbar flex-col sm:flex-row ">
@@ -89,7 +89,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                   </li>
                   {listOfCategories?.map((category) => {
                     return (
-                      <li>
+                      <li key={category._id}>
                         <NavLink
                           to="/shop"
                           className={({ isActive }) =>
@@ -160,7 +160,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
               isActive ? "text-primary text-2xl" : "hover:text-primary text-2xl"
             }
           >
-            <i class="far fa-heart"></i>
+            <i className="far fa-heart"></i>
           </NavLink>
           <NavLink
             onClick={(e) => {
@@ -179,7 +179,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
               isActive ? "text-primary text-2xl" : "hover:text-primary text-2xl"
             }
           >
-            <i class="fas fa-shopping-bag"></i>
+            <i className="fas fa-shopping-bag"></i>
           </NavLink>
           {loginState != true ? (
             <>
@@ -191,7 +191,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                     : "hover:text-primary text-2xl"
                 }
               >
-                <i class="far fa-user"></i>
+                <i className="far fa-user"></i>
               </NavLink>
             </>
           ) : (
@@ -232,7 +232,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                   navigate("/login");
                 }, 2000);
               } else {
-                navigate("/addProduct");
+                navigate("/addProduct/add");
               }
             }}
             className="btn btn-outline btn-md btn-primary w-40 text-base"
@@ -279,7 +279,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
               <ul className="p-2 z-10 bg-white">
                 {listOfCategories?.map((category) => {
                   return (
-                    <li>
+                    <li key={category._id}>
                       <NavLink
                         to="/shop"
                         className={({ isActive }) =>
@@ -295,7 +295,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
             </li>
             {listOfCategories?.map((category) => {
               return (
-                <li>
+                <li key={category._id}>
                   <NavLink
                     to="/shop"
                     className={({ isActive }) =>

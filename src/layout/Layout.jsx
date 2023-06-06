@@ -26,8 +26,8 @@ const Layout = ({ listOfCategories, setLoginState, loginState }) => {
       <>
         <NavBar
           listOfCategories={listOfCategories}
-          loginState={loginState}
           setLoginState={setLoginState}
+          loginState={loginState}
         />
         <Outlet />
         <Footer />
