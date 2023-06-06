@@ -4,8 +4,10 @@ import ForgetPassword from "./pages/ForgetPassword";
 import Signup from "./pages/Signup";
 import NewPassword from "./pages/NewPassword";
 import VerifyCode from "./pages/VerifyCode";
-import Shop from "./pages/Shop";
 import Home from "./pages/Home";
+import Shop from "./pages/Shop";
+import ProductDetails from "./pages/ProudctDetails";
+
 import { ProductsProvider } from "./context/ProductContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -81,6 +83,7 @@ function App() {
                   <Shop Categories={listOfCategories} loginState={loginState} />
                 }
               />
+              <Route path="/productDetails/:productId" element={<ProductDetails />} />
             </Route>
           </Routes>
           {/* <Footer /> */}
