@@ -134,7 +134,7 @@ export default function Question({
                     <div className="flex justify-between">
                       <h6 className="font-semibold">{productUser?.userName}</h6>
                       {localStorage.getItem("id") === productUser?._id && (
-                        <span onClick={() => handleDeleteA(question)} className="text-red-800">
+                        <span onClick={() => handleDeleteA(question)} className="text-red-800 cursor-pointer">
                           <TrashIcon />
                         </span>
                       )}
@@ -168,7 +168,7 @@ export default function Question({
           </div>
           {/* </div> */}
           {localStorage.getItem("id") === question?.user?._id && (
-            <span onClick={() => handleDeleteQ(question)} className="text-red-800">
+            <span onClick={() => handleDeleteQ(question)} className="text-red-800 cursor-pointer">
               <TrashIcon />
             </span>
           )}

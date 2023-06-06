@@ -12,6 +12,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.invalid{
+  border: 1px solid red;
+  box-shadow: 0 0 2px rgba(255, 0, 0, 0.845);
+}
+
 .range-slider__range,
 .range-slider__thumb {
   background-color: #933d24 !important;

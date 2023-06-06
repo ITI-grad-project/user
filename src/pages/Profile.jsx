@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Personallnfo from "../components/Personallnfo";
-import Password from "../components/Password";
+import ChangePassword from "../components/ChangePassword";
 import Address from "../components/Address";
 import Orders from "../components/Orders";
 import Products from "../components/Products";
@@ -94,7 +94,7 @@ function Profile() {
             {currentTab === 1 ? (
               <Personallnfo />
             ) : currentTab === 2 ? (
-              <Password />
+              <ChangePassword />
             ) : currentTab === 3 ? (
               <Address />
             ) : currentTab === 4 ? (
