@@ -9,22 +9,22 @@ function Profile() {
   const [activeButton, setActiveButton] = useState(1);
   return (
     <>
-      <div className="px-32">
-        <div className="grid grid-cols-10 gap-6">
-          <div className="col-span-2 flex flex-col justify-center items-center border-2 rounded py-8">
+      <div className="container mx-auto px-6 md:px-0 lg:px-8 xl:px-8 2xl:px-32">
+        <div className="grid grid-cols-10 lg:grid-cols-10 gap-6">
+          <div className="col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col justify-center items-center lg:border-2 rounded py-8">
             <div>
               <img
                 className="w-28 h-28 object-cover rounded-full mb-2"
                 src="src/assets/women.jpg"
                 alt=""
               />
-              <h3 className="text-center text-[20px] font-[600] mb-3">
+              <h3 className="text-center text-xl font-semibold mb-6">
                 Laila Ahmed
               </h3>
             </div>
-            <div className="flex flex-col">
+            <div className="flex justify-between flex-col md:flex-row lg:flex-col w-full">
               <button
-                className={`px-16 py-1 text-[18px] font-[400] rounded ${
+                className={` py-1 text-lg font-medium rounded lg:w-full px-10 ${
                   activeButton === 1
                     ? "bg-primary text-white"
                     : "bg-white text-black"
@@ -37,7 +37,7 @@ function Profile() {
                 Account
               </button>
               <button
-                className={`px-16 py-1 text-[18px] font-[400] rounded ${
+                className={`py-1 text-lg font-medium rounded lg:w-full px-10 ${
                   activeButton === 2
                     ? "bg-primary text-white"
                     : "bg-white text-black"
@@ -50,7 +50,7 @@ function Profile() {
                 Password
               </button>
               <button
-                className={`px-16 py-1 text-[18px] font-[400] rounded ${
+                className={` py-1 text-lg font-medium rounded lg:w-full px-10 ${
                   activeButton === 3
                     ? "bg-primary text-white"
                     : "bg-white text-black"
@@ -63,7 +63,7 @@ function Profile() {
                 Address
               </button>
               <button
-                className={`px-16 py-1 text-[18px] font-[400] rounded ${
+                className={` py-1 text-lg font-medium rounded lg:w-full px-10 ${
                   activeButton === 4
                     ? "bg-primary text-white"
                     : "bg-white text-black"
@@ -76,7 +76,7 @@ function Profile() {
                 Orders
               </button>
               <button
-                className={`px-16 py-1 text-[18px] font-[400] rounded ${
+                className={` py-1 text-lg font-medium rounded lg:w-full px-10 ${
                   activeButton === 5
                     ? "bg-primary text-white"
                     : "bg-white text-black"
@@ -90,7 +90,7 @@ function Profile() {
               </button>
             </div>
           </div>
-          <div className="border-2 col-span-8">
+          <div className="border-2 col-span-10 lg:col-span-8 2xl:col-span-8">
             {currentTab === 1 ? (
               <Personallnfo />
             ) : currentTab === 2 ? (
