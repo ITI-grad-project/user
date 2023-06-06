@@ -24,13 +24,13 @@ const Layout = ({ listOfCategories, setLoginState, loginState }) => {
   } else {
     return (
       <>
-        {/* <NavBar
+        <NavBar
           listOfCategories={listOfCategories}
           loginState={loginState}
           setLoginState={setLoginState}
-        /> */}
+        />
         <Outlet />
-        {/* <Footer /> */}
+        <Footer />
       </>
     );
   }

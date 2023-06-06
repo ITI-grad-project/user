@@ -58,6 +58,8 @@ function Home({ listOfCategories, loginState, setLoginState }) {
                 product={product}
                 loginState={loginState}
                 setLoginState={setLoginState}
+                // cartItems={cartItems}
+                // setCartItems={setCartItems}
               />
             );
           })}
@@ -91,13 +93,21 @@ function Home({ listOfCategories, loginState, setLoginState }) {
           <h2 className="font-bold text-3xl uppercase">our items</h2>
           <hr className="w-24 bg-primary h-1 mt-6" />
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 justify-center ">
+        <div className="flex flex-wrap gap-6 justify-center ">
           {listOfProducts.data?.length === 0 && (
             <h1>No Products to show ...</h1>
           )}
           {listOfProducts.data?.slice(0, 8).map((product) => {
             // console.log(product);
-            return <ProductCard product={product} />;
+            return (
+              <ProductCard
+                product={product}
+                // cartItems={cartItems}
+                // setCartItems={setCartItems}
+                loginState={loginState}
+                setLoginState={setLoginState}
+              />
+            );
           })}
         </div>
         {listOfProducts.data?.length > 8 ? (

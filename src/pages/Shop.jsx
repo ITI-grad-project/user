@@ -4,11 +4,12 @@ import PaginationPage from "../components/Pagination.jsx";
 // import { useMemo } from "react";
 import axios from "axios";
 import RangeInput from "../components/RangeInput.jsx";
+import { ToastContainer } from "react-toastify";
 
 const MIN = 0;
 const MAX = 10000;
 
-function Shop({ Categories }) {
+function Shop({ Categories, loginState }) {
   const [Values, setValues] = useState([MIN, MAX]);
   const [CurrentPage, setCurrentPage] = useState(1);
   const [items, setItems] = useState([]);
@@ -18,8 +19,8 @@ function Shop({ Categories }) {
       try {
         const { data } = await axios.get(
           CurrentPage === 1
-            ? "https://bekya.onrender.com/api/v1/products?page=1&limit=4"
-            : `https://bekya.onrender.com/api/v1/products?page=${CurrentPage}&limit=4`
+            ? "https://bekya.onrender.com/api/v1/products?page=1&limit=6"
+            : `https://bekya.onrender.com/api/v1/products?page=${CurrentPage}&limit=6`
         );
         setItems(data);
       } catch (error) {}
@@ -63,6 +64,7 @@ function Shop({ Categories }) {
   console.log("FilteredItems", FilteredItems());
   return (
     <div className="px-20 py-10">
+      <ToastContainer />
       <div className="grid md:grid-cols-12 max-[700px]:grid-rows-2 gap-8 2xl:gap-0 xl:gap-10 min-2xl:gap-0 md:justify-items-center">
         <div className="rounded-lg border-[2px] border-[#ECE8E8] md:col-span-4 col-span-3 font-['Roboto'] px-10 h-[46rem]">
           <h2 className="text-[24px] text-primary font-[700] mb-2 mt-3">
@@ -156,7 +158,11 @@ function Shop({ Categories }) {
           {FilteredItems()?.map((item, index) => {
             return (
               <div className="col-span-2 lg:col-span-3 2xl:col-span-2 min-[1700px]:col-span-1">
-                <ProductCard key={index} product={item} />
+                <ProductCard
+                  key={index}
+                  product={item}
+                  loginState={loginState}
+                />
               </div>
             );
           })}

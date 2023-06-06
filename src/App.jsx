@@ -15,10 +15,13 @@ import Layout from "./layout/Layout";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
 import Favorite from "./pages/Favourite";
+import CheckOut from "./pages/CheckOut";
 
 function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
   const [loginState, setLoginState] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  console.log("cartItems from app", cartItems);
 
   const BaseURL = "https://bekya.onrender.com";
 
@@ -63,11 +66,22 @@ function App() {
                 }
               />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/favorite" element={<Favorite />} />
+              <Route
+                path="/cart"
+                element={
+                  <Cart cartItems={cartItems} setCartItems={setCartItems} />
+                }
+              />
+              <Route
+                path="/favorite"
+                element={<Favorite setCartItems={setCartItems} />}
+              />
+              <Route path="/checkout" element={<CheckOut />} />
               <Route
                 path="/shop"
-                element={<Shop Categories={listOfCategories} />}
+                element={
+                  <Shop Categories={listOfCategories} loginState={loginState} />
+                }
               />
               <Route path="/productDetails/:productId" element={<ProductDetails />} />
             </Route>
