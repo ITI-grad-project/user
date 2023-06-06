@@ -24,7 +24,7 @@ function ProductCard({ product }) {
     <>
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <Link
-          to="/details"
+          to={`/productDetails/${product?._id}`}
           className="card w-72 hover:shadow-2xl"
           key={product.id}
         >
@@ -32,7 +32,7 @@ function ProductCard({ product }) {
             <div className="relative w-full">
               <img
                 className="w-full h-full max-h-60"
-                src={`${product.images[0].image}`}
+                src={`${product?.images[0]?.image}`}
                 alt={product.title}
               />
               <button
