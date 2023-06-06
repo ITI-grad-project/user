@@ -125,7 +125,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                     </li>
                     {listOfCategories?.map((category) => {
                       return (
-                        <li>
+                        <li key={category?._id}>
                           <NavLink
                             to="/shop"
                             className={({ isActive }) =>
@@ -171,7 +171,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                     : "hover:text-primary text-2xl"
                 }
               >
-                <i class="far fa-heart"></i>
+                <i className="far fa-heart"></i>
               </NavLink>
               <NavLink
                 onClick={(e) => {
@@ -192,7 +192,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                     : "hover:text-primary text-2xl"
                 }
               >
-                <i class="fas fa-shopping-bag"></i>
+                <i className="fas fa-shopping-bag"></i>
               </NavLink>
             </div>
             <button
@@ -220,7 +220,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                       : "hover:text-primary text-2xl"
                   }
                 >
-                  <i class="far fa-user"></i>
+                  <i className="far fa-user"></i>
                 </NavLink>
               </>
             ) : (
@@ -318,7 +318,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                 <ul className="p-2 z-10 bg-white border-base-300 border shadow-md">
                   {listOfCategories?.map((category) => {
                     return (
-                      <li>
+                      <li key={category?._id}>
                         <NavLink
                           to="/shop"
                           className={({ isActive }) =>
@@ -334,7 +334,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
               </li>
               {listOfCategories?.map((category) => {
                 return (
-                  <li>
+                  <li key={category?._id}>
                     <NavLink
                       to="/shop"
                       className={({ isActive }) =>

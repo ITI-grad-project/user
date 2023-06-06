@@ -8,13 +8,38 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
   // console.log("product from card", product);
   const navigate = useNavigate();
 
-  const [wishListed, setWishListed] = useState(true);
+  const [wishListed, setWishListed] = useState(false);
 
   const BaseURL = "https://bekya.onrender.com";
 
   const toggleWishListed = () => {
+    setWishListed((prevState) => !prevState);
+  };
+
+  const handleAddToWishlist = async (productID) => {
     if (loginState === true) {
-      setWishListed((prevState) => !prevState);
+      // const check = cartItems?.find(product._id == productID);
+      // console.log("check", check);
+      const token = localStorage.getItem("token");
+      const prodID = { productId: productID };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+      try {
+        const response = await axios.post(
+          `${BaseURL}/api/v1/wishlist/`,
+          prodID,
+          config
+        );
+        toggleWishListed();
+        notify("Item Added to wishlist successfully", "success");
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       notify("You must login first", "warn");
       setTimeout(() => {
@@ -25,6 +50,7 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
 
   const handleAddToCart = async (productID) => {
     console.log("productID", productID);
+    console.log("login state", loginState);
 
     if (loginState === true) {
       const check = cartItems?.find(product._id == productID);
@@ -74,13 +100,15 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                 alt={product.title}
               />
               <button
-                onClick={toggleWishListed}
-                className="bg-white w-10 h-10 rounded-lg  m-2 absolute top-0 right-0 flex justify-center items-center hover:shadow-lg "
+                onClick={() => {
+                  handleAddToWishlist(product?._id);
+                }}
+                className="bg-white w-10 h-10 rounded-lg  m-2 absolute top-0 right-0 flex justify-center items-center  "
               >
-                <div className=" text-primary hover:text-yellow-600 ">
+                <div className=" text-primary hover:text-yellow-600">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    fill={wishListed ? "none" : "currentColor"}
+                    fill={!wishListed ? "none" : "currentColor"}
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
@@ -98,14 +126,14 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
           </figure>
           <div className="p-3 ">
             <div>
-              <Link
-                to={`/productDetails/${product._id}`}
-                className="prod-card-container "
-              >
-                <h2 className="prod-card-title text-lg hover:underline hover:text-primary ">
+              <div className="prod-card-container ">
+                <Link
+                  to={`/productDetails/${product._id}`}
+                  className="prod-card-title text-lg hover:text-primary hover:underline "
+                >
                   {product.title}
-                </h2>
-              </Link>
+                </Link>
+              </div>
               <h2 className="text-primary font-bold text-lg">
                 EGP {product.price}
               </h2>
@@ -145,7 +173,7 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                 {unFilledStar.map((unfStar) => {
                   // console.log("unfStar", unfStar);
                   return (
-                    <div className="self-center">
+                    <div>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -163,6 +191,7 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                     </div>
                   );
                 })}
+
                 <div className=" text-xs font-semibold mr-2 px-2.5 py-0.5 rounded bg-yellow-200  ml-1">
                   5.0
                 </div>

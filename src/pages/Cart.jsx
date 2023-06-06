@@ -58,6 +58,7 @@ function Cart({ cartItems, setCartItems }) {
       setCartItems([]);
       setNumberOfCartItems(0);
       setTotalPrice(0);
+      notify("All items have been removed from cart ", "success");
       return data;
     } catch (error) {
       console.log(error);
@@ -166,8 +167,8 @@ function Cart({ cartItems, setCartItems }) {
           <div className="border-b-2 border-base-300">
             <div className="justify-between">
               <h1 className="capitalize text-xl font-semibold">My Cart</h1>
-              <div className="flex flex-col lg:flex-row items-center justify-between">
-                <div className="flex items-center mb-2 lg:mb-0">
+              <div className="flex flex-row items-center justify-between">
+                <div className="flex  items-center mb-2 lg:mb-0">
                   <span className="self-center text-xs font-semibold mr-2 px-2.5 py-0.5 rounded bg-yellow-200 h-fit">
                     {numberOfCartItems}
                   </span>
@@ -194,14 +195,14 @@ function Cart({ cartItems, setCartItems }) {
             cartItems?.map((product) => {
               return (
                 <div
-                  className="mt-4 flex flex-col lg:flex-row justify-between border-b-2 border-base-300"
+                  className="mt-4 flex flex-row justify-between border-b-2 border-base-300"
                   key={product._id}
                 >
                   <div className="flex gap-4">
                     <Link to={`/productDetails/${product.product._id}`}>
                       <img
                         className="h-32 w-32 rounded-xl mb-4"
-                        src={`${product.product.images[0].image}`}
+                        src={`${product.product.images[0]?.image}`}
                         alt="image description"
                       />
                     </Link>
@@ -220,7 +221,7 @@ function Cart({ cartItems, setCartItems }) {
                         className="text-xs text-red-400 hover:text-red-500 hover:underline hover:cursor-pointer mt-1 flex gap-1"
                       >
                         {/* Remove From Cart */}
-                        <i class="fa-solid fa-trash"></i>
+                        <i className="fa-solid fa-trash"></i>
                         <h3>Remove</h3>
                       </div>
                     </div>

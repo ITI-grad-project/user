@@ -8,13 +8,7 @@ import { Link } from "react-router-dom";
 import FeatureCard from "../components/FeatureCard";
 import { ToastContainer } from "react-toastify";
 
-function Home({
-  listOfCategories,
-  loginState,
-  setLoginState,
-  cartItems,
-  setCartItems,
-}) {
+function Home({ listOfCategories, loginState, setLoginState }) {
   console.log(listOfCategories);
 
   const { listOfProducts, setListOfProducts } = useContext(ProductContext);
@@ -64,6 +58,8 @@ function Home({
                 product={product}
                 loginState={loginState}
                 setLoginState={setLoginState}
+                // cartItems={cartItems}
+                // setCartItems={setCartItems}
               />
             );
           })}
@@ -97,7 +93,7 @@ function Home({
           <h2 className="font-bold text-3xl uppercase">our items</h2>
           <hr className="w-24 bg-primary h-1 mt-6" />
         </div>
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-auto ">
+        <div className="flex flex-wrap gap-6 justify-center ">
           {listOfProducts.data?.length === 0 && (
             <h1>No Products to show ...</h1>
           )}
@@ -106,8 +102,8 @@ function Home({
             return (
               <ProductCard
                 product={product}
-                cartItems={cartItems}
-                setCartItems={setCartItems}
+                // cartItems={cartItems}
+                // setCartItems={setCartItems}
                 loginState={loginState}
                 setLoginState={setLoginState}
               />
