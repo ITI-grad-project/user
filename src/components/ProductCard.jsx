@@ -3,7 +3,7 @@ import { useState } from "react";
 
 function ProductCard({ product }) {
   // console.log("product from card", product);
-
+  console.log(product._id)
   const [wishListed, setWishListed] = useState(true);
 
   const toggleWishListed = () => {
@@ -22,7 +22,7 @@ function ProductCard({ product }) {
           <div className="relative w-full">
             <img
               className="w-full h-full max-h-60"
-              src={`${product.images[0].image}`}
+              src={`${product.images[0]?.image}`}
               alt={product.title}
             />
             <button
@@ -51,7 +51,7 @@ function ProductCard({ product }) {
         <div className="p-3 ">
           <div>
             <div className="prod-card-container ">
-              <Link to={`/productDetails/${ItemId}`}>
+              <Link to={`/productDetails/${product?._id}`}>
                 <h2 className="prod-card-title text-lg  ">{product.title}</h2>
               </Link>
             </div>

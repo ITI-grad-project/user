@@ -46,16 +46,12 @@ function App() {
           <Route path="/newPassword" element={<NewPassword />} />
           <Route path="/verify" element={<VerifyCode />} />
           <Route path="/productDetails/:productId" element={<ProductDetails />} />
-          <Route
+          {/* <Route
             path="/shop"
             element={
-              <Shop
-                Items={items?.data}
-                Categories={categories?.data}
-                Pagination={items?.pagination}
-              />
+              <Shop />
             }
-          />
+          /> */}
           </Routes>
           <Footer />
         </ProductsProvider>

@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup.object({
+  question: yup.string().required("required field").min(5, "Answer must be at least 5 characters"),
+});
 
 import HeartIcon from "../assets/icons/HeartIcon";
 import StarIcon from "../assets/icons/StarIcon";
@@ -9,8 +16,8 @@ import CartIcon from "../assets/icons/CartIcon";
 import LocationIcon from "../assets/icons/LocationIcon";
 import PhoneIcon from "../assets/icons/PhoneIcon";
 import Question from "../components/Question";
-import QAInput from "../components/QAInput";
 import QuestionIcon from "../assets/icons/QuestionIcon";
+import QAInput from "../components/QAInput";
 
 export default function ProductDetails() {
   const { productId } = useParams();
@@ -53,8 +60,60 @@ export default function ProductDetails() {
     // getProductQuestions();
   }, []);
 
-  const handleAddNewQA = (newQA) => {
-    setQuestions([...questions, newQA]);
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+  const formSubmit = async (dataForm) => {
+    try {
+      setLoading(true);
+      // Call Backend
+      const { data } = await axios.post(
+        `https://bekya.onrender.com/api/v1/questions/${product?._id}`,
+        dataForm,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      // Update app state
+      // handleAddNewQA(data?.data.answer);
+      console.log(data.questionData);
+      console.log(questions);
+      handleAddNewQuestion(data?.questionData);
+      reset();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      // toast.error("Something went wrong, please try again later");
+      //   const { data } = error.response;
+      //   toast.error(data.message);
+    }
+  };
+
+  const handleAddNewAnswer = (UpdatedQuestion) => {
+    let newQuestion = questions?.map((question) =>
+      question._id === UpdatedQuestion._id
+        ? { ...question, answer: UpdatedQuestion.answer }
+        : question
+    );
+    setQuestions(newQuestion);
+  };
+  const handleAddNewQuestion = (NewQuestion) => {
+    setQuestions([...questions, NewQuestion]);
+  };
+
+  const handleDeleteQuestion = (question) => {
+    setQuestions(questions.filter((q) => q._id !== question._id));
+  };
+  const handleDeleteAnswer = (question) => {
+    let updatedQuestions = questions.map((q) => q._id === question._id ? {...question, answer: ""} : q)
+    setQuestions(updatedQuestions);
   };
 
   const handleShowFav = () => {
@@ -182,7 +241,9 @@ export default function ProductDetails() {
                   key={question?._id}
                   question={question}
                   productUser={product?.user}
-                  handleAddNewQA={handleAddNewQA}
+                  handleAddNewAnswer={handleAddNewAnswer}
+                  handleDeleteQuestion={handleDeleteQuestion}
+                  handleDeleteAnswer={handleDeleteAnswer}
                 />
               ))}
             </>
@@ -193,7 +254,15 @@ export default function ProductDetails() {
             </div>
           )}
 
-          <QAInput placeholder={"write your question"} />
+          {localStorage.getItem("id") !== product?.user?._id && (
+            <form onSubmit={handleSubmit(formSubmit)}>
+              <QAInput
+                placeholder={"write your question"}
+                register={{ ...register("question") }}
+                errorMessage={errors.question?.message}
+              />
+            </form>
+          )}
         </div>
       </div>
     </div>
