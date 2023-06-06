@@ -19,8 +19,8 @@ function Shop({ Categories, loginState }) {
       try {
         const { data } = await axios.get(
           CurrentPage === 1
-            ? "https://bekya.onrender.com/api/v1/products?page=1&limit=4"
-            : `https://bekya.onrender.com/api/v1/products?page=${CurrentPage}&limit=4`
+            ? "https://bekya.onrender.com/api/v1/products?page=1&limit=6"
+            : `https://bekya.onrender.com/api/v1/products?page=${CurrentPage}&limit=6`
         );
         setItems(data);
       } catch (error) {}
