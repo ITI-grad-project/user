@@ -6,7 +6,8 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
   // console.log("List of categories from navbar", listOfCategories.data);
   // const [loginState, setLoginState] = useState(false);
   const navigate = useNavigate();
-  const userName = localStorage.getItem("user");
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user);
 
   useEffect(() => {
     if (localStorage.getItem("token") != null) {
@@ -18,7 +19,8 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setLoginState(false);
-    window.location.href = "/";
+    // window.location.href = "/";
+    navigate("/");
   };
 
   return (
@@ -203,7 +205,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                     navigate("/login");
                   }, 2000);
                 } else {
-                  navigate("/addProduct");
+                  navigate("/addProduct/add");
                 }
               }}
               className="btn btn-outline btn-sm btn-primary w-40 text-base"
@@ -226,7 +228,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
             ) : (
               <>
                 <div className="flex gap-1">
-                  <h1 className="self-center">hello , {userName}</h1>
+                  <h1 className="self-center">hello , {user?.userName}</h1>
                   <div className="dropdown dropdown-end">
                     <label
                       tabIndex={0}
