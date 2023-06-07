@@ -13,8 +13,8 @@ function CategoryCard({ category }) {
           <figure>
             <img
               className="rounded-xl max-h-48"
-              src={`${category.image}`}
-              alt={`${category.name}`}
+              src={`${category?.image}`}
+              alt={`${category?.name}`}
             />
           </figure>
           <div className="card-body">

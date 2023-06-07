@@ -9,8 +9,6 @@ import FeatureCard from "../components/FeatureCard";
 import { ToastContainer } from "react-toastify";
 
 function Home({ listOfCategories, loginState, setLoginState }) {
-  console.log(listOfCategories);
-
   const { listOfProducts, setListOfProducts } = useContext(ProductContext);
   const BaseURL = "https://bekya.onrender.com";
 
@@ -21,7 +19,6 @@ function Home({ listOfCategories, loginState, setLoginState }) {
     async function getAllProducts() {
       const { data } = await axios.get(`${BaseURL}/api/v1/products/`);
       setListOfProducts(data);
-      console.log("data", data);
     }
     getAllProducts();
   }, []);
@@ -40,8 +37,7 @@ function Home({ listOfCategories, loginState, setLoginState }) {
         <div className="flex flex-wrap gap-6 justify-center">
           {listOfCategories?.length === 0 && <h1>No Categories to show ...</h1>}
           {listOfCategories?.map((category) => {
-            // console.log("category", category);
-            return <CategoryCard category={category} />;
+            return <CategoryCard key={category._id} category={category} />;
           })}
         </div>
       </div>
@@ -58,6 +54,7 @@ function Home({ listOfCategories, loginState, setLoginState }) {
             // console.log(product);
             return (
               <ProductCard
+                key={product._id}
                 product={product}
                 loginState={loginState}
                 setLoginState={setLoginState}
@@ -101,6 +98,7 @@ function Home({ listOfCategories, loginState, setLoginState }) {
             <h1>No Products to show ...</h1>
           )}
           {listOfProducts.data?.slice(0, 8).map((product) => {
+
             // console.log(product);
             return (
               <ProductCard
@@ -111,6 +109,7 @@ function Home({ listOfCategories, loginState, setLoginState }) {
                 setLoginState={setLoginState}
               />
             );
+
           })}
         </div>
         {listOfProducts.data?.length > 8 ? (

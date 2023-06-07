@@ -4,8 +4,10 @@ import ForgetPassword from "./pages/ForgetPassword";
 import Signup from "./pages/Signup";
 import NewPassword from "./pages/NewPassword";
 import VerifyCode from "./pages/VerifyCode";
-import Shop from "./pages/Shop";
 import Home from "./pages/Home";
+import Shop from "./pages/Shop";
+import ProductDetails from "./pages/ProudctDetails";
+
 import { ProductsProvider } from "./context/ProductContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -13,7 +15,9 @@ import Layout from "./layout/Layout";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
 import Favorite from "./pages/Favourite";
+import AddProduct from "./pages/AddProduct";
 import CheckOut from "./pages/CheckOut";
+
 
 function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
@@ -27,7 +31,6 @@ function App() {
     async function getAllCategories() {
       const { data } = await axios.get(`${BaseURL}/api/v1/categories`);
       setListOfCategories(data.data);
-      console.log("category data", data.data);
     }
     getAllCategories();
   }, []);
@@ -64,6 +67,8 @@ function App() {
                 }
               />
               <Route path="/profile" element={<Profile />} />
+
+
               <Route
                 path="/cart"
                 element={
@@ -81,6 +86,12 @@ function App() {
                   <Shop Categories={listOfCategories} loginState={loginState} />
                 }
               />
+              <Route path="/productDetails/:productId" element={<ProductDetails />} />
+              <Route
+                path="/addProduct/:id"
+                element={<AddProduct listOfCategories={listOfCategories} />}
+              />
+
             </Route>
           </Routes>
           {/* <Footer /> */}
