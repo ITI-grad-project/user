@@ -36,8 +36,8 @@ function Profile() {
     <>
       <div className="container mx-auto px-6 md:px-0 lg:px-8 xl:px-8 2xl:px-32 py-10">
         <div className="grid grid-cols-10 lg:grid-cols-10 gap-6">
-          <div className="col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col justify-center items-center lg:border-2 rounded py-8">
-            <div>
+          <div className="col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col lg:border-2 rounded py-8">
+            <div className="flex flex-col justify-center items-center">
               <img
                 className="w-28 h-28 object-cover rounded-full mb-2"
                 src={LoggedUser.profileImg}
@@ -115,7 +115,7 @@ function Profile() {
               </button>
             </div>
           </div>
-          <div className="border-2 col-span-10 lg:col-span-8 2xl:col-span-8">
+          <div className="border-2 col-span-10 lg:col-span-8 2xl:col-span-8 rounded">
             {currentTab === 1 ? (
               <Personallnfo LoggedUser={LoggedUser} />
             ) : currentTab === 2 ? (
