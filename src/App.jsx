@@ -15,7 +15,9 @@ import Layout from "./layout/Layout";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
 import Favorite from "./pages/Favourite";
+import AddProduct from "./pages/AddProduct";
 import CheckOut from "./pages/CheckOut";
+
 
 function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
@@ -29,7 +31,6 @@ function App() {
     async function getAllCategories() {
       const { data } = await axios.get(`${BaseURL}/api/v1/categories`);
       setListOfCategories(data.data);
-      console.log("category data", data.data);
     }
     getAllCategories();
   }, []);
@@ -66,6 +67,8 @@ function App() {
                 }
               />
               <Route path="/profile" element={<Profile />} />
+
+
               <Route
                 path="/cart"
                 element={
@@ -84,6 +87,11 @@ function App() {
                 }
               />
               <Route path="/productDetails/:productId" element={<ProductDetails />} />
+              <Route
+                path="/addProduct/:id"
+                element={<AddProduct listOfCategories={listOfCategories} />}
+              />
+
             </Route>
           </Routes>
           {/* <Footer /> */}
