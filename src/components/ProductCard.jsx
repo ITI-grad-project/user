@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import notify from "../hooks/useNotification";
 import axios from "axios";
 
+
 function ProductCard({ product, loginState, cartItems, setCartItems }) {
   // console.log("product from card", product);
+
   const navigate = useNavigate();
 
   const [wishListed, setWishListed] = useState(false);
@@ -96,8 +98,9 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
             <div className="relative w-full">
               <img
                 className="w-full h-full max-h-60"
-                src={`${product.images[0]?.image}`}
-                alt={product.title}
+                src={`${product?.images[0]?.image}`}
+                alt={product?.title}
+
               />
               <button
                 onClick={() => {
@@ -126,33 +129,35 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
           </figure>
           <div className="p-3 ">
             <div>
-              <div className="prod-card-container ">
-                <Link
-                  to={`/productDetails/${product._id}`}
-                  className="prod-card-title text-lg hover:text-primary hover:underline "
-                >
-                  {product.title}
-                </Link>
-              </div>
+
+              <Link
+                to={`/productDetails/${product?._id}`}
+                className="prod-card-container "
+              >
+                <h2 className="prod-card-title text-lg hover:underline hover:text-primary ">
+                  {product?.title}
+                </h2>
+              </Link>
+
+
               <h2 className="text-primary font-bold text-lg">
-                EGP {product.price}
+                EGP {product?.price}
               </h2>
             </div>
             <div className="flex justify-between">
               <div className="flex gap-2 mt-2 self-center">
                 <img
                   className="rounded-full w-8 h-8"
-                  src={`${product.user.profileImg}`}
+                  src={`${product.user?.profileImg}`}
                 />
                 <h3 className="self-center capitalize text-sm">
-                  {product.user.userName}
+                  {product.user?.userName}
                 </h3>
               </div>
               <div className="self-center flex">
-                {filledStar.map((fStar) => {
-                  console.log("fStar", fStar);
+                {filledStar.map((fStar, idx) => {
                   return (
-                    <div>
+                    <div key={idx}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="fill"
@@ -170,10 +175,13 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                     </div>
                   );
                 })}
-                {unFilledStar.map((unfStar) => {
-                  // console.log("unfStar", unfStar);
+
+                {unFilledStar.map((unfStar, idx) => {
                   return (
-                    <div>
+                    <div key={idx} className="self-center">
+
+               
+
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
