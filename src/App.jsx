@@ -5,6 +5,9 @@ import Signup from "./pages/Signup";
 import NewPassword from "./pages/NewPassword";
 import VerifyCode from "./pages/VerifyCode";
 import Home from "./pages/Home";
+import Shop from "./pages/Shop";
+import ProductDetails from "./pages/ProudctDetails";
+
 import { ProductsProvider } from "./context/ProductContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -13,10 +16,14 @@ import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
 import Favorite from "./pages/Favourite";
 import AddProduct from "./pages/AddProduct";
+import CheckOut from "./pages/CheckOut";
+
 
 function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
   const [loginState, setLoginState] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  console.log("cartItems from app", cartItems);
 
   const BaseURL = "https://bekya.onrender.com";
 
@@ -60,12 +67,31 @@ function App() {
                 }
               />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/favorite" element={<Favorite />} />
+
+
+              <Route
+                path="/cart"
+                element={
+                  <Cart cartItems={cartItems} setCartItems={setCartItems} />
+                }
+              />
+              <Route
+                path="/favorite"
+                element={<Favorite setCartItems={setCartItems} />}
+              />
+              <Route path="/checkout" element={<CheckOut />} />
+              <Route
+                path="/shop"
+                element={
+                  <Shop Categories={listOfCategories} loginState={loginState} />
+                }
+              />
+              <Route path="/productDetails/:productId" element={<ProductDetails />} />
               <Route
                 path="/addProduct/:id"
                 element={<AddProduct listOfCategories={listOfCategories} />}
               />
+
             </Route>
           </Routes>
           {/* <Footer /> */}

@@ -37,6 +37,8 @@ export default function Login() {
       console.log(res);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", res.data.data.userName);
+      localStorage.setItem("photo", res.data.data.profileImg);
+      localStorage.setItem("id", res.data.data._id);
       localStorage.setItem("isLoggedIn", true);
       notify("Login successfully", "success");
       console.log("login success");

@@ -2,16 +2,46 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import notify from "../hooks/useNotification";
-import { ToastContainer } from "react-toastify";
+import axios from "axios";
 
-function ProductCard({ product, loginState, setLoginState }) {
+
+function ProductCard({ product, loginState, cartItems, setCartItems }) {
+  // console.log("product from card", product);
+
   const navigate = useNavigate();
 
-  const [wishListed, setWishListed] = useState(true);
+  const [wishListed, setWishListed] = useState(false);
+
+  const BaseURL = "https://bekya.onrender.com";
 
   const toggleWishListed = () => {
+    setWishListed((prevState) => !prevState);
+  };
+
+  const handleAddToWishlist = async (productID) => {
     if (loginState === true) {
-      setWishListed((prevState) => !prevState);
+      // const check = cartItems?.find(product._id == productID);
+      // console.log("check", check);
+      const token = localStorage.getItem("token");
+      const prodID = { productId: productID };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+      try {
+        const response = await axios.post(
+          `${BaseURL}/api/v1/wishlist/`,
+          prodID,
+          config
+        );
+        toggleWishListed();
+        notify("Item Added to wishlist successfully", "success");
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       notify("You must login first", "warn");
       setTimeout(() => {
@@ -20,9 +50,33 @@ function ProductCard({ product, loginState, setLoginState }) {
     }
   };
 
-  const handleAddToCart = (event) => {
-    // event.stopPropagation();
+  const handleAddToCart = async (productID) => {
+    console.log("productID", productID);
+    console.log("login state", loginState);
+
     if (loginState === true) {
+      const check = cartItems?.find(product._id == productID);
+      console.log("check", check);
+      const token = localStorage.getItem("token");
+      const prodID = { productId: productID };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+      try {
+        const response = await axios.post(
+          `${BaseURL}/api/v1/cart/`,
+          prodID,
+          config
+        );
+        notify("Item Added to cart successfully", "success");
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       notify("You must login first", "warn");
       setTimeout(() => {
@@ -39,22 +93,25 @@ function ProductCard({ product, loginState, setLoginState }) {
   return (
     <>
       <motion.div whileHover={{ scale: 1.05 }}>
-        <div className="card w-72 hover:shadow-2xl" key={product._id}>
+        <div className="card w-72 hover:shadow-2xl" key={product?._id}>
           <figure>
             <div className="relative w-full">
               <img
                 className="w-full h-full max-h-60"
                 src={`${product?.images[0]?.image}`}
                 alt={product?.title}
+
               />
               <button
-                onClick={toggleWishListed}
-                className="bg-white w-10 h-10 rounded-lg  m-2 absolute top-0 right-0 flex justify-center items-center hover:shadow-lg "
+                onClick={() => {
+                  handleAddToWishlist(product?._id);
+                }}
+                className="bg-white w-10 h-10 rounded-lg  m-2 absolute top-0 right-0 flex justify-center items-center  "
               >
-                <div className=" text-primary hover:text-yellow-600 ">
+                <div className=" text-primary hover:text-yellow-600">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    fill={wishListed ? "none" : "currentColor"}
+                    fill={!wishListed ? "none" : "currentColor"}
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
@@ -72,6 +129,7 @@ function ProductCard({ product, loginState, setLoginState }) {
           </figure>
           <div className="p-3 ">
             <div>
+
               <Link
                 to={`/productDetails/${product?._id}`}
                 className="prod-card-container "
@@ -80,6 +138,8 @@ function ProductCard({ product, loginState, setLoginState }) {
                   {product?.title}
                 </h2>
               </Link>
+
+
               <h2 className="text-primary font-bold text-lg">
                 EGP {product?.price}
               </h2>
@@ -115,9 +175,13 @@ function ProductCard({ product, loginState, setLoginState }) {
                     </div>
                   );
                 })}
+
                 {unFilledStar.map((unfStar, idx) => {
                   return (
                     <div key={idx} className="self-center">
+
+               
+
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -135,14 +199,17 @@ function ProductCard({ product, loginState, setLoginState }) {
                     </div>
                   );
                 })}
-                <div class=" text-xs font-semibold mr-2 px-2.5 py-0.5 rounded bg-yellow-200  ml-1">
+
+                <div className=" text-xs font-semibold mr-2 px-2.5 py-0.5 rounded bg-yellow-200  ml-1">
                   5.0
                 </div>
               </div>
             </div>
             <div className="card-actions w-full mt-2">
               <button
-                onClick={handleAddToCart}
+                onClick={() => {
+                  handleAddToCart(product._id);
+                }}
                 className="btn btn-primary text-white w-full"
               >
                 Add To Cart
