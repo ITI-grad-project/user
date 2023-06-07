@@ -8,17 +8,17 @@ import axios from "axios";
 
 const token = localStorage.getItem("token");
 console.log(token);
+
 function Profile() {
   const [LoggedUser, setLoggedUser] = useState([]);
+  const [UserAddress, setUserAddress] = useState([]);
   const [currentTab, setCurrentTab] = useState(1);
   const [activeButton, setActiveButton] = useState(1);
-
-  const BaseURL = "https://bekya.onrender.com";
 
   useEffect(() => {
     async function getUser() {
       await axios
-        .get(`${BaseURL}/api/v1/user/getMe/`, {
+        .get("https://bekya.onrender.com/api/v1/user/getMe/", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -28,7 +28,20 @@ function Profile() {
           console.log("profile Response", Response.data);
         });
     }
+    async function getAddressUser() {
+      await axios
+        .get("https://bekya.onrender.com/api/v1/addresses/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((Response) => {
+          setUserAddress(Response.data.data[0]);
+          console.log("Address", Response.data.data[0]);
+        });
+    }
     getUser();
+    getAddressUser();
   }, []);
 
   console.log("profile: User", LoggedUser);
@@ -121,7 +134,7 @@ function Profile() {
             ) : currentTab === 2 ? (
               <ChangePassword />
             ) : currentTab === 3 ? (
-              <Address />
+              <Address UserAddress={UserAddress} />
             ) : currentTab === 4 ? (
               <Orders />
             ) : (
