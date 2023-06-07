@@ -172,8 +172,8 @@ const AddProduct = ({ listOfCategories }) => {
         </h2>
         <hr className="w-16 bg-primary h-1 mt-2" />
       </div>
-      <div className="flex justify-center  px-28">
-        <div className="form flex-1 p-4 w-1/2">
+      <div className="flex justify-center px-4 md:px-10">
+        <div className="form flex-1 p-4 w-full md:w-1/2">
           <form action="" onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full ">
               <label className="label">
@@ -317,7 +317,7 @@ const AddProduct = ({ listOfCategories }) => {
           </form>
         </div>
 
-        <div className="image  p-6 w-1/2">
+        <div className="image p-6 w-full md:w-1/2">
           <h4 className="pb-2">Product Images</h4>
           <div className="flex flex-col justify-center items-center  border border-primary rounded p-4 ">
             <div className="mx-auto">
