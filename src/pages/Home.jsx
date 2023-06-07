@@ -14,6 +14,9 @@ function Home({ listOfCategories, loginState, setLoginState }) {
   const { listOfProducts, setListOfProducts } = useContext(ProductContext);
   const BaseURL = "https://bekya.onrender.com";
 
+  // const ourItems = [...listOfProducts.data].reverse();
+  // console.log(ourItems);
+
   useEffect(() => {
     async function getAllProducts() {
       const { data } = await axios.get(`${BaseURL}/api/v1/products/`);

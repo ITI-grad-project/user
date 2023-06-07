@@ -121,7 +121,7 @@ function Favorite({ setCartItems }) {
                     onClick={() => {
                       handleAddToCart(product?._id);
                     }}
-                    className="btn btn-primary btn-sm rounded-full w-full my-1"
+                    className="btn btn-primary btn-sm rounded-lg w-full my-1"
                   >
                     Add to Cart
                   </button>
