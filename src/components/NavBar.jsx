@@ -205,7 +205,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                     navigate("/login");
                   }, 2000);
                 } else {
-                  navigate("/addProduct");
+                  navigate("/addProduct/add");
                 }
               }}
               className="btn btn-outline btn-sm btn-primary w-40 text-base"
