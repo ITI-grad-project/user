@@ -36,8 +36,8 @@ function Profile() {
           },
         })
         .then((Response) => {
-          setUserAddress(Response.data.data[0]);
-          console.log("Address", Response.data.data[0]);
+          setUserAddress(Response.data.data);
+          console.log("Address", Response.data.data);
         });
     }
     getUser();
