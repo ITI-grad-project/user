@@ -126,8 +126,9 @@ export default function Question({
                   JSON.parse(localStorage.getItem("user")).userName}
               </h6>
               {/* -------- Question Delete ------ */}
-              {JSON.parse(localStorage.getItem("user"))._id ===
-                question?.user?._id && (
+              {(JSON.parse(localStorage.getItem("user"))._id ===
+                question?.user?._id || // Old questions (response return user as obj --> So, "user._id" exist)
+                question?.user) && ( // When adding new question (response return user as ID)
                 <span
                   onClick={() => handleDeleteQ(question)}
                   className="text-red-800 cursor-pointer"
