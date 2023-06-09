@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import notify from "../hooks/useNotification";
+import Avatar from "./avatar";
 
 function NavBar({ listOfCategories, loginState, setLoginState }) {
   // console.log("List of categories from navbar", listOfCategories.data);
@@ -235,7 +236,14 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                       className="btn btn-ghost hover:btn-primary btn-circle avatar"
                     >
                       <div className="w-10 rounded-full">
-                        <img src="https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png" />
+                        {user?.profileImg ? (
+                          <img
+                            src={user?.profileImg}
+                            className="w-13 h-11 rounded-full"
+                          />
+                        ) : (
+                          <Avatar></Avatar>
+                        )}
                       </div>
                     </label>
                     <ul
