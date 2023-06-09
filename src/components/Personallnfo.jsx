@@ -5,17 +5,16 @@ import Input from "./Input";
 import ProfilePhoto from "./ProfilePhoto";
 import { useState } from "react";
 import axios from "axios";
+import { useRef } from "react";
 
 const schema = yup.object({
-  firstname: yup.string().required("required field"),
-  lastname: yup.string().required("required field"),
-  email: yup
-    .string()
-    .email("you should enter a valid email")
-    .required("required field"),
+  firstname: yup.string(),
+  lastname: yup.string(),
+  email: yup.string().email("you should enter a valid email"),
+  // .required("required field"),
   phone: yup
     .number()
-    .required("required field")
+    // .required("required field")
     .min(11, "Password should be 11 numbers"),
 });
 
@@ -41,9 +40,8 @@ const Personallnfo = ({ LoggedUser }) => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
-        // }
       );
-      console.log(update);
+      // console.log(update);
       // toast.success("data Changed Successfully");
     } catch (err) {
       console.log(err);
@@ -75,12 +73,8 @@ const Personallnfo = ({ LoggedUser }) => {
         )}
       </div>
 
-      {editbtn === 1 && (
-        <div className="form-control justify-center items-center">
-          <ProfilePhoto />
-        </div>
-      )}
       <form onSubmit={handleSubmit(onSubmit)}>
+        <ProfilePhoto LoggedUser={LoggedUser} />
         <div className="flex md:flex-row flex-col md:gap-16 gap-4">
           <div>
             {/* <p className="font-[600] mb-2 text-[15px]">First Name</p> */}
@@ -88,10 +82,9 @@ const Personallnfo = ({ LoggedUser }) => {
               label="First Name"
               name="firstname"
               type="text"
-              // placeholder="●●●●●●●●●●●●"
               register={register("firstname")}
               errorMessage={errors.firstname?.message}
-              disabled={!watch("email")}
+              disabled={!watch("firstname")}
               editbtn={editbtn}
             />
           </div>

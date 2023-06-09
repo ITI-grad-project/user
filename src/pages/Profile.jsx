@@ -53,11 +53,11 @@ function Profile() {
             <div>
               <img
                 className="w-28 h-28 object-cover rounded-full mb-2"
-                src={LoggedUser.profileImg}
+                src={LoggedUser?.profileImg}
                 alt=""
               />
               <h3 className="text-center text-[20px] font-[600] mb-3">
-                {LoggedUser.userName}
+                {LoggedUser?.userName}
               </h3>
             </div>
             <div className="flex justify-between flex-col md:flex-row lg:flex-col w-full">

@@ -1,67 +1,60 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Modal, Upload } from "antd";
-import { useState } from "react";
-const getBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-const ProfilePhoto = () => {
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState([]);
-  const handleCancel = () => setPreviewOpen(false);
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    setPreviewImage(file.url || file.preview);
-    setPreviewOpen(true);
-    setPreviewTitle(
-      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
-    );
+import { useState, useRef } from "react";
+import axios from "axios";
+
+const ProfilePhoto = ({ LoggedUser }) => {
+  const [imgFile, setImgFile] = useState([]);
+  const [initalPhoto, setinitalPhoto] = useState(0);
+
+  const FileInput = useRef();
+  const handleClick = (event) => {
+    FileInput.current?.click();
   };
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
-    </div>
-  );
+  const handleUploadFile = async (event) => {
+    const dataphoto = new FormData();
+    dataphoto.append("profileImg", event.target.files[0]);
+    console.log("img", event.target.files[0]);
+    setImgFile(URL.createObjectURL(event.target.files[0]));
+    setinitalPhoto(1);
+
+    await axios
+      .put("https://bekya.onrender.com/api/v1/user/updatePhoto", dataphoto, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        console.log("hello photo", response); // do something with the response
+      });
+  };
   return (
     <>
-      <Upload
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        listType="picture-circle"
-        fileList={fileList}
-        onPreview={handlePreview}
-        onChange={handleChange}
-      >
-        {fileList.length >= 8 ? null : uploadButton}
-      </Upload>
-      <Modal
-        open={previewOpen}
-        title={previewTitle}
-        footer={null}
-        onCancel={handleCancel}
-      >
+      <input
+        type="file"
+        ref={FileInput}
+        onChange={handleUploadFile}
+        className="hidden"
+      />
+      <div className="relative flex justify-center">
         <img
-          alt="example"
-          style={{
-            width: "100%",
-          }}
-          src={previewImage}
+          className="w-28 h-28 object-cover rounded-full mb-2"
+          src={initalPhoto !== 0 ? imgFile : LoggedUser?.profileImg}
+          alt=""
         />
-      </Modal>
+        <div
+          className="absolute border-2 border-[#D9D9D9] bg-white p-2 rounded-full bottom-0 ml-16"
+          onClick={handleClick}
+        >
+          <svg
+            viewBox="0 0 1000 1000"
+            fill="currentColor"
+            height="1.4em"
+            width="1.4em"
+            className="text-primary"
+          >
+            <path d="M500 400c42.667 0 78.333 14.667 107 44s43 64.667 43 106-14.667 76.667-44 106-64.667 44-106 44-76.667-14.667-106-44-44-64.667-44-106 14.667-76.667 44-106 64.667-44 106-44m400-150c28 0 51.667 9.667 71 29s29 43 29 71v450c0 26.667-9.667 50-29 70s-43 30-71 30H100c-26.667 0-50-10-70-30S0 826.667 0 800V350c0-28 10-51.667 30-71s43.333-29 70-29h120c18.667 0 32-10 40-30l30-92c6.667-18.667 20-28 40-28h340c20 0 33.333 9.333 40 28l30 92c8 20 21.333 30 40 30h120M500 800c69.333 0 128.333-24.333 177-73s73-107.667 73-177-24.333-128.333-73-177-107.667-73-177-73-128.333 24.333-177 73-73 107.667-73 177 24.333 128.333 73 177 107.667 73 177 73m366-380c9.333 0 17.333-3.667 24-11 6.667-7.333 10-15.667 10-25s-3.333-17.333-10-24c-6.667-6.667-14.667-10-24-10-24 0-36 11.333-36 34 0 10.667 3.667 19.333 11 26 7.333 6.667 15.667 10 25 10" />
+          </svg>
+        </div>
+      </div>
     </>
   );
 };

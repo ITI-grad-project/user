@@ -20,7 +20,7 @@ export default function Input({
         type={type}
         placeholder={placeholder}
         value={value}
-        className={`input input-bordered focus:outline-none placeholder-black${
+        className={`input input-bordered focus:outline-none  disabled:placeholder-black disabled:bg-white  ${
           errorMessage && "invalid"
         }`}
         {...register}
