@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import notify from "../hooks/useNotification";
 import axios from "axios";
-
+import Avatar from "../components/avatar";
 
 function ProductCard({ product, loginState, cartItems, setCartItems }) {
   // console.log("product from card", product);
@@ -100,7 +100,6 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                 className="w-full h-full max-h-60"
                 src={`${product?.images[0]?.image}`}
                 alt={product?.title}
-
               />
               <button
                 onClick={() => {
@@ -129,7 +128,6 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
           </figure>
           <div className="p-3 ">
             <div>
-
               <Link
                 to={`/productDetails/${product?._id}`}
                 className="prod-card-container "
@@ -139,17 +137,20 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                 </h2>
               </Link>
 
-
               <h2 className="text-primary font-bold text-lg">
                 EGP {product?.price}
               </h2>
             </div>
             <div className="flex justify-between">
               <div className="flex gap-2 mt-2 self-center">
-                <img
-                  className="rounded-full w-8 h-8"
-                  src={`${product.user?.profileImg}`}
-                />
+                {product.user?.profileImg ? (
+                  <img
+                    src={product.user?.profileImg}
+                    className="w-13 h-11 rounded-full"
+                  />
+                ) : (
+                  <Avatar></Avatar>
+                )}
                 <h3 className="self-center capitalize text-sm">
                   {product.user?.userName}
                 </h3>
@@ -179,9 +180,6 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                 {unFilledStar.map((unfStar, idx) => {
                   return (
                     <div key={idx} className="self-center">
-
-               
-
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
