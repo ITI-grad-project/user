@@ -5,10 +5,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-const schema = yup.object({
-  question: yup.string().required("required field").min(5, "Answer must be at least 5 characters"),
-});
-
 import HeartIcon from "../assets/icons/HeartIcon";
 import StarIcon from "../assets/icons/StarIcon";
 import HeartSolidIcon from "../assets/icons/HeartSolidIcon";
@@ -18,6 +14,13 @@ import PhoneIcon from "../assets/icons/PhoneIcon";
 import Question from "../components/Question";
 import QuestionIcon from "../assets/icons/QuestionIcon";
 import QAInput from "../components/QAInput";
+
+const schema = yup.object({
+  question: yup
+    .string()
+    .required("required field")
+    .min(5, "Answer must be at least 5 characters"),
+});
 
 export default function ProductDetails() {
   const { productId } = useParams();
@@ -84,7 +87,7 @@ export default function ProductDetails() {
       // Update app state
       // handleAddNewQA(data?.data.answer);
       console.log(data.questionData);
-      console.log(questions);
+      // console.log(questions);
       handleAddNewQuestion(data?.questionData);
       reset();
     } catch (error) {
@@ -105,6 +108,7 @@ export default function ProductDetails() {
     setQuestions(newQuestion);
   };
   const handleAddNewQuestion = (NewQuestion) => {
+    console.log(NewQuestion)
     setQuestions([...questions, NewQuestion]);
   };
 
@@ -112,7 +116,9 @@ export default function ProductDetails() {
     setQuestions(questions.filter((q) => q._id !== question._id));
   };
   const handleDeleteAnswer = (question) => {
-    let updatedQuestions = questions.map((q) => q._id === question._id ? {...question, answer: ""} : q)
+    let updatedQuestions = questions.map((q) =>
+      q._id === question._id ? { ...question, answer: "" } : q
+    );
     setQuestions(updatedQuestions);
   };
 
@@ -173,7 +179,7 @@ export default function ProductDetails() {
             <div className="flex gap-2 items-center">
               <div className="avatar">
                 <div className="w-12 rounded-full">
-                  <img src={product?.user?.profileImg} alt="user" />
+                  <img src={product?.user?.profileImg || "https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png"} alt="user" />
                 </div>
               </div>
               <div>
@@ -237,6 +243,8 @@ export default function ProductDetails() {
           {questions?.length !== 0 ? (
             <>
               {questions?.map((question) => (
+                <>
+                {console.log(question)}
                 <Question
                   key={question?._id}
                   question={question}
@@ -245,6 +253,7 @@ export default function ProductDetails() {
                   handleDeleteQuestion={handleDeleteQuestion}
                   handleDeleteAnswer={handleDeleteAnswer}
                 />
+                </>
               ))}
             </>
           ) : (
@@ -254,7 +263,8 @@ export default function ProductDetails() {
             </div>
           )}
 
-          {localStorage.getItem("id") !== product?.user?._id && (
+          {JSON.parse(localStorage.getItem("user"))._id !==
+            product?.user?._id && (
             <form onSubmit={handleSubmit(formSubmit)}>
               <QAInput
                 placeholder={"write your question"}

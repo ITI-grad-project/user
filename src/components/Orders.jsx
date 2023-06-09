@@ -1,131 +1,172 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
+
 export default function Orders() {
+  const [orders, setOrders] = useState();
+  const [products, setProducts] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function getMyOrders() {
+      try {
+        const { data } = await axios.get(
+          "https://bekya.onrender.com/api/v1/orders",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        console.log(data.data);
+        setOrders(data?.data);
+        // getMyOrdersProduct(orders?.cartItem[0]?.product);
+        setLoading(false);
+      } catch (error) {
+        setLoading(true);
+        console.log(error);
+      }
+    }
+    // async function getMyOrdersProduct(id) {
+    //   try {
+    //     const { data } = await axios.get(
+    //      `https://bekya.onrender.com/api/v1/products/${id}`,
+    //     );
+    //     console.log(data.data);
+    //     setProducts(data?.data);
+    //     setLoading(false);
+    //   } catch (error) {
+    //     setLoading(true);
+    //     console.log(error);
+    //   }
+    // }
+    getMyOrders();
+  }, []);
   return (
     <div className="p-6">
-      <h4 className="font-bold text-lg text-primary mb-3">My Orders</h4>
+      <h4 className="font-bold text-lg text-primary md:mb-3">My Orders</h4>
       <div className="overflow-x-auto hidden md:block">
-        <table className="table w-full">
-          {/* head */}
-          <thead className="">
-            <tr>
-              <th></th>
-              <th className="capitalize text-sm">Product</th>
-              <th className="capitalize text-sm">Price</th>
-              <th className="capitalize text-sm">Status</th>
-              <th className="capitalize text-sm">Date</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {/* row 1 */}
-            <tr className="">
-              <th className="w-24">
-                <div className="avatar">
-                  <div className="w-24 rounded-xl">
-                    <img src="https://images.unsplash.com/photo-1534653299134-96a171b61581?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=975&q=80" />
-                  </div>
-                </div>
-              </th>
-              <td className="whitespace-nowrap">Silver Leather High Heels</td>
-              <td>EGP 300</td>
-              <td>
-                <span className="py-1.5 px-6 w-28 text-center text-sm font-semibold text-yellow-800 bg-yellow-200 bg-opacity-70 rounded-2xl">
-                  Pending
-                </span>
-              </td>
-              <td>22 May, 2023</td>
-            </tr>
-            <tr className="">
-              <th className="w-24">
-                <div className="avatar">
-                  <div className="w-24 rounded-xl">
-                    <img src="https://images.unsplash.com/photo-1534653299134-96a171b61581?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=975&q=80" />
-                  </div>
-                </div>
-              </th>
-              <td>Silver Leather High Heels</td>
-              <td>EGP 300</td>
-              <td>
-                <span className="py-1.5 px-6 w-28 text-center text-sm font-semibold text-green-800 bg-green-200 bg-opacity-70 rounded-2xl">
-                  Delivered
-                </span>
-              </td>
-              <td>22 May, 2023</td>
-            </tr>
-            <tr className="">
-              <th className="w-24">
-                <div className="avatar">
-                  <div className="w-24 rounded-xl">
-                    <img src="https://images.unsplash.com/photo-1534653299134-96a171b61581?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=975&q=80" />
-                  </div>
-                </div>
-              </th>
-              <td>Silver Leather High Heels</td>
-              <td>EGP 300</td>
-              <td>
-                <span className="py-1.5 px-6 w-28 text-center text-sm font-semibold text-blue-800 bg-blue-200 bg-opacity-70 rounded-2xl">
-                  Shipped
-                </span>
-              </td>
-              <td>22 May, 2023</td>
-            </tr>
-            <tr className="">
-              <th className="w-24">
-                <div className="avatar">
-                  <div className="w-24 rounded-xl">
-                    <img src="https://images.unsplash.com/photo-1534653299134-96a171b61581?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=975&q=80" />
-                  </div>
-                </div>
-              </th>
-              <td>Silver Leather High Heels</td>
-              <td>EGP 300</td>
-              <td>
-                <span className="py-1.5 px-6 w-28 text-center text-sm font-semibold text-red-800 bg-red-200 bg-opacity-70 rounded-2xl">
-                  Canceled
-                </span>
-              </td>
-              <td>22 May, 2023</td>
-            </tr>
-          </tbody>
-        </table>
+        {!loading && orders?.length === 0 ? (
+          <div className="flex flex-col items-center justify-center">
+            <img src="/images/No Orders.png" alt="" className="w-52 h-52" />
+            <p className="text-lg font-bold">
+              You haven't placed any orders yet.
+            </p>
+          </div>
+        ) : (
+          <>
+            {!orders?.length && loading ? (
+              <ThreeDots
+                wrapperClass="text-primary flex justify-center items-center"
+                color="currentColor"
+              />
+            ) : (
+              <table className="table w-full">
+                {/* head */}
+                <thead className="">
+                  <tr>
+                    <th></th>
+                    <th className="capitalize text-sm">Product</th>
+                    <th className="capitalize text-sm">Price</th>
+                    <th className="capitalize text-sm">Status</th>
+                    <th className="capitalize text-sm">Date</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {orders?.map((order) => (
+                    <tr key={order?._id}>
+                      <th className="w-24">
+                        <div className="avatar">
+                          <div className="w-24 rounded-xl">
+                            <img src="https://images.unsplash.com/photo-1534653299134-96a171b61581?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=975&q=80" />
+                          </div>
+                        </div>
+                      </th>
+                      <td className="w-60 whitespace-normal">
+                        Silver Leather High Heels Silver Leather High Heels
+                      </td>
+                      <td>EGP {order?.totalOrderPrice}</td>
+                      <td>
+                        <span className={`order-status ${order?.orderStatus}`}>
+                          {order?.orderStatus}
+                        </span>
+                      </td>
+                      <td>
+                        {new Date(order?.createdAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                          }
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </>
+        )}
       </div>
 
-      {/* ----------------------------------------------- */}
+      {/* ------------------ Small Screen ----------------------------- */}
       <div className="grid grid-cols-1 gap-4 md:hidden">
-        <div className="space-y-3 rounded-lg divide-y divide-gray-200">
-          <div className="flex gap-5 pt-2">
-            <div className="avatar">
-              <div className="w-24 aspect-square rounded-xl">
-                <img src="https://images.unsplash.com/photo-1534653299134-96a171b61581?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=975&q=80" />
-              </div>
+        <div className="space-y-3 rounded-lg divide-y divide-gray-200 pt-4 first:pt-0">
+          {!loading && orders?.length === 0 ? (
+            <div className="flex flex-col items-center justify-center">
+              <img src="/images/No Orders.png" alt="" className="w-52 h-52" />
+              <p className="text-lg font-bold">You haven't any order yet.</p>
             </div>
-            <div className="flex flex-col gap-1">
-              <h3 className="font-semibold">Silver Leather High Heels</h3>
-              <p className="pt-2">EGP 300</p>
-              <span className="py-1.5 px-6 w-28 text-center text-sm font-semibold text-yellow-800 bg-yellow-200 bg-opacity-70 rounded-2xl">
-                  Pending
-              </span>
-              <p>23 May, 2023</p>
-            </div>
-          </div>
-          <div className="flex gap-5 pt-2">
-            <div className="avatar">
-              <div className="w-24 aspect-square rounded-xl">
-                <img src="https://images.unsplash.com/photo-1534653299134-96a171b61581?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=975&q=80" />
-              </div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <h3 className="font-semibold">Silver Leather High Heels </h3>
-              <p className="pt-2">EGP 300</p>
-              <span className="py-1.5 px-6 w-28 text-center text-sm font-semibold text-yellow-800 bg-yellow-200 bg-opacity-70 rounded-2xl">
-                  Pending
-              </span>
-              <p>23 May, 2023</p>
-            </div>
-          </div>
+          ) : (
+            <>
+              {!orders?.length && loading ? (
+                <ThreeDots
+                  wrapperClass="text-primary flex justify-center items-center"
+                  color="currentColor"
+                />
+              ) : (
+                <>
+                  {orders?.map((order) => (
+                    <div className="flex gap-5 pt-4" key={order?._id}>
+                      <div className="avatar">
+                        <div className="w-24 h-24 aspect-square rounded-xl">
+                          <img src="https://images.unsplash.com/photo-1534653299134-96a171b61581?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=975&q=80" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <h3 className="font-semibold">
+                          Trapstar London Irongate Cream Puffer Jacket
+                        </h3>
+                        <p className="pt-2">EGP {order?.totalOrderPrice}</p>
+                        <span className={`order-status ${order?.orderStatus}`}>
+                          {order?.orderStatus}
+                        </span>
+                        <p>
+                          {new Date(order?.createdAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                              hour: "numeric",
+                              minute: "numeric",
+                            }
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
+            </>
+          )}
         </div>
       </div>
 
-
-{/* <div className="overflow-x-auto">
+      {/* <div className="overflow-x-auto">
   <table className="table w-full">
     <tbody className="divide-y divide-gray-200">
       <tr>
