@@ -14,6 +14,7 @@ import PhoneIcon from "../assets/icons/PhoneIcon";
 import Question from "../components/Question";
 import QuestionIcon from "../assets/icons/QuestionIcon";
 import QAInput from "../components/QAInput";
+import { ThreeDots } from "react-loader-spinner";
 
 const schema = yup.object({
   question: yup
@@ -240,11 +241,37 @@ export default function ProductDetails() {
             <span className="text-[#404040] font-medium pl-2">{`(${product?.questions?.length})`}</span>
           </h5>
           {/*Users Questions/Comments */}
-          {questions?.length !== 0 ? (
+          {!loading && questions?.length === 0 ? (
+            <div className="flex flex-col items-center justify-center">
+              <img src="/images/No Question.png" alt="" className="w-48 h-48" />
+              <p className="text-xl font-bold">No Question Yet</p>
+            </div>
+          ):(
+            <>
+            {!questions?.length && loading ? (
+                <ThreeDots
+                  wrapperClass="text-primary flex justify-center items-center"
+                  color="currentColor"
+                />
+              ) : (
+                <> 
+                  {questions?.map((question) => (
+                    <Question
+                      key={question?._id}
+                      question={question}
+                      productUser={product?.user}
+                      handleAddNewAnswer={handleAddNewAnswer}
+                      handleDeleteQuestion={handleDeleteQuestion}
+                      handleDeleteAnswer={handleDeleteAnswer}
+                    />
+                  ))}
+                </>
+              )}
+            </>
+          )}
+          {/* {questions?.length !== 0 ? (
             <>
               {questions?.map((question) => (
-                <>
-                {console.log(question)}
                 <Question
                   key={question?._id}
                   question={question}
@@ -253,7 +280,6 @@ export default function ProductDetails() {
                   handleDeleteQuestion={handleDeleteQuestion}
                   handleDeleteAnswer={handleDeleteAnswer}
                 />
-                </>
               ))}
             </>
           ) : (
@@ -261,7 +287,7 @@ export default function ProductDetails() {
               <img src="/images/No Question.png" alt="" className="w-48 h-48" />
               <p className="text-xl font-bold">No Question Yet</p>
             </div>
-          )}
+          )} */}
 
           {JSON.parse(localStorage.getItem("user"))._id !==
             product?.user?._id && (

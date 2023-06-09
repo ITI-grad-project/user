@@ -61,52 +61,60 @@ export default function Orders() {
                 color="currentColor"
               />
             ) : (
-              <table className="table w-full">
-                {/* head */}
-                <thead className="">
-                  <tr>
-                    <th></th>
-                    <th className="capitalize text-sm">Product</th>
-                    <th className="capitalize text-sm">Price</th>
-                    <th className="capitalize text-sm">Status</th>
-                    <th className="capitalize text-sm">Date</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {orders?.map((order) => (
-                    <tr key={order?._id}>
-                      <th className="w-24">
-                        <div className="avatar">
-                          <div className="w-24 rounded-xl">
-                            <img src="https://images.unsplash.com/photo-1534653299134-96a171b61581?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=975&q=80" />
-                          </div>
-                        </div>
-                      </th>
-                      <td className="w-60 whitespace-normal">
-                        Silver Leather High Heels Silver Leather High Heels
-                      </td>
-                      <td>EGP {order?.totalOrderPrice}</td>
-                      <td>
-                        <span className={`order-status ${order?.orderStatus}`}>
-                          {order?.orderStatus}
-                        </span>
-                      </td>
-                      <td>
-                        {new Date(order?.createdAt).toLocaleDateString(
-                          "en-US",
-                          {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                            hour: "numeric",
-                            minute: "numeric",
-                          }
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <>
+                {orders?.map((order) => (
+                  <>
+                  <h5 className="font-bold">Order <span className="text-sky-600">#{order?._id}</span> </h5>
+                  <table className="table w-full" key={order?._id}>
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th className="capitalize text-sm">Product</th>
+                        <th className="capitalize text-sm">Price</th>
+                        <th className="capitalize text-sm">Status</th>
+                        <th className="capitalize text-sm">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {order?.cartItems?.map((item) => (
+                        <tr key={item?.product?._id}>
+                          <th className="w-24">
+                            <div className="avatar">
+                              <div className="w-24 rounded-xl">
+                                <img src={item?.product?.images[0]?.image} alt="product"/>
+                              </div>
+                            </div>
+                          </th>
+                          <td className="w-60 whitespace-normal">
+                            {item?.product?.title}
+                          </td>
+                          <td>EGP {order?.totalOrderPrice}</td>
+                          <td>
+                            <span
+                              className={`order-status ${order?.orderStatus}`}
+                            >
+                              {order?.orderStatus}
+                            </span>
+                          </td>
+                          <td>
+                            {new Date(order?.createdAt).toLocaleDateString(
+                              "en-US",
+                              {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                                hour: "numeric",
+                                minute: "numeric",
+                              }
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  </>
+                ))}
+              </>
             )}
           </>
         )}

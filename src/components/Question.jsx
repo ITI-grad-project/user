@@ -103,7 +103,7 @@ export default function Question({
       <>
         <div
           key={question?._id}
-          className="flex gap-2 border-b border-[#D4D4D4] py-6"
+          className="flex gap-2 border-b border-[#D4D4D4] pt-3 pb-6"
         >
           {/* <div className="flex gap-2"> */}
           <div className="avatar">
@@ -126,9 +126,7 @@ export default function Question({
                   JSON.parse(localStorage.getItem("user")).userName}
               </h6>
               {/* -------- Question Delete ------ */}
-              {(JSON.parse(localStorage.getItem("user"))._id ===
-                question?.user?._id || // Old questions (response return user as obj --> So, "user._id" exist)
-                question?.user) && ( // When adding new question (response return user as ID)
+              {(JSON.parse(localStorage.getItem("user"))._id === question?.user?._id  && 
                 <span
                   onClick={() => handleDeleteQ(question)}
                   className="text-red-800 cursor-pointer"
