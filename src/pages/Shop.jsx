@@ -63,11 +63,11 @@ function Shop({ Categories, loginState }) {
 
   console.log("FilteredItems", FilteredItems());
   return (
-    <div className="px-36 py-10">
+    <div className="lg:px-36 px-12 py-10">
       <ToastContainer />
       {/* max-[700px]:grid-rows-2 */}
-      <div className="grid grid-cols-8 gap-6">
-        <div className="rounded-lg border-[2px] border-[#ECE8E8] md:col-span-2 col-span-8 h-[900px] font-['Roboto'] px-10">
+      <div className="grid grid-cols-12 w-full xl:gap-12 lg:gap-[5.2rem]">
+        <div className="rounded-lg border-[2px] border-[#ECE8E8] lg:col-span-3 lg:min-w-[15rem] w-full col-span-12 h-[900px] font-['Roboto'] px-10">
           <h2 className="text-[24px] text-primary font-[700] mb-2 mt-3">
             Categories
           </h2>
@@ -154,7 +154,7 @@ function Shop({ Categories, loginState }) {
             MAX={MAX}
           />
         </div>
-        <div className="col-span-6 flex flex-wrap gap-4 justify-items-center">
+        <div className="lg:col-span-9 w-full col-span-12 flex flex-wrap gap-4 lg:justify-start lg:items-start justify-center items-center lg:mt-0 mt-5">
           {/* <div className="grid grid-cols-6 md:gap-16 grid-flow-row-dense justify-items-center"> */}
           {FilteredItems()?.map((item, index) => {
             return (

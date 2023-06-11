@@ -95,13 +95,14 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
         <div>
           <div
             //  min-[1120px]:w-48
-            className="card 2xl:w-72 xl:w-60 lg:w-56 w-80 h-96 hover:shadow-2xl"
+            className="card lg:w-72 w-96 max-[485px]:w-80 max-[418px]:w-64 h-96 shadow-md hover:shadow-xl"
             key={product?._id}
           >
             <figure>
               <div className="relative w-full mt-8">
+                {/* img min-w-[300px] min-h-[80px] */}
                 <img
-                  className="w-full object-cover h-60"
+                  className="w-full h-60 object-cover bg-cover bg-center"
                   src={`${product?.images[0]?.image}`}
                   alt={product?.title}
                 />
