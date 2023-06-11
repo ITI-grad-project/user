@@ -63,10 +63,11 @@ function Shop({ Categories, loginState }) {
 
   console.log("FilteredItems", FilteredItems());
   return (
-    <div className="px-20 py-10">
+    <div className="px-36 py-10">
       <ToastContainer />
-      <div className="grid md:grid-cols-12 max-[700px]:grid-rows-2 gap-8 2xl:gap-0 xl:gap-10 min-2xl:gap-0 md:justify-items-center">
-        <div className="rounded-lg border-[2px] border-[#ECE8E8] md:col-span-4 col-span-3 font-['Roboto'] px-10 h-[46rem]">
+      {/* max-[700px]:grid-rows-2 */}
+      <div className="grid grid-cols-8 gap-6">
+        <div className="rounded-lg border-[2px] border-[#ECE8E8] md:col-span-2 col-span-8 h-[900px] font-['Roboto'] px-10">
           <h2 className="text-[24px] text-primary font-[700] mb-2 mt-3">
             Categories
           </h2>
@@ -153,17 +154,11 @@ function Shop({ Categories, loginState }) {
             MAX={MAX}
           />
         </div>
-        <div className="col-span-9 lg:col-span-8 grid grid-cols-6 md:gap-10 lg:gap-4 grid-flow-row-dense justify-items-center">
+        <div className="col-span-6 flex flex-wrap gap-4 justify-items-center">
           {/* <div className="grid grid-cols-6 md:gap-16 grid-flow-row-dense justify-items-center"> */}
           {FilteredItems()?.map((item, index) => {
             return (
-              <div className="col-span-2 lg:col-span-3 2xl:col-span-2 min-[1700px]:col-span-1">
-                <ProductCard
-                  key={index}
-                  product={item}
-                  loginState={loginState}
-                />
-              </div>
+              <ProductCard key={index} product={item} loginState={loginState} />
             );
           })}
           {/* </div> */}
@@ -173,6 +168,7 @@ function Shop({ Categories, loginState }) {
         <PaginationPage
           setCurrentPage={setCurrentPage}
           CurrentPage={CurrentPage}
+          Items={items}
         />
       </div>
     </div>

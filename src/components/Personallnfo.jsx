@@ -74,7 +74,7 @@ const Personallnfo = ({ LoggedUser }) => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ProfilePhoto LoggedUser={LoggedUser} />
+        {editbtn === 1 && <ProfilePhoto LoggedUser={LoggedUser} />}
         <div className="flex md:flex-row flex-col md:gap-16 gap-4">
           <div>
             {/* <p className="font-[600] mb-2 text-[15px]">First Name</p> */}
@@ -118,10 +118,10 @@ const Personallnfo = ({ LoggedUser }) => {
             <Input
               label="phone Number"
               name="phone"
-              type="number"
+              type="tel"
               register={register("phone")}
               errorMessage={errors.phone?.message}
-              disabled={!watch("email")}
+              disabled={!watch("phone")}
               editbtn={editbtn}
             />
           </div>

@@ -65,7 +65,10 @@ const Address = ({ UserAddress }) => {
         {UserAddress?.map((address, index) =>
           // console.log(address);
           AddressEditBtn === 1 && index > 0 ? null : (
-            <div key={address?._id}>
+            <div
+              key={address?._id}
+              className={AddressEditBtn === 0 && `border-2 p-6 mb-4`}
+            >
               <div className="flex md:flex-row flex-col md:gap-16 gap-4">
                 <div>
                   <Input

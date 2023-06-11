@@ -1,12 +1,12 @@
 import { Pagination } from "antd";
 import { ConfigProvider } from "antd";
-const PaginationPage = ({ setCurrentPage }) => {
+const PaginationPage = ({ setCurrentPage, Items }) => {
   const onChange = (page) => {
     setCurrentPage(page);
   };
-
+  console.log(Items?.data?.length);
   return (
-    <div className="flex items-center justify-center border-t border-gray-200 bg-white py-3 sm:px-6 ">
+    <div className="flex items-center justify-center bg-white py-3 sm:px-6 ">
       <ConfigProvider
         theme={{
           components: {
