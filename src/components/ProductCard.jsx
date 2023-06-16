@@ -72,8 +72,11 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
           prodID,
           config
         );
-        notify("Item Added to cart successfully", "success");
-        console.log(response);
+        if (response.data.status == "fail") {
+          notify(response.data.message, "error");
+        } else {
+          notify(response.data.message, "success");
+        }
       } catch (error) {
         console.log(error);
       }
