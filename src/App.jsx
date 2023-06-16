@@ -22,7 +22,6 @@ function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
   const [loginState, setLoginState] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  console.log("cartItems from app", cartItems);
 
   const BaseURL = "https://bekya.onrender.com";
 

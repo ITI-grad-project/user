@@ -8,7 +8,6 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
   // const [loginState, setLoginState] = useState(false);
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
 
   useEffect(() => {
     if (localStorage.getItem("token") != null) {

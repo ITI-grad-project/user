@@ -95,7 +95,6 @@ function Home({ listOfCategories, loginState, setLoginState }) {
             <h1>No Products to show ...</h1>
           )}
           {listOfProducts.data?.slice(0, 8).map((product) => {
-
             // console.log(product);
             return (
               <ProductCard
@@ -106,7 +105,6 @@ function Home({ listOfCategories, loginState, setLoginState }) {
                 setLoginState={setLoginState}
               />
             );
-
           })}
         </div>
         {listOfProducts.data?.length > 8 ? (

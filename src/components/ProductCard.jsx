@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import notify from "../hooks/useNotification";
@@ -86,9 +86,15 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
   };
 
   const maxRating = 5;
-  const filledStar = Array(product.user.ratingQuantity).fill(0);
-  const unFilledStar = Array(maxRating - product.user.ratingQuantity).fill(0);
-  // console.log(unFilledStar);
+  const filledStar = useMemo(() => {
+    return product?.user?.ratingsAverage
+      ? Array(Math.round(product?.user?.ratingsAverage)).fill(0)
+      : [];
+  }, [product?.user?.ratingsAverage]);
+
+  const unFilledStar = useMemo(() => {
+    return Array(Math.round(maxRating - filledStar?.length)).fill(0);
+  }, [maxRating, filledStar?.length]);
 
   return (
     <>
@@ -161,11 +167,11 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                     <div key={idx}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        fill="fill"
+                        fill="#F2C76E"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
-                        className="w-4 h-4"
+                        className="w-4 h-4 mt-[6px]"
                       >
                         <path
                           strokeLinecap="round"
@@ -198,8 +204,24 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                   );
                 })}
 
-                <div className=" text-xs font-semibold mr-2 px-2.5 py-0.5 rounded bg-yellow-200  ml-1">
-                  5.0
+                <div className="flex justify-center align-middle font-semibold mr-2 px-2.5 py-0.5 rounded bg-yellow-200  ml-1">
+                  <span className=" text-base ">
+                    {product?.user?.ratingQuantity}
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4 mt-[4px] ml-[4px]"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                    />
+                  </svg>
                 </div>
               </div>
             </div>
