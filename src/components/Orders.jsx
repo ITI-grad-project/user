@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 
+import CancelIcon from "../assets/icons/CancelIcon";
+import Order from "./Order";
+
 export default function Orders() {
   const [orders, setOrders] = useState();
-  const [products, setProducts] = useState();
+  // const [isCancel, setIsCancel] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,6 +45,39 @@ export default function Orders() {
     // }
     getMyOrders();
   }, []);
+
+  // const handleCancelOrder = async (orderID) => {
+  //   try {
+  //     const { data } = await axios.put(
+  //       `https://bekya.onrender.com/api/v1/orders/${orderID}/cancel`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       }
+  //     );
+  //     console.log(data?.data);
+  //     // Update app state
+  //     console.log(data?.data?.cancelOrder);
+  //     setIsCancel(data?.data?.cancelOrder);
+  //     console.log(isCancel)
+  //     // handleUpdateStatusOrder(data?.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //     // toast.error("Something went wrong, please try again later");
+  //   }
+  // };
+
+  // const handleUpdateStatusOrder = (updatedOrder) => {
+  //   let updatedOrders = orders.map((order) =>
+  //     order._id === updatedOrder._id && updatedOrder.cancelOrder
+  //       // ? { ...order, orderStatus: updatedOrder.orderStatus }
+  //       ? { ...order, orderStatus: "canceled" }
+  //       : order
+  //   );
+  //   setOrders(updatedOrders);
+  // };
   return (
     <div className="p-6">
       <h4 className="font-bold text-lg text-primary md:mb-3">My Orders</h4>
@@ -63,56 +99,7 @@ export default function Orders() {
             ) : (
               <>
                 {orders?.map((order) => (
-                  <>
-                  <h5 className="font-bold">Order <span className="text-sky-600">#{order?._id}</span> </h5>
-                  <table className="table w-full" key={order?._id}>
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th className="capitalize text-sm">Product</th>
-                        <th className="capitalize text-sm">Price</th>
-                        <th className="capitalize text-sm">Status</th>
-                        <th className="capitalize text-sm">Date</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {order?.cartItems?.map((item) => (
-                        <tr key={item?.product?._id}>
-                          <th className="w-24">
-                            <div className="avatar">
-                              <div className="w-24 rounded-xl">
-                                <img src={item?.product?.images[0]?.image} alt="product"/>
-                              </div>
-                            </div>
-                          </th>
-                          <td className="w-60 whitespace-normal">
-                            {item?.product?.title}
-                          </td>
-                          <td>EGP {order?.totalOrderPrice}</td>
-                          <td>
-                            <span
-                              className={`order-status ${order?.orderStatus}`}
-                            >
-                              {order?.orderStatus}
-                            </span>
-                          </td>
-                          <td>
-                            {new Date(order?.createdAt).toLocaleDateString(
-                              "en-US",
-                              {
-                                day: "numeric",
-                                month: "long",
-                                year: "numeric",
-                                hour: "numeric",
-                                minute: "numeric",
-                              }
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  </>
+                 <Order key={order?._id} order={order}/>
                 ))}
               </>
             )}
