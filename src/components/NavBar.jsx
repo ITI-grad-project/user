@@ -329,7 +329,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                     return (
                       <li key={category?._id}>
                         <NavLink
-                          to="/shop"
+                          to={`/shop/${category._id}`}
                           className={({ isActive }) =>
                             isActive ? "bg-primary capitalize" : "capitalize"
                           }
@@ -345,9 +345,9 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                 return (
                   <li key={category?._id}>
                     <NavLink
-                      to="/shop"
+                      to={`/shop/${category._id}`}
                       className={({ isActive }) =>
-                        isActive ? "bg-primary capitalize" : "capitalize"
+                        isActive ? "bg-primary capitalize " : "capitalize"
                       }
                     >
                       {category.name}
