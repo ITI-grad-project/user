@@ -211,13 +211,13 @@ export default function ProductDetails() {
             </div>
             <div className="flex">
               <span className="pr-2 text-center">
-                <LocationIcon />
+                <LocationIcon w={"w-6"} h={"h-6"} />
               </span>
               {product?.country}
             </div>
             <div className="flex">
               <span className="pr-2 text-center">
-                <PhoneIcon />
+                <PhoneIcon w={"w-6"} h={"h-6"}/>
               </span>
               +2{product?.phone}
             </div>

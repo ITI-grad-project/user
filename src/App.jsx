@@ -17,6 +17,7 @@ import Cart from "./pages/Cart";
 import Favorite from "./pages/Favourite";
 import AddProduct from "./pages/AddProduct";
 import CheckOut from "./pages/CheckOut";
+import Contact from "./pages/ContactUs";
 
 
 function App() {
@@ -91,6 +92,7 @@ function App() {
                 path="/addProduct/:id"
                 element={<AddProduct listOfCategories={listOfCategories} />}
               />
+              <Route path="/contact" element={<Contact />} />
 
             </Route>
           </Routes>
