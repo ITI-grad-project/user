@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 
-import CancelIcon from "../assets/icons/CancelIcon";
 import Order from "./Order";
 
 export default function Orders() {
   const [orders, setOrders] = useState();
-  // const [isCancel, setIsCancel] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,29 +43,6 @@ export default function Orders() {
     // }
     getMyOrders();
   }, []);
-
-  // const handleCancelOrder = async (orderID) => {
-  //   try {
-  //     const { data } = await axios.put(
-  //       `https://bekya.onrender.com/api/v1/orders/${orderID}/cancel`,
-  //       {},
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       }
-  //     );
-  //     console.log(data?.data);
-  //     // Update app state
-  //     console.log(data?.data?.cancelOrder);
-  //     setIsCancel(data?.data?.cancelOrder);
-  //     console.log(isCancel)
-  //     // handleUpdateStatusOrder(data?.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //     // toast.error("Something went wrong, please try again later");
-  //   }
-  // };
 
   // const handleUpdateStatusOrder = (updatedOrder) => {
   //   let updatedOrders = orders.map((order) =>
@@ -125,34 +100,7 @@ export default function Orders() {
               ) : (
                 <>
                   {orders?.map((order) => (
-                    <div className="flex gap-5 pt-4" key={order?._id}>
-                      <div className="avatar">
-                        <div className="w-24 h-24 aspect-square rounded-xl">
-                          <img src="https://images.unsplash.com/photo-1534653299134-96a171b61581?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=975&q=80" />
-                        </div>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <h3 className="font-semibold">
-                          Trapstar London Irongate Cream Puffer Jacket
-                        </h3>
-                        <p className="pt-2">EGP {order?.totalOrderPrice}</p>
-                        <span className={`order-status ${order?.orderStatus}`}>
-                          {order?.orderStatus}
-                        </span>
-                        <p>
-                          {new Date(order?.createdAt).toLocaleDateString(
-                            "en-US",
-                            {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                              hour: "numeric",
-                              minute: "numeric",
-                            }
-                          )}
-                        </p>
-                      </div>
-                    </div>
+                    <Order key={order?._id} order={order}/>
                   ))}
                 </>
               )}
