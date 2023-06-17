@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import notify from "../hooks/useNotification";
+import Avatar from "./avatar";
 
 function NavBar({ listOfCategories, loginState, setLoginState }) {
   // console.log("List of categories from navbar", listOfCategories.data);
   // const [loginState, setLoginState] = useState(false);
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
 
   useEffect(() => {
     if (localStorage.getItem("token") != null) {
@@ -235,7 +235,14 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                       className="btn btn-ghost hover:btn-primary btn-circle avatar"
                     >
                       <div className="w-10 rounded-full">
-                        <img src="https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png" />
+                        {user?.profileImg ? (
+                          <img
+                            src={user?.profileImg}
+                            className="w-13 h-11 rounded-full"
+                          />
+                        ) : (
+                          <Avatar></Avatar>
+                        )}
                       </div>
                     </label>
                     <ul
@@ -322,7 +329,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                     return (
                       <li key={category?._id}>
                         <NavLink
-                          to="/shop"
+                          to={`/shop/${category._id}`}
                           className={({ isActive }) =>
                             isActive ? "bg-primary capitalize" : "capitalize"
                           }
@@ -338,9 +345,9 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                 return (
                   <li key={category?._id}>
                     <NavLink
-                      to="/shop"
+                      to={`/shop/${category._id}`}
                       className={({ isActive }) =>
-                        isActive ? "bg-primary capitalize" : "capitalize"
+                        isActive ? "bg-primary capitalize " : "capitalize"
                       }
                     >
                       {category.name}
