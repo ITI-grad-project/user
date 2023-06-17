@@ -24,6 +24,8 @@ const ProfilePhoto = ({ LoggedUser }) => {
       })
       .then((response) => {
         console.log("hello photo", response); // do something with the response
+        // handleEditUserAccount(dataphoto);
+        // setUpdatedphoto(dataphoto);
       });
   };
   return (

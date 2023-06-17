@@ -5,7 +5,7 @@ import Input from "./Input";
 import ProfilePhoto from "./ProfilePhoto";
 import { useState } from "react";
 import axios from "axios";
-import { useRef } from "react";
+// import { useRef } from "react";
 
 const schema = yup.object({
   firstname: yup.string(),
@@ -18,7 +18,7 @@ const schema = yup.object({
     .min(11, "Password should be 11 numbers"),
 });
 
-const Personallnfo = ({ LoggedUser }) => {
+const Personallnfo = ({ LoggedUser, handleEditUserAccount }) => {
   const {
     register,
     handleSubmit,
@@ -27,20 +27,44 @@ const Personallnfo = ({ LoggedUser }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  let FName, LName;
+
+  // const [updatedPhoto, setUpdatedphoto] = useState("");
   const onSubmit = async (data) => {
     try {
+      var gender;
       console.log("Account: dataaaaaaaaaaaa", data);
       setEditbtn(0);
-
+      if (data.female === "on") {
+        gender = "female";
+      } else {
+        gender = "male";
+      }
+      let DataObj = {
+        email: data.email,
+        userName: data.firstname + " " + data.lastname,
+        phone: data.phone,
+        gender: gender,
+      };
+      console.log("edit this ..", DataObj);
       const { update } = await axios.put(
         "https://bekya.onrender.com/api/v1/user/updateMe",
-        { email: data.email },
+        DataObj,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
+      // console.log("update", update);
+      // DataObj = { ...DataObj, profileImg: updatedPhoto };
+      handleEditUserAccount(DataObj);
+      // const FullName = LoggedUser?.userName?.split(" ");
+      // console.log(FullName);
+      // FName = FullName[0];
+      // LName = FullName[1];
+
       // console.log(update);
       // toast.success("data Changed Successfully");
     } catch (err) {
@@ -49,6 +73,11 @@ const Personallnfo = ({ LoggedUser }) => {
   };
 
   const [editbtn, setEditbtn] = useState(0);
+  const [selected, setSelected] = useState("yes");
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    setSelected(event.target.value);
+  };
 
   return (
     <div className="p-6">
@@ -74,7 +103,13 @@ const Personallnfo = ({ LoggedUser }) => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        {editbtn === 1 && <ProfilePhoto LoggedUser={LoggedUser} />}
+        {editbtn === 1 && (
+          <ProfilePhoto
+            LoggedUser={LoggedUser}
+            // handleEditUserAccount={handleEditUserAccount}
+            // setUpdatedphoto={setUpdatedphoto}
+          />
+        )}
         <div className="flex md:flex-row flex-col md:gap-16 gap-4">
           <div>
             {/* <p className="font-[600] mb-2 text-[15px]">First Name</p> */}
@@ -82,6 +117,7 @@ const Personallnfo = ({ LoggedUser }) => {
               label="First Name"
               name="firstname"
               type="text"
+              placeholder={(LoggedUser?.userName?.split(" "))[0] || ""}
               register={register("firstname")}
               errorMessage={errors.firstname?.message}
               disabled={!watch("firstname")}
@@ -93,6 +129,7 @@ const Personallnfo = ({ LoggedUser }) => {
               label="Last Name"
               name="lastname"
               type="text"
+              placeholder={(LoggedUser?.userName?.split(" "))[1] || ""}
               register={register("lastname")}
               errorMessage={errors.lastname?.message}
               disabled={!watch("email")}
@@ -119,6 +156,7 @@ const Personallnfo = ({ LoggedUser }) => {
               label="phone Number"
               name="phone"
               type="tel"
+              placeholder={LoggedUser?.phone}
               register={register("phone")}
               errorMessage={errors.phone?.message}
               disabled={!watch("phone")}
@@ -130,17 +168,24 @@ const Personallnfo = ({ LoggedUser }) => {
           <p className="font-[600] mb-2 text-[15px]">Gender</p>
           <input
             type="radio"
-            name="radio-4"
+            name="gender"
             {...register("male")}
             className="radio radio-primary h-5 w-5"
+            value="no"
+            checked={selected === "no"}
+            onChange={handleChange}
           />
           Male
           <input
             type="radio"
-            name="radio-4"
+            name="gender"
             {...register("female")}
             className="radio radio-primary h-5 w-5"
-            defaultChecked
+            value="yes"
+            checked={selected === "yes"}
+            onChange={handleChange}
+
+            // defaultChecked
             // {...(editbtn === 0 && !watch("radio-4"))}
           />
           Female
