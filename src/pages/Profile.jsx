@@ -8,43 +8,61 @@ import axios from "axios";
 
 const token = localStorage.getItem("token");
 console.log(token);
+
 function Profile() {
   const [LoggedUser, setLoggedUser] = useState([]);
+  const [UserAddress, setUserAddress] = useState([]);
   const [currentTab, setCurrentTab] = useState(1);
   const [activeButton, setActiveButton] = useState(1);
-
-  const BaseURL = "https://bekya.onrender.com";
 
   useEffect(() => {
     async function getUser() {
       await axios
-        .get(`${BaseURL}/api/v1/user/getMe/`, {
+        .get("https://bekya.onrender.com/api/v1/user/getMe/", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((Response) => {
-          setLoggedUser(Response.data.data);
-          console.log("profile Response", Response.data);
+          setLoggedUser(Response?.data?.data);
+          console.log("profile Response", Response?.data);
+        });
+    }
+    async function getAddressUser() {
+      await axios
+        .get("https://bekya.onrender.com/api/v1/addresses/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((Response) => {
+          setUserAddress(Response.data.data);
+          console.log("Address", Response.data.data);
         });
     }
     getUser();
+    getAddressUser();
   }, []);
 
   console.log("profile: User", LoggedUser);
+
+  const handleEditUserAccount = (EditedUser) => {
+    setLoggedUser({ ...LoggedUser, ...EditedUser });
+  };
+
   return (
     <>
       <div className="container mx-auto px-6 md:px-0 lg:px-8 xl:px-8 2xl:px-32 py-10">
         <div className="grid grid-cols-10 lg:grid-cols-10 gap-6">
-          <div className="col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col justify-center items-center lg:border-2 rounded py-8">
-            <div>
+          <div className="h-96 col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col justify-center items-center lg:border-2 rounded py-8">
+            <div className="flex flex-col justify-center items-center">
               <img
                 className="w-28 h-28 object-cover rounded-full mb-2"
-                src={LoggedUser.profileImg}
+                src={LoggedUser?.profileImg}
                 alt=""
               />
               <h3 className="text-center text-[20px] font-[600] mb-3">
-                {LoggedUser.userName}
+                {LoggedUser?.userName}
               </h3>
             </div>
             <div className="flex justify-between flex-col md:flex-row lg:flex-col w-full">
@@ -117,11 +135,14 @@ function Profile() {
           </div>
           <div className="border-2 col-span-10 lg:col-span-8 2xl:col-span-8">
             {currentTab === 1 ? (
-              <Personallnfo LoggedUser={LoggedUser} />
+              <Personallnfo
+                LoggedUser={LoggedUser}
+                handleEditUserAccount={handleEditUserAccount}
+              />
             ) : currentTab === 2 ? (
               <ChangePassword />
             ) : currentTab === 3 ? (
-              <Address />
+              <Address UserAddress={UserAddress} />
             ) : currentTab === 4 ? (
               <Orders />
             ) : (

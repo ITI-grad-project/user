@@ -1,5 +1,5 @@
 import ProductCard from "../components/ProductCard.jsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import PaginationPage from "../components/Pagination.jsx";
 // import { useMemo } from "react";
 import axios from "axios";
@@ -50,7 +50,7 @@ function Shop({ Categories, loginState }) {
   const [currentCategory, setCurrentCategory] = useState(0);
   const [currentCountry, setCurrentCountry] = useState(0);
 
-  let FilteredItems = () => {
+  let FilteredItems = useMemo(() => {
     return currentCategory === 0 && currentCountry === 0
       ? items.data?.filter(
           (item) => item.price > Values[0] && item.price < Values[1]
@@ -76,14 +76,15 @@ function Shop({ Categories, loginState }) {
             item.price > Values[0] &&
             item.price < Values[1]
         );
-  };
+  });
 
-  console.log("FilteredItems", FilteredItems());
+  console.log("FilteredItems", FilteredItems);
   return (
-    <div className="px-20 py-10">
+    <div className="lg:px-36 px-12 py-10">
       <ToastContainer />
-      <div className="grid md:grid-cols-12 max-[700px]:grid-rows-2 gap-8 2xl:gap-0 xl:gap-10 min-2xl:gap-0 md:justify-items-center">
-        <div className="rounded-lg border-[2px] border-[#ECE8E8] md:col-span-4 col-span-3 font-['Roboto'] px-10 h-[46rem]">
+      {/* max-[700px]:grid-rows-2 */}
+      <div className="grid grid-cols-12 w-full xl:gap-12 lg:gap-[5.2rem]">
+        <div className="rounded-lg border-[2px] border-[#ECE8E8] lg:col-span-3 lg:min-w-[15rem] w-full col-span-12 h-[810px] font-['Roboto'] px-10">
           <h2 className="text-[24px] text-primary font-[700] mb-2 mt-3">
             Categories
           </h2>
@@ -123,7 +124,7 @@ function Shop({ Categories, loginState }) {
             );
           })}
 
-          <h2 className="text-[24px] text-primary font-[700] my-5">Country</h2>
+          <h2 className="text-[24px] text-primary font-[700] my-3">Country</h2>
           <div className="form-control">
             <label className="label cursor-pointer justify-start">
               <input
@@ -160,7 +161,7 @@ function Shop({ Categories, loginState }) {
             );
           })}
 
-          <h2 className="text-[24px] text-primary font-[700] mb-2 mt-3">
+          <h2 className="text-[24px] text-primary font-[700] mt-3 mb-4">
             Price Range
           </h2>
           <RangeInput
@@ -170,7 +171,7 @@ function Shop({ Categories, loginState }) {
             MAX={MAX}
           />
         </div>
-        <div className="col-span-9 lg:col-span-8 grid grid-cols-6 md:gap-10 lg:gap-4 grid-flow-row-dense justify-items-center">
+        <div className="lg:col-span-9 w-full col-span-12 flex flex-wrap gap-4 lg:justify-start lg:items-start justify-center items-center lg:mt-0 mt-5">
           {/* <div className="grid grid-cols-6 md:gap-16 grid-flow-row-dense justify-items-center"> */}
           {isLoading ? (
             <ThreeDots color="#FFD336" />
@@ -189,6 +190,11 @@ function Shop({ Categories, loginState }) {
               })}
             </>
           )}
+          {FilteredItems?.map((item, index) => {
+            return (
+              <ProductCard key={index} product={item} loginState={loginState} />
+            );
+          })}
           {/* </div> */}
         </div>
       </div>
@@ -196,6 +202,7 @@ function Shop({ Categories, loginState }) {
         <PaginationPage
           setCurrentPage={setCurrentPage}
           CurrentPage={CurrentPage}
+          // NoOfPages={items?.pagination?.numOfPages}
         />
       </div>
     </div>
