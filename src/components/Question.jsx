@@ -34,6 +34,7 @@ export default function Question({
   });
 
   const formSubmit = async (dataForm) => {
+    console.log(question?.user?.profileImg)
     try {
       setLoading(true);
       // Call Backend
@@ -111,7 +112,7 @@ export default function Question({
               <img
                 src={
                   question?.user?.profileImg ||
-                  JSON.parse(localStorage.getItem("user")).profileImg
+                  "https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png"
                 }
                 alt="user"
                 className="object-cover w-full h-full"
@@ -126,7 +127,8 @@ export default function Question({
                   JSON.parse(localStorage.getItem("user")).userName}
               </h6>
               {/* -------- Question Delete ------ */}
-              {(JSON.parse(localStorage.getItem("user"))._id === question?.user?._id  && 
+              {JSON.parse(localStorage.getItem("user"))._id ===
+                question?.user?._id && (
                 <span
                   onClick={() => handleDeleteQ(question)}
                   className="text-red-800 cursor-pointer"
@@ -142,7 +144,13 @@ export default function Question({
               <div className="flex gap-2 mt-6">
                 <div className="avatar">
                   <div className="w-9 h-9 rounded-full">
-                    <img src={productUser?.profileImg} alt="user" />
+                    <img
+                      src={
+                        productUser?.profileImg ||
+                        "https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png"
+                      }
+                      alt="user"
+                    />
                   </div>
                 </div>
                 <div className="flex flex-col w-full">
