@@ -188,18 +188,28 @@ function ProductCard({
             </div>
             <div className="flex justify-between">
               <div className="flex gap-2 mt-2 self-center">
-                {product.user?.profileImg ? (
-                  <img
-                    src={product.user?.profileImg}
-                    className="w-13 h-11 rounded-full"
-                  />
-                ) : (
-                  <Avatar></Avatar>
-                )}
+                <Link
+                  to={`/userProfile/${product.user?._id}`}
+                  className="hover:scale-110 "
+                >
+                  {product.user?.profileImg ? (
+                    <img
+                      src={product.user?.profileImg}
+                      className="w-13 h-11 rounded-full hover:ring-2 hover:ring-primary"
+                    />
+                  ) : (
+                    <Avatar
+                      ring={"ring-2"}
+                      ringPrimary={"ring-primary"}
+                    ></Avatar>
+                  )}
+                </Link>
+
                 <h3 className="self-center capitalize text-sm">
                   {product.user?.userName}
                 </h3>
               </div>
+
               <div className="self-center flex">
                 {filledStar.map((fStar, idx) => {
                   return (
