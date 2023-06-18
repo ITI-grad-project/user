@@ -102,8 +102,14 @@ function App() {
               />
               <Route
                 path="/productDetails/:productId"
-                element={<ProductDetails />}
-              />
+                element={
+                  <ProductDetails
+                    cartItems={cartItems}
+                    setCartItems={setCartItems}
+                    loginState={loginState}
+                  />
+                }
+              ></Route>
               <Route path="/userProfile" element={<ProfileUser />}></Route>
 
               <Route
