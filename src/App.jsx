@@ -17,6 +17,8 @@ import Cart from "./pages/Cart";
 import Favorite from "./pages/Favourite";
 import AddProduct from "./pages/AddProduct";
 import CheckOut from "./pages/CheckOut";
+import About from "./pages/About";
+
 import Contact from "./pages/ContactUs";
 
 function App() {
@@ -92,7 +94,11 @@ function App() {
                   />
                 }
               />
+
+              <Route path="/about" element={<About />} />
+
               <Route path="/checkout/:id" element={<CheckOut />} />
+
               <Route
                 path="/shop/:id?"
                 element={
@@ -107,6 +113,7 @@ function App() {
                 path="/addProduct/:id"
                 element={<AddProduct listOfCategories={listOfCategories} />}
               />
+
               <Route path="/contact" element={<Contact />} />
             </Route>
           </Routes>
