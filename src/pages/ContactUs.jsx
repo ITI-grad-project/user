@@ -6,9 +6,9 @@ import Input from "../components/Input";
 export default function Contact() {
   return (
     <>
-      <div class="flex flex-col justify-center items-center m-10">
-        <h2 class="font-bold text-3xl text-center">Contact Us</h2>
-        <hr class="w-16 bg-primary h-1 mt-2" />
+      <div className="flex flex-col justify-center items-center m-10">
+        <h2 className="font-bold text-3xl text-center">Contact Us</h2>
+        <hr className="w-16 bg-primary h-1 mt-2" />
       </div>
       <div className="container mx-auto px-6 md:px-8 lg:px-8 xl:px-8 2xl:px-32 ">
         <div className="grid grid-cols-10 lg:grid-cols-10 gap-6">
