@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import notify from "../hooks/useNotification";
 import axios from "axios";
+import Avatar from "../components/avatar";
 
-
-function ProductCard({ product, loginState, cartItems, setCartItems }) {
+function ProductCard({
+  product,
+  loginState,
+  cartItems,
+  setCartItems,
+  setWishlistedItems,
+  wishlistedItems,
+}) {
   // console.log("product from card", product);
 
   const navigate = useNavigate();
@@ -13,34 +20,63 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
   const [wishListed, setWishListed] = useState(false);
 
   const BaseURL = "https://bekya.onrender.com";
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  };
 
-  const toggleWishListed = () => {
+  const toggleWishListed = async (productID) => {
     setWishListed((prevState) => !prevState);
+    console.log(wishListed);
+    if (wishListed) {
+      try {
+        const { data } = await axios.delete(
+          `${BaseURL}/api/v1/wishlist/${productID}`,
+          config
+        );
+        notify(data.message, "warn");
+        const newWishlist = wishlistedItems.filter(
+          (item) => item._id !== productID
+        );
+        console.log(newWishlist);
+        setWishlistedItems(newWishlist);
+      } catch (error) {
+        console.log(error);
+        // notify()
+      }
+    }
   };
 
   const handleAddToWishlist = async (productID) => {
     if (loginState === true) {
-      // const check = cartItems?.find(product._id == productID);
-      // console.log("check", check);
-      const token = localStorage.getItem("token");
-      const prodID = { productId: productID };
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      };
-      try {
-        const response = await axios.post(
-          `${BaseURL}/api/v1/wishlist/`,
-          prodID,
-          config
-        );
-        toggleWishListed();
-        notify("Item Added to wishlist successfully", "success");
-        console.log(response);
-      } catch (error) {
-        console.log(error);
+      if (!wishListed) {
+        // const check = cartItems?.find(product._id == productID);
+        // console.log("check", check);
+        // const token = localStorage.getItem("token");
+        const prodID = { productId: productID };
+        // const config = {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //     "Content-Type": "application/json",
+        //   },
+        // };
+        try {
+          const response = await axios.post(
+            `${BaseURL}/api/v1/wishlist/`,
+            prodID,
+            config
+          );
+          toggleWishListed(productID);
+          notify("Item Added to wishlist successfully", "success");
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        toggleWishListed(productID);
       }
     } else {
       notify("You must login first", "warn");
@@ -72,8 +108,11 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
           prodID,
           config
         );
-        notify("Item Added to cart successfully", "success");
-        console.log(response);
+        if (response.data.status == "fail") {
+          notify(response.data.message, "error");
+        } else {
+          notify(response.data.message, "success");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -86,9 +125,15 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
   };
 
   const maxRating = 5;
-  const filledStar = Array(product.user.ratingQuantity).fill(0);
-  const unFilledStar = Array(maxRating - product.user.ratingQuantity).fill(0);
-  // console.log(unFilledStar);
+  const filledStar = useMemo(() => {
+    return product?.user?.ratingsAverage
+      ? Array(Math.round(product?.user?.ratingsAverage)).fill(0)
+      : [];
+  }, [product?.user?.ratingsAverage]);
+
+  const unFilledStar = useMemo(() => {
+    return Array(Math.round(maxRating - filledStar?.length)).fill(0);
+  }, [maxRating, filledStar?.length]);
 
   return (
     <>
@@ -100,7 +145,6 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                 className="w-full h-full max-h-60"
                 src={`${product?.images[0]?.image}`}
                 alt={product?.title}
-
               />
               <button
                 onClick={() => {
@@ -129,7 +173,6 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
           </figure>
           <div className="p-3 ">
             <div>
-
               <Link
                 to={`/productDetails/${product?._id}`}
                 className="prod-card-container "
@@ -139,17 +182,20 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                 </h2>
               </Link>
 
-
               <h2 className="text-primary font-bold text-lg">
                 EGP {product?.price}
               </h2>
             </div>
             <div className="flex justify-between">
               <div className="flex gap-2 mt-2 self-center">
-                <img
-                  className="rounded-full w-8 h-8"
-                  src={`${product.user?.profileImg}`}
-                />
+                {product.user?.profileImg ? (
+                  <img
+                    src={product.user?.profileImg}
+                    className="w-13 h-11 rounded-full"
+                  />
+                ) : (
+                  <Avatar></Avatar>
+                )}
                 <h3 className="self-center capitalize text-sm">
                   {product.user?.userName}
                 </h3>
@@ -160,11 +206,11 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                     <div key={idx}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        fill="fill"
+                        fill="#F2C76E"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-4 h-4"
+                        stroke="#F2C76E"
+                        className="w-4 h-4 mt-[6px]"
                       >
                         <path
                           strokeLinecap="round"
@@ -179,15 +225,12 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                 {unFilledStar.map((unfStar, idx) => {
                   return (
                     <div key={idx} className="self-center">
-
-               
-
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
-                        stroke="currentColor"
+                        stroke="#F2C76E"
                         className="w-4 h-4"
                       >
                         <path
@@ -200,8 +243,24 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                   );
                 })}
 
-                <div className=" text-xs font-semibold mr-2 px-2.5 py-0.5 rounded bg-yellow-200  ml-1">
-                  5.0
+                <div className="flex justify-center align-middle font-semibold mr-2 px-2.5 py-0.5 rounded bg-yellow-200  ml-1">
+                  <span className=" text-base ">
+                    {product?.user?.ratingQuantity}
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4 mt-[4px] ml-[4px]"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                    />
+                  </svg>
                 </div>
               </div>
             </div>
