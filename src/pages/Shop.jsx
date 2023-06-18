@@ -5,6 +5,8 @@ import PaginationPage from "../components/Pagination.jsx";
 import axios from "axios";
 import RangeInput from "../components/RangeInput.jsx";
 import { ToastContainer } from "react-toastify";
+import { useParams } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 const MIN = 0;
 const MAX = 10000;
@@ -12,22 +14,37 @@ const MAX = 10000;
 function Shop({ Categories, loginState }) {
   const [Values, setValues] = useState([MIN, MAX]);
   const [CurrentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(null);
   const [items, setItems] = useState([]);
+  const { id } = useParams();
 
   useEffect(() => {
     async function getItemsByPage() {
       try {
-        const { data } = await axios.get(
-          CurrentPage === 1
-            ? "https://bekya.onrender.com/api/v1/products?page=1&limit=6"
-            : `https://bekya.onrender.com/api/v1/products?page=${CurrentPage}&limit=6`
-        );
-        setItems(data);
-      } catch (error) {}
+        setIsLoading(true);
+        if (id) {
+          const { data } = await axios.get(
+            CurrentPage === 1
+              ? `https://bekya.onrender.com/api/v1/categories/${id}/products?page=1&limit=6`
+              : `https://bekya.onrender.com/api/v1/categories/${id}/products?page=${CurrentPage}&limit=6`
+          );
+          setItems(data);
+        } else {
+          const { data } = await axios.get(
+            CurrentPage === 1
+              ? "https://bekya.onrender.com/api/v1/products?page=1&limit=6"
+              : `https://bekya.onrender.com/api/v1/products?page=${CurrentPage}&limit=6`
+          );
+          setItems(data);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error.response);
+      }
     }
 
     getItemsByPage();
-  }, [CurrentPage]);
+  }, [CurrentPage, id]);
   console.log("items", items);
 
   const [currentCategory, setCurrentCategory] = useState(0);
@@ -156,6 +173,23 @@ function Shop({ Categories, loginState }) {
         </div>
         <div className="lg:col-span-9 w-full col-span-12 flex flex-wrap gap-4 lg:justify-start lg:items-start justify-center items-center lg:mt-0 mt-5">
           {/* <div className="grid grid-cols-6 md:gap-16 grid-flow-row-dense justify-items-center"> */}
+          {isLoading ? (
+            <ThreeDots color="#FFD336" />
+          ) : (
+            <>
+              {FilteredItems()?.map((item, index) => {
+                return (
+                  <div className="col-span-2 lg:col-span-3 2xl:col-span-2 min-[1700px]:col-span-1">
+                    <ProductCard
+                      key={index}
+                      product={item}
+                      loginState={loginState}
+                    />
+                  </div>
+                );
+              })}
+            </>
+          )}
           {FilteredItems?.map((item, index) => {
             return (
               <ProductCard key={index} product={item} loginState={loginState} />

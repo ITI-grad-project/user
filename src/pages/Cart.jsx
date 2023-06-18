@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 function Cart({ cartItems, setCartItems }) {
   const [numberOfCartItems, setNumberOfCartItems] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  // const [cartItems, setCartItems] = useState([]);
+  const [cartItemsId, setCartItemsId] = useState();
   console.log(cartItems);
 
   const BaseURL = "https://bekya.onrender.com";
@@ -28,11 +28,12 @@ function Cart({ cartItems, setCartItems }) {
       setNumberOfCartItems(data.numberOfCartItems);
       setCartItems(data.userCart.cartItems);
       setTotalPrice(data.userCart.totalPrice);
-      console.log(cartItems);
+      setCartItemsId(data.userCart);
     }
     getLoggedUserCart();
   }, []);
 
+  console.log("hi,=", cartItemsId);
   const handleRemoveFromCart = async (productID) => {
     try {
       const { data } = await axios.delete(
@@ -243,7 +244,7 @@ function Cart({ cartItems, setCartItems }) {
             <p>EGP {totalPrice}</p>
           </div>
           <Link
-            to="/checkout"
+            to={`/checkout/${cartItemsId?._id}`}
             className="btn-sm btn w-full btn-primary mt-3 disabled"
             disabled={`${cartItems.length === 0 ? "disabled" : ""}`}
           >

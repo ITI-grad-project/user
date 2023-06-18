@@ -22,7 +22,6 @@ function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
   const [loginState, setLoginState] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  console.log("cartItems from app", cartItems);
 
   const BaseURL = "https://bekya.onrender.com";
 
@@ -77,9 +76,9 @@ function App() {
                 path="/favorite"
                 element={<Favorite setCartItems={setCartItems} />}
               />
-              <Route path="/checkout" element={<CheckOut />} />
+              <Route path="/checkout/:id" element={<CheckOut />} />
               <Route
-                path="/shop"
+                path="/shop/:id?"
                 element={
                   <Shop Categories={listOfCategories} loginState={loginState} />
                 }
