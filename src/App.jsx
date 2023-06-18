@@ -17,7 +17,7 @@ import Cart from "./pages/Cart";
 import Favorite from "./pages/Favourite";
 import AddProduct from "./pages/AddProduct";
 import CheckOut from "./pages/CheckOut";
-
+import About from "./pages/About";
 
 function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
@@ -68,7 +68,6 @@ function App() {
               />
               <Route path="/profile" element={<Profile />} />
 
-
               <Route
                 path="/cart"
                 element={
@@ -80,18 +79,21 @@ function App() {
                 element={<Favorite setCartItems={setCartItems} />}
               />
               <Route path="/checkout" element={<CheckOut />} />
+              <Route path="/about" element={<About />} />
               <Route
                 path="/shop"
                 element={
                   <Shop Categories={listOfCategories} loginState={loginState} />
                 }
               />
-              <Route path="/productDetails/:productId" element={<ProductDetails />} />
+              <Route
+                path="/productDetails/:productId"
+                element={<ProductDetails />}
+              />
               <Route
                 path="/addProduct/:id"
                 element={<AddProduct listOfCategories={listOfCategories} />}
               />
-
             </Route>
           </Routes>
           {/* <Footer /> */}
