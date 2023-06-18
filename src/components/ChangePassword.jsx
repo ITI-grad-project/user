@@ -8,6 +8,7 @@ import Input from "./Input";
 import EyeShowIcon from "../assets/icons/EyeShowIcon";
 import EyeSlashIcon from "../assets/icons/EyeSlashIcon";
 import { toast } from "react-toastify";
+import notify from "../hooks/useNotification";
 
 const schema = yup.object({
   currentPassword: yup.string().required("required field"),
@@ -49,13 +50,13 @@ export default function ChangePassword() {
         }
       );
       console.log(data);
-      toast.success("Password Changed Successfully");
+      notify("Password Changed Successfully", "success");
     } catch (error) {
       console.log(error);
       setLoading(false);
       const { data } = error.response;
       console.log(data.errors[0]);
-      if(data.errors[0].path === "currentPassword") {toast.error(data.errors[0].msg)}
+      if(data.errors[0].path === "currentPassword") {notify(data.errors[0].msg, "error")}
       // if(data.errors[0].path === "currentPassword") {setError(data.errors[0].msg)}
       // if(data.errors[0].path !== "password" && data.errors[0].path !== "currentPassword"){
       //   toast.error(data.errors[0].msg);

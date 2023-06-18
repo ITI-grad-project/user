@@ -18,6 +18,7 @@ import Favorite from "./pages/Favourite";
 import AddProduct from "./pages/AddProduct";
 import CheckOut from "./pages/CheckOut";
 import ProfileUser from "./pages/profileUser";
+import Contact from "./pages/ContactUs";
 
 function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
@@ -94,6 +95,7 @@ function App() {
                 path="/addProduct/:id"
                 element={<AddProduct listOfCategories={listOfCategories} />}
               />
+              <Route path="/contact" element={<Contact />} />
             </Route>
           </Routes>
           {/* <Footer /> */}
