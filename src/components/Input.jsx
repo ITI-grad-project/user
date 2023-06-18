@@ -6,6 +6,8 @@ export default function Input({
   value,
   register,
   errorMessage,
+  disabled,
+  editbtn,
 }) {
   return (
     <div className="form-control">
@@ -20,10 +22,11 @@ export default function Input({
         type={type}
         placeholder={placeholder}
         value={value}
-        className={`input input-bordered focus:outline-none ${
+        className={`input input-bordered focus:outline-none disabled:placeholder-black disabled:bg-white  ${
           errorMessage ? "invalid" : "focus:border-primary focus:border-2"
         }`}
         {...register}
+        {...(editbtn === 0 && (disabled = { disabled }))}
       />
       {errorMessage && (
         <span className="text-red-500 text-sm">{errorMessage}</span>

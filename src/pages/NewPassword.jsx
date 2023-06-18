@@ -37,6 +37,7 @@ const NewPassword = () => {
       );
       console.log(res);
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.data));
       notify("Password changed", "success");
       setTimeout(() => {
         navigate("/", { replace: true });
