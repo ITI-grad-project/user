@@ -8,10 +8,18 @@ import notify from "../hooks/useNotification";
 import { ToastContainer } from "react-toastify";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
+import Password from "../components/password";
 export default function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  // handle showPassword
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   const {
     register,
     handleSubmit,
@@ -129,12 +137,18 @@ export default function Login() {
             </div>
             <div className="flex flex-col text-secondary py-2">
               <label htmlFor="">Password </label>
-              <input
-                {...register("password", { required: true, minLength: 8 })}
-                className="rounded-lg  bg-white px-3 py-3 mt-2 pt-2 border border-gray-300 focus:border-blue-400 focus:bg-white focus:outline-primary"
-                type="password"
-                placeholder="•••••••••"
-              />
+              <div className="flex justify-around align-middle">
+                <input
+                  {...register("password", { required: true, minLength: 8 })}
+                  className="rounded-lg w-full bg-white px-3 py-3 mt-2 pt-2 border border-gray-300 focus:border-blue-400 focus:bg-white focus:outline-primary"
+                  placeholder="•••••••••"
+                  type={showPassword ? "text" : "password"}
+                />
+                <Password
+                  showPassword={showPassword}
+                  handleShowPassword={handleShowPassword}
+                ></Password>
+              </div>
               {errors.password?.type === "required" && (
                 <span className="text-red-500 mt-2">Password is required</span>
               )}

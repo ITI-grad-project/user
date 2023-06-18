@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import notify from "../hooks/useNotification";
 import axios from "axios";
+import Avatar from "../components/avatar";
 
 function ProductCard({
   product,
@@ -107,8 +108,11 @@ function ProductCard({
           prodID,
           config
         );
-        notify("Item Added to cart successfully", "success");
-        console.log(response);
+        if (response.data.status == "fail") {
+          notify(response.data.message, "error");
+        } else {
+          notify(response.data.message, "success");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -121,9 +125,15 @@ function ProductCard({
   };
 
   const maxRating = 5;
-  const filledStar = Array(product.user.ratingQuantity).fill(0);
-  const unFilledStar = Array(maxRating - product.user.ratingQuantity).fill(0);
-  // console.log(unFilledStar);
+  const filledStar = useMemo(() => {
+    return product?.user?.ratingsAverage
+      ? Array(Math.round(product?.user?.ratingsAverage)).fill(0)
+      : [];
+  }, [product?.user?.ratingsAverage]);
+
+  const unFilledStar = useMemo(() => {
+    return Array(Math.round(maxRating - filledStar?.length)).fill(0);
+  }, [maxRating, filledStar?.length]);
 
   return (
     <>
@@ -178,14 +188,14 @@ function ProductCard({
             </div>
             <div className="flex justify-between">
               <div className="flex gap-2 mt-2 self-center">
-                <img
-                  className="rounded-full w-8 h-8"
-                  src={
-                    product.user?.profileImg
-                      ? product.user?.profileImg
-                      : "https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png"
-                  }
-                />
+                {product.user?.profileImg ? (
+                  <img
+                    src={product.user?.profileImg}
+                    className="w-13 h-11 rounded-full"
+                  />
+                ) : (
+                  <Avatar></Avatar>
+                )}
                 <h3 className="self-center capitalize text-sm">
                   {product.user?.userName}
                 </h3>
@@ -196,11 +206,11 @@ function ProductCard({
                     <div key={idx}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        fill="fill"
+                        fill="#F2C76E"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-4 h-4"
+                        stroke="#F2C76E"
+                        className="w-4 h-4 mt-[6px]"
                       >
                         <path
                           strokeLinecap="round"
@@ -220,7 +230,7 @@ function ProductCard({
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
-                        stroke="currentColor"
+                        stroke="#F2C76E"
                         className="w-4 h-4"
                       >
                         <path
@@ -233,8 +243,24 @@ function ProductCard({
                   );
                 })}
 
-                <div className=" text-xs font-semibold mr-2 px-2.5 py-0.5 rounded bg-yellow-200  ml-1">
-                  5.0
+                <div className="flex justify-center align-middle font-semibold mr-2 px-2.5 py-0.5 rounded bg-yellow-200  ml-1">
+                  <span className=" text-base ">
+                    {product?.user?.ratingQuantity}
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4 mt-[4px] ml-[4px]"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                    />
+                  </svg>
                 </div>
               </div>
             </div>

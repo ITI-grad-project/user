@@ -91,9 +91,9 @@ function App() {
                   />
                 }
               />
-              <Route path="/checkout" element={<CheckOut />} />
+              <Route path="/checkout/:id" element={<CheckOut />} />
               <Route
-                path="/shop"
+                path="/shop/:id?"
                 element={
                   <Shop Categories={listOfCategories} loginState={loginState} />
                 }
