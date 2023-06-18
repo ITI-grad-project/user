@@ -18,7 +18,12 @@ const schema = yup.object({
     .min(11, "Password should be 11 numbers"),
 });
 
-const Personallnfo = ({ LoggedUser, handleEditUserAccount }) => {
+const Personallnfo = ({
+  LoggedUser,
+  handleEditUserAccount,
+  imgFile,
+  setImgFile,
+}) => {
   const {
     register,
     handleSubmit,
@@ -106,6 +111,8 @@ const Personallnfo = ({ LoggedUser, handleEditUserAccount }) => {
         {editbtn === 1 && (
           <ProfilePhoto
             LoggedUser={LoggedUser}
+            imgFile={imgFile}
+            setImgFile={setImgFile}
             // handleEditUserAccount={handleEditUserAccount}
             // setUpdatedphoto={setUpdatedphoto}
           />
@@ -117,7 +124,11 @@ const Personallnfo = ({ LoggedUser, handleEditUserAccount }) => {
               label="First Name"
               name="firstname"
               type="text"
-              placeholder={(LoggedUser?.userName?.split(" "))[0] || ""}
+              placeholder={
+                LoggedUser?.userName
+                  ? (LoggedUser?.userName?.split(" "))[0]
+                  : " "
+              }
               register={register("firstname")}
               errorMessage={errors.firstname?.message}
               disabled={!watch("firstname")}
@@ -129,7 +140,11 @@ const Personallnfo = ({ LoggedUser, handleEditUserAccount }) => {
               label="Last Name"
               name="lastname"
               type="text"
-              placeholder={(LoggedUser?.userName?.split(" "))[1] || ""}
+              placeholder={
+                LoggedUser?.userName
+                  ? (LoggedUser?.userName?.split(" "))[1]
+                  : " "
+              }
               register={register("lastname")}
               errorMessage={errors.lastname?.message}
               disabled={!watch("email")}

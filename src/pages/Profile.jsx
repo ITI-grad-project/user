@@ -14,6 +14,7 @@ function Profile() {
   const [UserAddress, setUserAddress] = useState([]);
   const [currentTab, setCurrentTab] = useState(1);
   const [activeButton, setActiveButton] = useState(1);
+  const [imgFile, setImgFile] = useState([]);
 
   useEffect(() => {
     async function getUser() {
@@ -42,12 +43,17 @@ function Profile() {
     }
     getUser();
     getAddressUser();
-  }, []);
+  }, [imgFile]);
 
   console.log("profile: User", LoggedUser);
 
   const handleEditUserAccount = (EditedUser) => {
     setLoggedUser({ ...LoggedUser, ...EditedUser });
+  };
+  const handleAddAddress = (NewAdd) => {
+    console.log("newwwwwwwwwwww", NewAdd);
+    console.log("olddddddd", UserAddress);
+    setUserAddress([...UserAddress, NewAdd]);
   };
 
   return (
@@ -138,11 +144,17 @@ function Profile() {
               <Personallnfo
                 LoggedUser={LoggedUser}
                 handleEditUserAccount={handleEditUserAccount}
+                imgFile={imgFile}
+                setImgFile={setImgFile}
               />
             ) : currentTab === 2 ? (
               <ChangePassword />
             ) : currentTab === 3 ? (
-              <Address UserAddress={UserAddress} />
+              <Address
+                UserAddress={UserAddress}
+                handleAddAddress={handleAddAddress}
+                setUserAddress={setUserAddress}
+              />
             ) : currentTab === 4 ? (
               <Orders />
             ) : (
