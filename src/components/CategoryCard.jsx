@@ -7,6 +7,7 @@ function CategoryCard({ category }) {
     <>
       <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
         <Link
+          to="/shop"
           className="card card-compact w-48 bg-base-100 shadow-xl"
           key={category?._id}
         >

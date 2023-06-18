@@ -4,8 +4,14 @@ import { motion } from "framer-motion";
 import notify from "../hooks/useNotification";
 import axios from "axios";
 
-
-function ProductCard({ product, loginState, cartItems, setCartItems }) {
+function ProductCard({
+  product,
+  loginState,
+  cartItems,
+  setCartItems,
+  setWishlistedItems,
+  wishlistedItems,
+}) {
   // console.log("product from card", product);
 
   const navigate = useNavigate();
@@ -13,34 +19,63 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
   const [wishListed, setWishListed] = useState(false);
 
   const BaseURL = "https://bekya.onrender.com";
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  };
 
-  const toggleWishListed = () => {
+  const toggleWishListed = async (productID) => {
     setWishListed((prevState) => !prevState);
+    console.log(wishListed);
+    if (wishListed) {
+      try {
+        const { data } = await axios.delete(
+          `${BaseURL}/api/v1/wishlist/${productID}`,
+          config
+        );
+        notify(data.message, "warn");
+        const newWishlist = wishlistedItems.filter(
+          (item) => item._id !== productID
+        );
+        console.log(newWishlist);
+        setWishlistedItems(newWishlist);
+      } catch (error) {
+        console.log(error);
+        // notify()
+      }
+    }
   };
 
   const handleAddToWishlist = async (productID) => {
     if (loginState === true) {
-      // const check = cartItems?.find(product._id == productID);
-      // console.log("check", check);
-      const token = localStorage.getItem("token");
-      const prodID = { productId: productID };
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      };
-      try {
-        const response = await axios.post(
-          `${BaseURL}/api/v1/wishlist/`,
-          prodID,
-          config
-        );
-        toggleWishListed();
-        notify("Item Added to wishlist successfully", "success");
-        console.log(response);
-      } catch (error) {
-        console.log(error);
+      if (!wishListed) {
+        // const check = cartItems?.find(product._id == productID);
+        // console.log("check", check);
+        // const token = localStorage.getItem("token");
+        const prodID = { productId: productID };
+        // const config = {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //     "Content-Type": "application/json",
+        //   },
+        // };
+        try {
+          const response = await axios.post(
+            `${BaseURL}/api/v1/wishlist/`,
+            prodID,
+            config
+          );
+          toggleWishListed(productID);
+          notify("Item Added to wishlist successfully", "success");
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        toggleWishListed(productID);
       }
     } else {
       notify("You must login first", "warn");
@@ -100,7 +135,6 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                 className="w-full h-full max-h-60"
                 src={`${product?.images[0]?.image}`}
                 alt={product?.title}
-
               />
               <button
                 onClick={() => {
@@ -129,7 +163,6 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
           </figure>
           <div className="p-3 ">
             <div>
-
               <Link
                 to={`/productDetails/${product?._id}`}
                 className="prod-card-container "
@@ -139,7 +172,6 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                 </h2>
               </Link>
 
-
               <h2 className="text-primary font-bold text-lg">
                 EGP {product?.price}
               </h2>
@@ -148,7 +180,11 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
               <div className="flex gap-2 mt-2 self-center">
                 <img
                   className="rounded-full w-8 h-8"
-                  src={`${product.user?.profileImg}`}
+                  src={
+                    product.user?.profileImg
+                      ? product.user?.profileImg
+                      : "https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png"
+                  }
                 />
                 <h3 className="self-center capitalize text-sm">
                   {product.user?.userName}
@@ -179,9 +215,6 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                 {unFilledStar.map((unfStar, idx) => {
                   return (
                     <div key={idx} className="self-center">
-
-               
-
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
