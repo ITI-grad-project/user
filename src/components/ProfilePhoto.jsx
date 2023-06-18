@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import axios from "axios";
 
-const ProfilePhoto = ({ LoggedUser }) => {
-  const [imgFile, setImgFile] = useState([]);
+const ProfilePhoto = ({ LoggedUser, imgFile, setImgFile }) => {
+  // const [imgFile, setImgFile] = useState([]);
   const [initalPhoto, setinitalPhoto] = useState(0);
 
   const FileInput = useRef();
