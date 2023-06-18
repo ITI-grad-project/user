@@ -173,7 +173,7 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                         fill="#F2C76E"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
-                        stroke="currentColor"
+                        stroke="#F2C76E"
                         className="w-4 h-4 mt-[6px]"
                       >
                         <path
@@ -194,7 +194,7 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
-                        stroke="currentColor"
+                        stroke="#F2C76E"
                         className="w-4 h-4"
                       >
                         <path

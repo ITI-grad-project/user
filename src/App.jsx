@@ -17,6 +17,7 @@ import Cart from "./pages/Cart";
 import Favorite from "./pages/Favourite";
 import AddProduct from "./pages/AddProduct";
 import CheckOut from "./pages/CheckOut";
+import ProfileUser from "./pages/profileUser";
 
 function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
@@ -87,6 +88,8 @@ function App() {
                 path="/productDetails/:productId"
                 element={<ProductDetails />}
               />
+              <Route path="/userProfile" element={<ProfileUser />}></Route>
+
               <Route
                 path="/addProduct/:id"
                 element={<AddProduct listOfCategories={listOfCategories} />}
