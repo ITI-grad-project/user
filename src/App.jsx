@@ -27,6 +27,7 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
   const [wishlistedItems, setWishlistedItems] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   console.log("cartItems from app", cartItems);
 
@@ -60,6 +61,8 @@ function App() {
                   listOfCategories={listOfCategories}
                   setLoginState={setLoginState}
                   loginState={loginState}
+                  searchQuery={searchQuery}
+                  setSearchQuery={setSearchQuery}
                 />
               }
             >
@@ -102,7 +105,12 @@ function App() {
               <Route
                 path="/shop/:id?"
                 element={
-                  <Shop Categories={listOfCategories} loginState={loginState} />
+                  <Shop
+                    Categories={listOfCategories}
+                    loginState={loginState}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                  />
                 }
               />
               <Route
