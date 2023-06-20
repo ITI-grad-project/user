@@ -177,7 +177,7 @@ function Shop({ Categories, loginState }) {
             <ThreeDots color="#FFD336" />
           ) : (
             <>
-              {FilteredItems()?.map((item, index) => {
+              {FilteredItems?.map((item, index) => {
                 return (
                   <div className="col-span-2 lg:col-span-3 2xl:col-span-2 min-[1700px]:col-span-1">
                     <ProductCard

@@ -86,7 +86,7 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
           // console.log(address);
           AddressEditBtn === 1 && index > 0 ? null : (
             <div
-              key={index}
+              key={address._id}
               className={AddressEditBtn === 0 && `border-2 p-6 mb-4`}
             >
               <div className="flex justify-between">
