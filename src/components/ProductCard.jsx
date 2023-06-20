@@ -5,7 +5,14 @@ import notify from "../hooks/useNotification";
 import axios from "axios";
 import Avatar from "../components/avatar";
 
-function ProductCard({ product, loginState, cartItems, setCartItems }) {
+function ProductCard({
+  product,
+  loginState,
+  cartItems,
+  setCartItems,
+  setWishlistedItems,
+  wishlistedItems,
+}) {
   // console.log("product from card", product);
 
   const navigate = useNavigate();
@@ -13,34 +20,63 @@ function ProductCard({ product, loginState, cartItems, setCartItems }) {
   const [wishListed, setWishListed] = useState(false);
 
   const BaseURL = "https://bekya.onrender.com";
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  };
 
-  const toggleWishListed = () => {
+  const toggleWishListed = async (productID) => {
     setWishListed((prevState) => !prevState);
+    console.log(wishListed);
+    if (wishListed) {
+      try {
+        const { data } = await axios.delete(
+          `${BaseURL}/api/v1/wishlist/${productID}`,
+          config
+        );
+        notify(data.message, "warn");
+        const newWishlist = wishlistedItems.filter(
+          (item) => item._id !== productID
+        );
+        console.log(newWishlist);
+        setWishlistedItems(newWishlist);
+      } catch (error) {
+        console.log(error);
+        // notify()
+      }
+    }
   };
 
   const handleAddToWishlist = async (productID) => {
     if (loginState === true) {
-      // const check = cartItems?.find(product._id == productID);
-      // console.log("check", check);
-      const token = localStorage.getItem("token");
-      const prodID = { productId: productID };
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      };
-      try {
-        const response = await axios.post(
-          `${BaseURL}/api/v1/wishlist/`,
-          prodID,
-          config
-        );
-        toggleWishListed();
-        notify("Item Added to wishlist successfully", "success");
-        console.log(response);
-      } catch (error) {
-        console.log(error);
+      if (!wishListed) {
+        // const check = cartItems?.find(product._id == productID);
+        // console.log("check", check);
+        // const token = localStorage.getItem("token");
+        const prodID = { productId: productID };
+        // const config = {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //     "Content-Type": "application/json",
+        //   },
+        // };
+        try {
+          const response = await axios.post(
+            `${BaseURL}/api/v1/wishlist/`,
+            prodID,
+            config
+          );
+          toggleWishListed(productID);
+          notify("Item Added to wishlist successfully", "success");
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        toggleWishListed(productID);
       }
     } else {
       notify("You must login first", "warn");

@@ -39,7 +39,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                 placeholder="Search for items..."
                 className="input input-bordered input-primary input-sm"
               />
-              <div className="btn-primary rounded-lg p-2 absolute right-0">
+              <div className="btn-primary rounded-lg p-2 absolute right-0 hover:cursor-pointer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -57,7 +57,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
               </div>
             </div>
           </div>
-          <div className=" flex gap-4 justify-between  mt-3 sm:mr-28 ">
+          <div className=" flex gap-4 justify-between mt-3 sm:mr-28 ">
             <div className="dropdown self-start">
               <label tabIndex={0} className="btn btn-ghost lg:hidden">
                 <svg

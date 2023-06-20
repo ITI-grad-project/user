@@ -16,7 +16,35 @@
   border: 1px solid red;
   box-shadow: 0 0 2px rgba(255, 0, 0, 0.845);
 }
-
+.pending{
+  @apply text-yellow-800 bg-yellow-200 bg-opacity-70 
+}
+.delivered{
+  @apply text-green-800 bg-green-200 bg-opacity-70
+}
+.shipped{
+  @apply text-blue-800 bg-blue-200 bg-opacity-70
+}
+.canceled{
+  @apply text-red-800 bg-red-200 bg-opacity-70
+}
+@layer components {
+  .order-status{
+    @apply py-1.5 px-6 w-28 text-center text-sm font-semibold rounded-2xl capitalize
+  }
+  /* .pending{
+    @apply text-yellow-800 bg-yellow-200 bg-opacity-70 
+  }
+  .delivered{
+    @apply text-green-800 bg-green-200 bg-opacity-70
+  }
+  .shipped{
+    @apply text-blue-800 bg-blue-200 bg-opacity-70
+  }
+  .canceled{
+    @apply text-red-800 bg-red-200 bg-opacity-70
+  } */
+}
 .range-slider__range,
 .range-slider__thumb {
   background-color: #ffd336 !important;

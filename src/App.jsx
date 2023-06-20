@@ -17,17 +17,26 @@ import Cart from "./pages/Cart";
 import Favorite from "./pages/Favourite";
 import AddProduct from "./pages/AddProduct";
 import CheckOut from "./pages/CheckOut";
+import About from "./pages/About";
+
+import Contact from "./pages/ContactUs";
 
 function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
   const [loginState, setLoginState] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [isCategoryLoading, setIsCategoryLoading] = useState(false);
+  const [wishlistedItems, setWishlistedItems] = useState([]);
+
+  console.log("cartItems from app", cartItems);
 
   const BaseURL = "https://bekya.onrender.com";
 
   useEffect(() => {
+    setIsCategoryLoading(true);
     async function getAllCategories() {
       const { data } = await axios.get(`${BaseURL}/api/v1/categories`);
+      setIsCategoryLoading(false);
       setListOfCategories(data.data);
     }
     getAllCategories();
@@ -61,6 +70,9 @@ function App() {
                     listOfCategories={listOfCategories}
                     setLoginState={setLoginState}
                     loginState={loginState}
+                    isCategoryLoading={isCategoryLoading}
+                    wishlistedItems={wishlistedItems}
+                    setWishlistedItems={setWishlistedItems}
                   />
                 }
               />
@@ -74,9 +86,19 @@ function App() {
               />
               <Route
                 path="/favorite"
-                element={<Favorite setCartItems={setCartItems} />}
+                element={
+                  <Favorite
+                    setCartItems={setCartItems}
+                    wishlistedItems={wishlistedItems}
+                    setWishlistedItems={setWishlistedItems}
+                  />
+                }
               />
+
+              <Route path="/about" element={<About />} />
+
               <Route path="/checkout/:id" element={<CheckOut />} />
+
               <Route
                 path="/shop/:id?"
                 element={
@@ -91,6 +113,8 @@ function App() {
                 path="/addProduct/:id"
                 element={<AddProduct listOfCategories={listOfCategories} />}
               />
+
+              <Route path="/contact" element={<Contact />} />
             </Route>
           </Routes>
           {/* <Footer /> */}
