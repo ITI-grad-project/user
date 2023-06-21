@@ -20,8 +20,8 @@ function Shop({ Categories, loginState, searchQuery }) {
   const [currentCategory, setCurrentCategory] = useState(0);
   const [currentCountry, setCurrentCountry] = useState(0);
   const [price, setPrice] = useState([]);
-  let countries = ["Egypt", "Ismailia", "Portsaid", "Alexandria"];
   const { id } = useParams();
+  let countries = ["Egypt", "Ismailia", "Portsaid", "Alexandria"];
   let url = `${BaseURL}/products?`;
 
   useEffect(() => {

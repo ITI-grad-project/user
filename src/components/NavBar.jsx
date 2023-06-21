@@ -24,6 +24,9 @@ function NavBar({
     console.log(event.target.value);
     setSearchQuery(event.target.value);
   };
+  const handleNavigate = () => {
+    navigate(`/shop/`);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -44,38 +47,34 @@ function NavBar({
           </div>
           <div>
             <div className="form-control relative w-96 h-fit">
-              {location.pathname == "/" ? (
-                <h1 className="flex justify-center font-bold shadow-sm text-xl text-primary">
-                  welcome in MYReFurB
-                </h1>
-              ) : (
-                <>
-                  <input
-                    type="text"
-                    placeholder="Search for items..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    className="input input-bordered input-primary input-sm"
-                  />
-
-                  <div className="btn-primary rounded-lg p-2 absolute right-0 hover:cursor-pointer">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-4 h-4 text-white font-semibold"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                      />
-                    </svg>
-                  </div>
-                </>
-              )}
+              <>
+                <input
+                  type="text"
+                  placeholder="Search for items..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  className="input input-bordered input-primary input-sm"
+                />
+                <div
+                  onClick={handleNavigate}
+                  className="btn-primary rounded-lg p-2 absolute right-0 hover:cursor-pointer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4 text-white font-semibold"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    />
+                  </svg>
+                </div>
+              </>
             </div>
           </div>
           <div className=" flex gap-4 justify-between mt-3 sm:mr-28 ">

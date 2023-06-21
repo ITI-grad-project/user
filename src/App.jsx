@@ -29,8 +29,6 @@ function App() {
   const [wishlistedItems, setWishlistedItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  console.log("cartItems from app", cartItems);
-
   const BaseURL = "https://bekya.onrender.com";
 
   useEffect(() => {

@@ -20,11 +20,7 @@ function Home({
   const [isLoading, setIsLoading] = useState(false);
 
   const { listOfProducts, setListOfProducts } = useContext(ProductContext);
-  console.log(listOfProducts);
   const BaseURL = "https://bekya.onrender.com";
-
-  // const ourItems = [...listOfProducts.data].reverse();
-  // console.log(ourItems);
 
   useEffect(() => {
     setIsLoading(true);

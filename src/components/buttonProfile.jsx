@@ -7,7 +7,6 @@ function ButtonProfile({
   title,
   number,
 }) {
-  console.log(number, title);
   return (
     <button
       className={`py-1 text-lg font-medium rounded lg:w-full px-10 ${

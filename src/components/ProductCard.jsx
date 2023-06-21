@@ -30,7 +30,6 @@ function ProductCard({
 
   const toggleWishListed = async (productID) => {
     setWishListed((prevState) => !prevState);
-    console.log(wishListed);
     if (wishListed) {
       try {
         const { data } = await axios.delete(
@@ -41,7 +40,6 @@ function ProductCard({
         const newWishlist = wishlistedItems.filter(
           (item) => item._id !== productID
         );
-        console.log(newWishlist);
         setWishlistedItems(newWishlist);
       } catch (error) {
         console.log(error);
@@ -87,12 +85,8 @@ function ProductCard({
   };
 
   const handleAddToCart = async (productID) => {
-    console.log("productID", productID);
-    console.log("login state", loginState);
-
     if (loginState === true) {
       const check = cartItems?.find(product._id == productID);
-      console.log("check", check);
       const token = localStorage.getItem("token");
       const prodID = { productId: productID };
 
