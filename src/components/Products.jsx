@@ -38,7 +38,7 @@ export default function Products() {
   const handleDeleteProduct = async (product) => {
     try {
       const { data } = await axios.delete(
-        `https://bekya.onrender.com/api/v1/productss/${product?._id}`,
+        `https://bekya.onrender.com/api/v1/products/${product?._id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
