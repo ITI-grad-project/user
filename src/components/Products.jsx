@@ -5,6 +5,8 @@ import { ThreeDots } from "react-loader-spinner";
 import TrashIcon from "../assets/icons/TrashIcon";
 import EditIcon from "../assets/icons/EditIcon";
 import PlusIcon from "../assets/icons/PlusIcon";
+import { Link } from "react-router-dom";
+import notify from "../hooks/useNotification";
 
 export default function Products() {
   const [products, setProducts] = useState();
@@ -32,17 +34,36 @@ export default function Products() {
 
     getMyProducts();
   }, []);
+
+  const handleDeleteProduct = async (product) => {
+    try {
+      const { data } = await axios.delete(
+        `https://bekya.onrender.com/api/v1/productss/${product?._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      // Update app state
+      setProducts(products.filter((p) => p._id !== product._id));
+      notify("Product Deleted Successfully", "success");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="p-6">
       <div className="flex flex-col gap-2 sm:gap-0 sm:flex-row sm:justify-between sm:items-center md:mb-3">
         <h4 className="font-bold text-lg text-primary">My Products</h4>
-        <button className="btn btn-primary h-[2.5rem] min-h-[2.5rem] text-white normal-case md:max-w-[20%]">
-          <span className="pr-2">
-            {" "}
-            <PlusIcon />{" "}
-          </span>{" "}
-          Add Product
-        </button>
+        <Link to={"/addProduct/add"} className="btn btn-primary h-[2.5rem] min-h-[2.5rem] text-white normal-case md:max-w-[20%]">
+            <span className="pr-2">
+              {" "}
+              <PlusIcon />{" "}
+            </span>{" "}
+            Add Product
+        </Link>
       </div>
       <div className="overflow-x-auto hidden md:block">
         {!loading && !products ? (
@@ -86,12 +107,12 @@ export default function Products() {
                       </td>
                       <td>EGP {product?.price}</td>
                       <td>
-                        <span className="text-sky-800 cursor-pointer">
+                        <Link to={`/addProduct/${product?._id}`} className="text-sky-800 cursor-pointer">
                           <EditIcon />
-                        </span>
+                        </Link>
                       </td>
                       <td>
-                        <span className="text-red-800 cursor-pointer">
+                        <span onClick={() => handleDeleteProduct(product)} className="text-red-800 cursor-pointer">
                           <TrashIcon />
                         </span>
                       </td>
@@ -133,11 +154,11 @@ export default function Products() {
                           {product?.title}
                         </h3>
                         <p className="pt-2">EGP {product?.price}</p>
-                        <span className="text-sky-800 cursor-pointer flex gap-2 mb-1">
+                        <Link to={`/addProduct/${product?._id}`} className="text-sky-800 cursor-pointer flex gap-2 mb-1">
                           <EditIcon /> Edit
-                        </span>
+                        </Link>
                         <p>
-                          <span className="text-red-800 cursor-pointer flex gap-2">
+                          <span onClick={() => handleDeleteProduct(product)} className="text-red-800 cursor-pointer flex gap-2">
                             <TrashIcon /> Remove
                           </span>
                         </p>

@@ -73,7 +73,7 @@ export default function Order({ order }) {
           </thead>
           <tbody className="divide-y divide-gray-200">
             {order?.cartItems?.map((item) => (
-              <tr key={item?.product?._id}>
+              <tr key={item?._id}>
                 <th className="w-24">
                   <div className="avatar">
                     <div className="w-24 rounded-xl">
@@ -144,7 +144,7 @@ export default function Order({ order }) {
       ):("")}
         <div>
           {order?.cartItems?.map((item) => (
-            <div key={item?.product?._id} className="flex gap-5 pt-4">
+            <div key={item?._id} className="flex gap-5 pt-4">
               <div className="avatar">
                 <div className="w-24 h-24 aspect-square rounded-xl">
                   <img src={item?.product?.images[0]?.image} />
