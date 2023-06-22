@@ -21,7 +21,14 @@ function Shop({ Categories, loginState, searchQuery }) {
   const [currentCountry, setCurrentCountry] = useState(0);
   const [price, setPrice] = useState([]);
   const { id } = useParams();
-  let countries = ["Egypt", "Ismailia", "Portsaid", "Alexandria"];
+  let countries = [
+    "Cairo",
+    "Ismailia",
+    "Port Said",
+    "Alexandria",
+    "Suez",
+    "Giza",
+  ];
   let url = `${BaseURL}/products?`;
 
   useEffect(() => {
