@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,6 +15,8 @@ import Question from "../components/Question";
 import QuestionIcon from "../assets/icons/QuestionIcon";
 import QAInput from "../components/QAInput";
 import { ThreeDots } from "react-loader-spinner";
+import notify from "../hooks/useNotification";
+import { ToastContainer } from "react-toastify";
 
 const schema = yup.object({
   question: yup
@@ -23,13 +25,19 @@ const schema = yup.object({
     .min(5, "Answer must be at least 5 characters"),
 });
 
-export default function ProductDetails() {
+export default function ProductDetails({
+  cartItems,
+  setCartItems,
+  loginState,
+}) {
   const { productId } = useParams();
   const [product, setProduct] = useState();
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [indexActive, setIndexActive] = useState(0);
   const [showFav, setShowFav] = useState(false);
+  const navigate = useNavigate();
+  const BaseURL = "https://bekya.onrender.com";
 
   useEffect(() => {
     async function getProductDetails() {
@@ -63,7 +71,38 @@ export default function ProductDetails() {
     getProductDetails();
     // getProductQuestions();
   }, []);
+  const handleAddToCart = async (productID) => {
+    console.log(loginState);
+    if (loginState === true) {
+      const prodID = { productId: productID };
 
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      };
+      try {
+        const response = await axios.post(
+          `${BaseURL}/api/v1/cart/`,
+          prodID,
+          config
+        );
+        if (response.data.status == "fail") {
+          notify(response.data.message, "error");
+        } else {
+          notify(response.data.message, "success");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      notify("You must login first", "warn");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
+  };
   const {
     handleSubmit,
     register,
@@ -109,7 +148,7 @@ export default function ProductDetails() {
     setQuestions(newQuestion);
   };
   const handleAddNewQuestion = (NewQuestion) => {
-    console.log(NewQuestion)
+    console.log(NewQuestion);
     setQuestions([...questions, NewQuestion]);
   };
 
@@ -129,6 +168,7 @@ export default function ProductDetails() {
 
   return (
     <div className="max-w-7xl mx-auto p-8">
+      <ToastContainer></ToastContainer>
       <div className="flex flex-col gap-16">
         <div className="flex flex-col justify-between lg:flex-row gap-16 lg:items-start">
           {/* Images */}
@@ -180,7 +220,13 @@ export default function ProductDetails() {
             <div className="flex gap-2 items-center">
               <div className="avatar">
                 <div className="w-12 rounded-full">
-                  <img src={product?.user?.profileImg || "https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png"} alt="user" />
+                  <img
+                    src={
+                      product?.user?.profileImg ||
+                      "https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png"
+                    }
+                    alt="user"
+                  />
                 </div>
               </div>
               <div>
@@ -217,11 +263,16 @@ export default function ProductDetails() {
             </div>
             <div className="flex">
               <span className="pr-2 text-center">
-                <PhoneIcon w={"w-6"} h={"h-6"}/>
+                <PhoneIcon w={"w-6"} h={"h-6"} />
               </span>
               +2{product?.phone}
             </div>
-            <button className="btn btn-primary text-white normal-case lg:w-[70%] md:w-[70%] mt-6">
+            <button
+              className="btn btn-primary text-white normal-case lg:w-[70%] md:w-[70%] mt-6"
+              onClick={() => {
+                handleAddToCart(product._id);
+              }}
+            >
               <span className="pr-2">
                 {" "}
                 <CartIcon />{" "}
@@ -246,15 +297,15 @@ export default function ProductDetails() {
               <img src="/images/No Question.png" alt="" className="w-48 h-48" />
               <p className="text-xl font-bold">No Question Yet</p>
             </div>
-          ):(
+          ) : (
             <>
-            {!questions?.length && loading ? (
+              {!questions?.length && loading ? (
                 <ThreeDots
                   wrapperClass="text-primary flex justify-center items-center"
                   color="currentColor"
                 />
               ) : (
-                <> 
+                <>
                   {questions?.map((question) => (
                     <Question
                       key={question?._id}

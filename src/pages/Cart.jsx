@@ -138,26 +138,26 @@ function Cart({ cartItems, setCartItems }) {
                   return (
                     <div
                       className="mt-4 flex flex-row justify-between border-b-2 border-base-300"
-                      key={product._id}
+                      key={product?._id}
                     >
                       <div className="flex gap-4">
-                        <Link to={`/productDetails/${product.product._id}`}>
+                        <Link to={`/productDetails/${product?.product?._id}`}>
                           <img
                             className="h-32 w-32 rounded-xl mb-4"
-                            src={`${product.product.images[0]?.image}`}
+                            src={`${product?.product?.images[0]?.image}`}
                             alt="image description"
                           />
                         </Link>
                         <div>
                           <Link
-                            to={`/productDetails/${product.product._id}`}
+                            to={`/productDetails/${product?.product?._id}`}
                             className="font-bold capitalize hover:text-primary hover:underline"
                           >
-                            {product.product.title}
+                            {product?.product?.title}
                           </Link>
                           <div
                             onClick={() => {
-                              handleRemoveFromCart(product._id);
+                              handleRemoveFromCart(product?._id);
                             }}
                             href="#"
                             className="text-xs text-red-400 hover:text-red-500 hover:underline hover:cursor-pointer mt-1 flex gap-1"
@@ -168,7 +168,7 @@ function Cart({ cartItems, setCartItems }) {
                           </div>
                         </div>
                       </div>
-                      <h2 className="font-bold">EGP {product.price}</h2>
+                      <h2 className="font-bold">EGP {product?.price}</h2>
                     </div>
                   );
                 })

@@ -21,12 +21,21 @@ const AddProduct = ({ listOfCategories }) => {
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
   const [isLoading, setIsLoading] = useState(null);
+  let countries = [
+    "Cairo",
+    "Ismailia",
+    "Port Said",
+    "Alexandria",
+    "Suez",
+    "Giza",
+  ];
 
   const [arr, setArr] = useState([]);
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
   console.log(id);
+  console.log(country);
 
   const [uploadedImages, setUploadedImages] = useState([]);
 
@@ -287,16 +296,21 @@ const AddProduct = ({ listOfCategories }) => {
               <label className="label">
                 <span className="label-text">Country</span>
               </label>
-              <input
+              <select
                 {...register("country", { required: true })}
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered border-primary w-full  focus:outline-primary"
+                className="select select-bordered border-primary w-full  focus:outline-primary"
                 onChange={(e) => {
                   setCountry(e.target.value);
                 }}
                 value={country}
-              />
+              >
+                <option disabled selected>
+                  Pick one
+                </option>
+                {countries?.map((country) => {
+                  return <option value={country}>{country}</option>;
+                })}
+              </select>
               {errors.country?.type === "required" && (
                 <span className="text-red-500 ">Country is required</span>
               )}

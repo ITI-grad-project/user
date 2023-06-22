@@ -182,7 +182,7 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
                   className="radio radio-primary h-5 w-5"
                   value={false}
                   checked={selected === false}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                 />
                 Home
                 <input
@@ -192,7 +192,7 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
                   className="radio radio-primary h-5 w-5"
                   value={true}
                   checked={selected === true}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   // {...(AddressEditBtn === 0 && !watch("radio-4"))}
                 />
                 Work
