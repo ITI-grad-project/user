@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Input from "./Input";
 import ProfilePhoto from "./ProfilePhoto";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 // import { useRef } from "react";
 
@@ -24,6 +24,30 @@ const Personallnfo = ({
   imgFile,
   setImgFile,
 }) => {
+  const [editbtn, setEditbtn] = useState(0);
+  const [selected, setSelected] = useState(true);
+
+  useEffect(() => {
+    let SelectGender;
+    if (LoggedUser?.gender === "female") {
+      SelectGender = true;
+    } else {
+      SelectGender = false;
+    }
+    setSelected(SelectGender);
+  }, [LoggedUser]);
+
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    if (event.target.value === "true") {
+      setSelected(true);
+    } else {
+      setSelected(false);
+    }
+  };
+  // console.log(selected);
+  // console.log(LoggedUser?.gender === "female");
+
   const {
     register,
     handleSubmit,
@@ -33,29 +57,45 @@ const Personallnfo = ({
     resolver: yupResolver(schema),
   });
 
-  let FName, LName;
+  // let FName, LName;
 
   // const [updatedPhoto, setUpdatedphoto] = useState("");
   const onSubmit = async (data) => {
     try {
-      var gender;
       console.log("Account: dataaaaaaaaaaaa", data);
       setEditbtn(0);
-      if (data.female === "on") {
-        gender = "female";
-      } else {
-        gender = "male";
+      if (data.gender === "true") {
+        data.gender = "female";
+      } else if (data.gender === "false" || data.gender === "null") {
+        data.gender = "male";
       }
-      let DataObj = {
-        email: data.email,
-        userName: data.firstname + " " + data.lastname,
-        phone: data.phone,
-        gender: gender,
-      };
-      console.log("edit this ..", DataObj);
+
+      if (data.firstname === undefined && data.lastname !== undefined) {
+        delete Object.assign(data, {
+          userName: LoggedUser?.userName.split(" ")[0] + " " + data.lastname,
+        })["lastname"];
+      } else if (data.firstname !== undefined && data.lastname === undefined) {
+        delete Object.assign(data, {
+          userName: data.firstname + " " + LoggedUser?.userName.split(" ")[1],
+        })["firstname"];
+      } else if (data.firstname !== undefined && data.lastname !== undefined) {
+        delete Object.assign(data, {
+          userName: data.firstname + " " + data.lastname,
+        })["lastname"];
+        delete data["firstname"];
+      }
+
+      console.log(LoggedUser?.userName.split(" ")[1]);
+      // let DataObj = {
+      //   email: data.email,
+      //   userName: data.firstname + " " + data.lastname,
+      //   phone: data.phone,
+      //   gender: gender,
+      // };
+      console.log("edit this ..", data);
       const { update } = await axios.put(
         "https://bekya.onrender.com/api/v1/user/updateMe",
-        DataObj,
+        data,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -64,7 +104,7 @@ const Personallnfo = ({
       );
       // console.log("update", update);
       // DataObj = { ...DataObj, profileImg: updatedPhoto };
-      handleEditUserAccount(DataObj);
+      handleEditUserAccount(data);
       // const FullName = LoggedUser?.userName?.split(" ");
       // console.log(FullName);
       // FName = FullName[0];
@@ -75,13 +115,6 @@ const Personallnfo = ({
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const [editbtn, setEditbtn] = useState(0);
-  const [selected, setSelected] = useState("yes");
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    setSelected(event.target.value);
   };
 
   return (
@@ -184,20 +217,20 @@ const Personallnfo = ({
           <input
             type="radio"
             name="gender"
-            {...register("male")}
+            {...register("gender")}
             className="radio radio-primary h-5 w-5"
-            value="no"
-            checked={selected === "no"}
+            value={false}
+            checked={selected === false}
             onChange={handleChange}
           />
           Male
           <input
             type="radio"
             name="gender"
-            {...register("female")}
+            {...register("gender")}
             className="radio radio-primary h-5 w-5"
-            value="yes"
-            checked={selected === "yes"}
+            value={true}
+            checked={selected === true}
             onChange={handleChange}
 
             // defaultChecked

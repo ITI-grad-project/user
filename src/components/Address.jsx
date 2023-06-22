@@ -120,15 +120,15 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
                   {AddressEditBtn === 0 && (
                     <svg
                       viewBox="0 0 24 24"
-                      fill="primary"
-                      height="1.2em"
-                      width="1.2em"
-                      className="text-primary cursor-pointer"
+                      fill="currentColor"
+                      height="1em"
+                      width="1em"
+                      className="cursor-pointer"
                       onClick={() => {
                         removeAddress(address?._id);
                       }}
                     >
-                      <path d="M8.707 19.707L18 10.414 13.586 6l-9.293 9.293a1.003 1.003 0 00-.263.464L3 21l5.242-1.03c.176-.044.337-.135.465-.263zM21 7.414a2 2 0 000-2.828L19.414 3a2 2 0 00-2.828 0L15 4.586 19.414 9 21 7.414z" />
+                      <path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12z" />
                     </svg>
                   )}
                 </div>
