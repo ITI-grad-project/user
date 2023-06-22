@@ -3,23 +3,34 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Input from "./Input";
 import ProfilePhoto from "./ProfilePhoto";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import notify from "../hooks/useNotification";
 // import { useRef } from "react";
 
 const schema = yup.object({
-  firstname: yup.string(),
-  lastname: yup.string(),
-  email: yup.string().email("you should enter a valid email"),
-  // .required("required field"),
+  firstname: yup
+    .string()
+    .required("required field")
+    .min(3, "first name must be at least 3 characters"),
+  lastname: yup
+    .string()
+    .required("required field")
+    .min(3, "last name must be at least 3 characters"),
+  email: yup
+    .string()
+    .required("required field")
+    .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, "Email is not valid"),
   phone: yup
-    .number()
-    // .required("required field")
+    .string()
+    .required("required field")
     .min(11, "Password should be 11 numbers"),
 });
 
 const Personallnfo = ({
   LoggedUser,
+  // defaultValues,
+  // emailBeforeEdit,
   handleEditUserAccount,
   imgFile,
   setImgFile,
@@ -28,29 +39,61 @@ const Personallnfo = ({
     register,
     handleSubmit,
     watch,
+    setValue,
+    getValues,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    // defaultValues: {
+    //   firstname: LoggedUser?.userName?.split(" ")[0],
+    //   lastname: LoggedUser?.userName?.split(" ")[1],
+    //   email: LoggedUser?.email,
+    //   phone: LoggedUser?.phone,
+    //   gender: LoggedUser?.gender,
+    // },
   });
 
   let FName, LName;
-
+  // const [defaultValuesInputs, setDefaultValuesInputs] = useState(defaultValues);
+  const [emailBeforeEdit, setEmailBeforeEdit] = useState();
   // const [updatedPhoto, setUpdatedphoto] = useState("");
   const onSubmit = async (data) => {
     try {
-      var gender;
+      // var gender;
+      console.log("Account: dataaaaaaaaaaaa", data);
       setEditbtn(0);
-      if (data.female === "on") {
-        gender = "female";
+      // if (data.female === "on") {
+      //   gender = "female";
+      // } else {
+      //   gender = "male";
+      // }
+      console.log(emailBeforeEdit, " ", data.email);
+      // let DataObj = (emailBeforeEdit === data.email) ? {
+      //   userName: data.firstname + " " + data.lastname,
+      //   phone: data.phone,
+      //   gender: gender,
+      // } : {
+      //   email: data.email,
+      //   userName: data.firstname + " " + data.lastname,
+      //   phone: data.phone,
+      //   gender: gender,
+      // };
+      let DataObj;
+      if (emailBeforeEdit === data.email) {
+        DataObj = {
+          userName: data.firstname + " " + data.lastname,
+          phone: data.phone,
+          gender: data.gender,
+        };
       } else {
-        gender = "male";
+        DataObj = {
+          email: data.email,
+          userName: data.firstname + " " + data.lastname,
+          phone: data.phone,
+          gender: data.gender,
+        };
       }
-      let DataObj = {
-        email: data.email,
-        userName: data.firstname + " " + data.lastname,
-        phone: data.phone,
-        gender: gender,
-      };
       console.log("edit this ..", DataObj);
       const { data: userData } = await axios.put(
         "https://bekya.onrender.com/api/v1/user/updateMe",
@@ -64,6 +107,7 @@ const Personallnfo = ({
       // DataObj = { ...DataObj, profileImg: updatedPhoto };
       handleEditUserAccount(DataObj);
       localStorage.setItem("user", JSON.stringify(userData.data));
+      notify("Data Updated Successfully", "success");
       // const FullName = LoggedUser?.userName?.split(" ");
       // console.log(FullName);
       // FName = FullName[0];
@@ -75,6 +119,48 @@ const Personallnfo = ({
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    setEmailBeforeEdit(LoggedUser?.email);
+    setValue("firstname", LoggedUser?.userName?.split(" ")[0]);
+    setValue("lastname", LoggedUser?.userName?.split(" ")[1]);
+    setValue("email", LoggedUser?.email);
+    setValue("phone", LoggedUser?.phone);
+    setValue("gender", LoggedUser?.gender);
+    // let defaultValues = {
+    //   firstname: LoggedUser?.userName?.split(" ")[0],
+    //   lastname: LoggedUser?.userName?.split(" ")[1],
+    //   email: LoggedUser?.email,
+    //   phone: LoggedUser?.phone,
+    //   gender: LoggedUser?.gender,
+    // };
+    // console.log(defaultValues)
+    // reset( {...defaultValues} );
+  }, [LoggedUser]);
+
+  // useEffect(() => {
+  //   async function getUser() {
+  //     await axios
+  //       .get("https://bekya.onrender.com/api/v1/user/getMe/", {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       })
+  //       .then((Response) => {
+  //         // setValue("photo", Response?.data.photo);
+  //         // setSelectedImage(data.data.photo);
+  //         setEmailBeforeEdit(getValues("email"));
+  //         setValue("firstname", (Response?.data.data.userName?.split(" "))[0]);
+  //         setValue("lastname", (Response?.data.data.userName?.split(" "))[1]);
+  //         setValue("email", Response?.data.data.email);
+  //         setValue("phone", Response?.data.data.phone);
+  //         setValue("gender", Response?.data.data.gender);
+  //         // setLoggedUser(Response?.data?.data);
+  //         console.log("profile Response", Response?.data.data);
+  //       });
+  //   }
+  //   getUser();
+  // }, []);
 
   const [editbtn, setEditbtn] = useState(0);
   const [selected, setSelected] = useState("yes");
@@ -106,7 +192,7 @@ const Personallnfo = ({
         )}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} >
         {editbtn === 1 && (
           <ProfilePhoto
             LoggedUser={LoggedUser}
@@ -116,93 +202,112 @@ const Personallnfo = ({
             // setUpdatedphoto={setUpdatedphoto}
           />
         )}
-        <div className="flex md:flex-row flex-col md:gap-16 gap-4">
-          <div>
+        <div className="flex md:flex-row flex-col md:gap-16 gap-4 md:justify-center">
+          <div className="md:w-[50%]">
             {/* <p className="font-[600] mb-2 text-[15px]">First Name</p> */}
             <Input
               label="First Name"
               name="firstname"
               type="text"
-              placeholder={
-                LoggedUser?.userName
-                  ? (LoggedUser?.userName?.split(" "))[0]
-                  : " "
-              }
-              register={register("firstname")}
+              // value={
+              //   LoggedUser?.userName
+              //     ? (LoggedUser?.userName?.split(" "))[0]
+              //     : " "
+              // }
+              register={{ ...register("firstname") }}
               errorMessage={errors.firstname?.message}
-              disabled={!watch("firstname")}
+              disabled
+              // disabled={!watch("firstname")}
               editbtn={editbtn}
             />
           </div>
-          <div>
+          <div className="md:w-[50%]">
             <Input
               label="Last Name"
               name="lastname"
               type="text"
-              placeholder={
-                LoggedUser?.userName
-                  ? (LoggedUser?.userName?.split(" "))[1]
-                  : " "
-              }
-              register={register("lastname")}
+              // value={
+              //   LoggedUser?.userName
+              //     ? (LoggedUser?.userName?.split(" "))[1]
+              //     : " "
+              // }
+              register={{ ...register("lastname") }}
               errorMessage={errors.lastname?.message}
-              disabled={!watch("email")}
+              // disabled={!watch("email")}
+              disabled
               editbtn={editbtn}
             />
           </div>
         </div>
-        <div className="flex md:flex-row flex-col md:gap-16 gap-4 my-5">
-          <div>
+        <div className="flex md:flex-row flex-col md:gap-16 gap-4 md:justify-center my-5">
+          <div className="md:w-[50%]">
             <Input
               label="Email"
               name="email"
               type="text"
-              placeholder={LoggedUser.email || ""}
+              // value={LoggedUser.email}
               // value={LoggedUser.email || ""}
-              register={register("email")}
+              register={{ ...register("email") }}
               errorMessage={errors.email?.message}
-              disabled={!watch("email")}
+              // disabled={!watch("email")}
+              disabled
               editbtn={editbtn}
             />
           </div>
-          <div>
+          <div className="md:w-[50%]">
             <Input
-              label="phone Number"
+              label="Phone Number"
               name="phone"
-              type="tel"
-              placeholder={LoggedUser?.phone}
-              register={register("phone")}
+              type="text"
+              // value={LoggedUser?.phone}
+              register={{ ...register("phone") }}
               errorMessage={errors.phone?.message}
-              disabled={!watch("phone")}
+              // disabled={!watch("phone")}
+              disabled
               editbtn={editbtn}
             />
           </div>
         </div>
-        <div className="flex gap-3">
-          <p className="font-[600] mb-2 text-[15px]">Gender</p>
+        <div className="flex items-center gap-3">
+          <p className="font-[600] text-[15px]">Gender</p>
           <input
+            id="male-radio"
             type="radio"
             name="gender"
-            {...register("male")}
+            value="male"
+            {...register("gender")}
             className="radio radio-primary h-5 w-5"
-            value="no"
-            checked={selected === "no"}
-            onChange={handleChange}
+            // checked={selected === "no"}
+            // onChange={handleChange}
+            // disabled
+            // {editbtn === 0 && disabled}
           />
-          Male
+          <label
+            htmlFor="male-radio"
+            className="cursor-pointer"
+          >
+            Male
+          </label>
+          
           <input
+            id="female-radio"
             type="radio"
             name="gender"
-            {...register("female")}
+            value="female"
+            {...register("gender")}
             className="radio radio-primary h-5 w-5"
-            value="yes"
-            checked={selected === "yes"}
-            onChange={handleChange}
-
+            // checked={selected === "yes"}
+            // onChange={handleChange}
+            // {...(editbtn === 0 && disabled)}
             // defaultChecked
             // {...(editbtn === 0 && !watch("radio-4"))}
           />
-          Female
+          <label
+            htmlFor="female-radio"
+            className="cursor-pointer"
+          >
+            Female
+          </label>
         </div>
 
         {editbtn === 1 && (

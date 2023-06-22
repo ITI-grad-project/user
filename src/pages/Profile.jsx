@@ -11,7 +11,9 @@ const token = localStorage.getItem("token");
 console.log(token);
 
 function Profile() {
-  const [LoggedUser, setLoggedUser] = useState([]);
+  const [LoggedUser, setLoggedUser] = useState();
+  // const [defaultValues, setDefaultValues] = useState();
+  // const [emailBeforeEdit, setEmailBeforeEdit] = useState();
   const [UserAddress, setUserAddress] = useState([]);
   const [currentTab, setCurrentTab] = useState(1);
   const [activeButton, setActiveButton] = useState(1);
@@ -27,6 +29,14 @@ function Profile() {
         })
         .then((Response) => {
           setLoggedUser(Response?.data?.data);
+          // setEmailBeforeEdit(Response?.data?.data?.email);
+          // setDefaultValues({
+          //   firstname: Response?.data?.data?.userName?.split(" ")[0],
+          //   lastname: Response?.data?.data?.userName?.split(" ")[1],
+          //   email: Response?.data?.data?.email,
+          //   phone: Response?.data?.data?.phone,
+          //   gender: Response?.data?.data?.gender,
+          // });
           console.log("profile Response", Response?.data);
         });
     }
@@ -68,7 +78,7 @@ function Profile() {
               <img
                 className="w-28 h-28 object-cover rounded-full mb-2"
                 src={LoggedUser?.profileImg}
-                alt=""
+                alt="ProfileImg"
               />
               <h3 className="text-center text-[20px] font-[600] mb-3">
                 {LoggedUser?.userName}
@@ -146,6 +156,8 @@ function Profile() {
             {currentTab === 1 ? (
               <Personallnfo
                 LoggedUser={LoggedUser}
+                // defaultValues={defaultValues}
+                // emailBeforeEdit={emailBeforeEdit}
                 handleEditUserAccount={handleEditUserAccount}
                 imgFile={imgFile}
                 setImgFile={setImgFile}
