@@ -95,7 +95,7 @@ const Personallnfo = ({
         };
       }
       console.log("edit this ..", DataObj);
-      const { update } = await axios.put(
+      const { data: userData } = await axios.put(
         "https://bekya.onrender.com/api/v1/user/updateMe",
         DataObj,
         {
@@ -107,6 +107,7 @@ const Personallnfo = ({
       // console.log("update", update);
       // DataObj = { ...DataObj, profileImg: updatedPhoto };
       handleEditUserAccount(DataObj);
+      localStorage.setItem("user", JSON.stringify(userData.data));
       notify("Data Updated Successfully", "success");
       // const FullName = LoggedUser?.userName?.split(" ");
       // console.log(FullName);
