@@ -190,7 +190,7 @@ const Personallnfo = ({
         )}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} >
         {editbtn === 1 && (
           <ProfilePhoto
             LoggedUser={LoggedUser}
@@ -200,8 +200,8 @@ const Personallnfo = ({
             // setUpdatedphoto={setUpdatedphoto}
           />
         )}
-        <div className="flex md:flex-row flex-col md:gap-16 gap-4">
-          <div>
+        <div className="flex md:flex-row flex-col md:gap-16 gap-4 md:justify-center">
+          <div className="md:w-[50%]">
             {/* <p className="font-[600] mb-2 text-[15px]">First Name</p> */}
             <Input
               label="First Name"
@@ -219,7 +219,7 @@ const Personallnfo = ({
               editbtn={editbtn}
             />
           </div>
-          <div>
+          <div className="md:w-[50%]">
             <Input
               label="Last Name"
               name="lastname"
@@ -237,8 +237,8 @@ const Personallnfo = ({
             />
           </div>
         </div>
-        <div className="flex md:flex-row flex-col md:gap-16 gap-4 my-5">
-          <div>
+        <div className="flex md:flex-row flex-col md:gap-16 gap-4 md:justify-center my-5">
+          <div className="md:w-[50%]">
             <Input
               label="Email"
               name="email"
@@ -252,7 +252,7 @@ const Personallnfo = ({
               editbtn={editbtn}
             />
           </div>
-          <div>
+          <div className="md:w-[50%]">
             <Input
               label="Phone Number"
               name="phone"
