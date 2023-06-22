@@ -104,7 +104,6 @@ const Personallnfo = ({
           },
         }
       );
-      // console.log("update", update);
       // DataObj = { ...DataObj, profileImg: updatedPhoto };
       handleEditUserAccount(DataObj);
       localStorage.setItem("user", JSON.stringify(userData.data));
