@@ -5,10 +5,10 @@ const ProfilePhoto = ({ LoggedUser, imgFile, setImgFile }) => {
   // const [imgFile, setImgFile] = useState([]);
   const [initalPhoto, setinitalPhoto] = useState(0);
 
-  const FileInput = useRef();
-  const handleClick = (event) => {
-    FileInput.current?.click();
-  };
+  // const FileInput = useRef();
+  // const handleClick = (event) => {
+  //   FileInput.current?.click();
+  // };
   const handleUploadFile = async (event) => {
     const dataphoto = new FormData();
     dataphoto.append("profileImg", event.target.files[0]);
@@ -37,8 +37,12 @@ const ProfilePhoto = ({ LoggedUser, imgFile, setImgFile }) => {
         onChange={handleUploadFile}
         className="hidden"
       />
-      <div className="flex justify-center" >
-        <label htmlFor="profile_img" onClick={handleClick} className="relative w-28 h-28 flex justify-center cursor-pointer">
+      <div className="flex justify-center">
+        <label
+          htmlFor="profile_img"
+          // onClick={handleClick}
+          className="relative w-28 h-28 flex justify-center cursor-pointer"
+        >
           <img
             className="w-28 h-28 object-cover rounded-full mb-2"
             src={initalPhoto !== 0 ? imgFile : LoggedUser?.profileImg}

@@ -5,6 +5,7 @@ import Input from "./Input";
 import ProfilePhoto from "./ProfilePhoto";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import notify from "../hooks/useNotification";
 // import { useRef } from "react";
 
 const schema = yup.object({
@@ -21,7 +22,7 @@ const schema = yup.object({
     .required("required field")
     .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, "Email is not valid"),
   phone: yup
-    .number()
+    .string()
     .required("required field")
     .min(11, "Password should be 11 numbers"),
 });
@@ -106,6 +107,7 @@ const Personallnfo = ({
       // console.log("update", update);
       // DataObj = { ...DataObj, profileImg: updatedPhoto };
       handleEditUserAccount(DataObj);
+      notify("Data Updated Successfully", "success");
       // const FullName = LoggedUser?.userName?.split(" ");
       // console.log(FullName);
       // FName = FullName[0];
@@ -256,7 +258,7 @@ const Personallnfo = ({
             <Input
               label="Phone Number"
               name="phone"
-              type="tel"
+              type="text"
               // value={LoggedUser?.phone}
               register={{ ...register("phone") }}
               errorMessage={errors.phone?.message}
