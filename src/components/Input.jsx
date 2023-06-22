@@ -8,6 +8,7 @@ export default function Input({
   errorMessage,
   disabled,
   editbtn,
+  onChange,
 }) {
   return (
     <div className="form-control">
@@ -22,6 +23,7 @@ export default function Input({
         type={type}
         placeholder={placeholder}
         value={value}
+        onChange={onChange}
         className={`input input-bordered focus:outline-none disabled:placeholder-black disabled:bg-white  ${
           errorMessage ? "invalid" : "focus:border-primary focus:border-2"
         }`}
