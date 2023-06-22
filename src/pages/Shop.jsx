@@ -83,34 +83,6 @@ function Shop({ Categories, loginState, searchQuery }) {
     );
   }
 
-  // let FilteredItems = useMemo(() => {
-  //   return currentCategory === 0 && currentCountry === 0
-  //     ? items.data?.filter(
-  //         (item) => item.price > Values[0] && item.price < Values[1]
-  //       )
-  //     : currentCategory === 0 && currentCountry !== 0
-  //     ? items.data?.filter(
-  //         (item) =>
-  //           item?._id === currentCountry &&
-  //           item.price > Values[0] &&
-  //           item.price < Values[1]
-  //       )
-  //     : currentCountry === 0 && currentCategory !== 0
-  //     ? items.data?.filter(
-  //         (item) =>
-  //           item?.category._id === currentCategory &&
-  //           item.price > Values[0] &&
-  //           item.price < Values[1]
-  //       )
-  //     : items.data?.filter(
-  //         (item) =>
-  //           item?.category._id === currentCategory &&
-  //           item?._id === currentCountry &&
-  //           item.price > Values[0] &&
-  //           item.price < Values[1]
-  //       );
-  // });
-
   return (
     <div className="lg:px-36 px-12 py-10">
       <ToastContainer />
