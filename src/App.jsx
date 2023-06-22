@@ -17,6 +17,8 @@ import Cart from "./pages/Cart";
 import Favorite from "./pages/Favourite";
 import AddProduct from "./pages/AddProduct";
 import CheckOut from "./pages/CheckOut";
+import ProfileUser from "./pages/profileUser";
+import About from "./pages/About";
 import Contact from "./pages/ContactUs";
 
 function App() {
@@ -25,8 +27,7 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
   const [wishlistedItems, setWishlistedItems] = useState([]);
-
-  console.log("cartItems from app", cartItems);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const BaseURL = "https://bekya.onrender.com";
 
@@ -57,6 +58,8 @@ function App() {
                   listOfCategories={listOfCategories}
                   setLoginState={setLoginState}
                   loginState={loginState}
+                  searchQuery={searchQuery}
+                  setSearchQuery={setSearchQuery}
                 />
               }
             >
@@ -91,21 +94,39 @@ function App() {
                   />
                 }
               />
+
+              <Route path="/about" element={<About />} />
+
               <Route path="/checkout/:id" element={<CheckOut />} />
+
               <Route
                 path="/shop/:id?"
                 element={
-                  <Shop Categories={listOfCategories} loginState={loginState} />
+                  <Shop
+                    Categories={listOfCategories}
+                    loginState={loginState}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                  />
                 }
               />
               <Route
                 path="/productDetails/:productId"
-                element={<ProductDetails />}
-              />
+                element={
+                  <ProductDetails
+                    cartItems={cartItems}
+                    setCartItems={setCartItems}
+                    loginState={loginState}
+                  />
+                }
+              ></Route>
+              <Route path="/userProfile/:id" element={<ProfileUser />}></Route>
+
               <Route
                 path="/addProduct/:id"
                 element={<AddProduct listOfCategories={listOfCategories} />}
               />
+
               <Route path="/contact" element={<Contact />} />
             </Route>
           </Routes>
