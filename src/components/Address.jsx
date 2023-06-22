@@ -180,6 +180,8 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
                   name="alias"
                   {...register("home")}
                   className="radio radio-primary h-5 w-5"
+                  value={false}
+                  checked={selected === false}
                 />
                 Home
                 <input
@@ -187,7 +189,8 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
                   name="alias"
                   {...register("work")}
                   className="radio radio-primary h-5 w-5"
-                  defaultChecked
+                  value={true}
+                  checked={selected === true}
                   // {...(AddressEditBtn === 0 && !watch("radio-4"))}
                 />
                 Work
