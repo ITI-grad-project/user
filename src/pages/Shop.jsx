@@ -20,6 +20,7 @@ function Shop({ Categories, loginState, searchQuery }) {
   const [currentCategory, setCurrentCategory] = useState(0);
   const [currentCountry, setCurrentCountry] = useState(0);
   const [price, setPrice] = useState([]);
+  const [pagination, setPagination] = useState([]);
   const { id } = useParams();
   let countries = [
     "Cairo",
@@ -49,10 +50,6 @@ function Shop({ Categories, loginState, searchQuery }) {
           if (currentCountry != 0) {
             console.log(currentCountry);
             url += `country=${currentCountry}&`;
-            console.log(url);
-          }
-          if (currentCategory == 0) {
-            url = `${BaseURL}/products?`;
             console.log(url);
           }
           if (price.length) {
@@ -95,7 +92,7 @@ function Shop({ Categories, loginState, searchQuery }) {
       <ToastContainer />
       {/* max-[700px]:grid-rows-2 */}
       <div className="grid grid-cols-12 w-full xl:gap-12 lg:gap-[5.2rem]">
-        <div className="rounded-lg border-[2px] border-[#ECE8E8] lg:col-span-3 lg:min-w-[15rem] w-full col-span-12 h-[810px] font-['Roboto'] px-10">
+        <div className="rounded-lg border-[2px] border-[#ECE8E8] lg:col-span-3 lg:min-w-[15rem] w-full col-span-12 h-fit font-['Roboto'] px-10">
           {!id && (
             <>
               <h2 className="text-[24px] text-primary font-[700] mb-2 mt-3">
@@ -187,7 +184,7 @@ function Shop({ Categories, loginState, searchQuery }) {
           <h2 className="text-[24px] text-primary font-[700] mt-3 mb-2">
             Price Range
           </h2>
-          <div className="flex flex-col">
+          <div className="flex flex-col mb-4">
             <RangeInput
               Values={Values}
               setValues={setValues}
@@ -208,17 +205,25 @@ function Shop({ Categories, loginState, searchQuery }) {
             <Loading></Loading>
           ) : (
             <>
-              {filteredData?.map((item, index) => {
-                return (
-                  <div className="col-span-2 lg:col-span-3 2xl:col-span-2 min-[1700px]:col-span-1">
-                    <ProductCard
-                      key={index}
-                      product={item}
-                      loginState={loginState}
-                    />
-                  </div>
-                );
-              })}
+              {!filteredData?.length ? (
+                <p className="font-bold text-center w-full text-2xl capitalize mt-[25vh]">
+                  no products to show
+                </p>
+              ) : (
+                <>
+                  {filteredData?.map((item, index) => {
+                    return (
+                      <div className="col-span-2 lg:col-span-3 2xl:col-span-2 min-[1700px]:col-span-1">
+                        <ProductCard
+                          key={index}
+                          product={item}
+                          loginState={loginState}
+                        />
+                      </div>
+                    );
+                  })}
+                </>
+              )}
             </>
           )}
         </div>

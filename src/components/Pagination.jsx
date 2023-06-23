@@ -22,7 +22,7 @@ const PaginationPage = ({ setCurrentPage }) => {
   // console.log(PageNo);
   // console.log(NoOfPages);
   return (
-    <div className="flex flex-wrap gap-1 items-center justify-center bg-white py-3 sm:px-6 ">
+    <div className="flex flex-wrap  gap-1 items-center justify-center bg-white py-3 sm:px-6 ">
       <ConfigProvider
         theme={{
           components: {

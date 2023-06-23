@@ -6,6 +6,7 @@ import Orders from "../components/Orders";
 import Products from "../components/Products";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
+import Avatar from "../components/avatar";
 
 const token = localStorage.getItem("token");
 console.log(token);
@@ -65,11 +66,16 @@ function Profile() {
           <div className="col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col lg:border-2 rounded py-8">
             {/* <div className="h-96 col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col justify-center items-center lg:border-2 rounded py-8"> */}
             <div className="flex flex-col justify-center items-center">
-              <img
-                className="w-28 h-28 object-cover rounded-full mb-2"
-                src={LoggedUser?.profileImg}
-                alt="ProfileImg"
-              />
+              {LoggedUser?.profileImg ? (
+                <img
+                  className="w-28 h-28 object-cover rounded-full mb-2"
+                  src={LoggedUser?.profileImg}
+                  alt="ProfileImg"
+                />
+              ) : (
+                <Avatar width={28} />
+              )}
+
               <h3 className="text-center text-[20px] font-[600] mb-3">
                 {LoggedUser?.userName}
               </h3>

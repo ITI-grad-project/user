@@ -17,7 +17,7 @@ const Layout = ({
   const isForgetPasswordRoute = location.pathname === "/forgotPassword";
   const isVerifyRoute = location.pathname === "/verify";
   const isNewPasswordRoute = location.pathname === "/newPassword";
-  //   const isErrorRoute = location.pathname === "/*";
+  // const isErrorRoute = location.pathname === "/*";
 
   if (
     isLoginRoute ||
@@ -38,7 +38,7 @@ const Layout = ({
           setSearchQuery={setSearchQuery}
         />
         <Outlet />
-        <Footer />
+        <Footer listOfCategories={listOfCategories} />
       </>
     );
   }

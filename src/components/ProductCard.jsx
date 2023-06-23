@@ -13,12 +13,9 @@ function ProductCard({
   setWishlistedItems,
   wishlistedItems,
 }) {
-  // console.log("product from card", product);
-
   const navigate = useNavigate();
 
   const [wishListed, setWishListed] = useState(false);
-
   const BaseURL = "https://bekya.onrender.com";
   const token = localStorage.getItem("token");
   const config = {
@@ -27,6 +24,7 @@ function ProductCard({
       "Content-Type": "application/json",
     },
   };
+  const userData = JSON.parse(localStorage.getItem("user"));
 
   const toggleWishListed = async (productID) => {
     setWishListed((prevState) => !prevState);
@@ -200,7 +198,7 @@ function ProductCard({
                 </Link>
 
                 <h3 className="self-center capitalize text-sm">
-                  {product.user?.userName}
+                  {product?.user?.userName}
                 </h3>
               </div>
 
@@ -270,6 +268,7 @@ function ProductCard({
             </div>
             <div className="card-actions w-full mt-2">
               <button
+                disabled={product?.user?._id === userData?._id}
                 onClick={() => {
                   handleAddToCart(product._id);
                 }}
