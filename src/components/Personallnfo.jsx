@@ -6,7 +6,6 @@ import ProfilePhoto from "./ProfilePhoto";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import notify from "../hooks/useNotification";
-// import { useRef } from "react";
 
 const schema = yup.object({
   firstname: yup
@@ -32,9 +31,14 @@ const Personallnfo = ({
   // defaultValues,
   // emailBeforeEdit,
   handleEditUserAccount,
-  imgFile,
-  setImgFile,
+  photo,
+  setPhoto,
 }) => {
+  const [editbtn, setEditbtn] = useState(0);
+  const [selected, setSelected] = useState(true);
+  const [emailBeforeEdit, setEmailBeforeEdit] = useState();
+  // const [photo, setPhoto] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -45,40 +49,68 @@ const Personallnfo = ({
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    // defaultValues: {
-    //   firstname: LoggedUser?.userName?.split(" ")[0],
-    //   lastname: LoggedUser?.userName?.split(" ")[1],
-    //   email: LoggedUser?.email,
-    //   phone: LoggedUser?.phone,
-    //   gender: LoggedUser?.gender,
-    // },
   });
 
-  let FName, LName;
-  // const [defaultValuesInputs, setDefaultValuesInputs] = useState(defaultValues);
-  const [emailBeforeEdit, setEmailBeforeEdit] = useState();
-  // const [updatedPhoto, setUpdatedphoto] = useState("");
+  useEffect(() => {
+    let SelectGender;
+    if (LoggedUser?.gender === "female") {
+      SelectGender = true;
+    } else {
+      SelectGender = false;
+    }
+    setSelected(SelectGender);
+
+    setEmailBeforeEdit(LoggedUser?.email);
+    setValue("firstname", LoggedUser?.userName?.split(" ")[0]);
+    setValue("lastname", LoggedUser?.userName?.split(" ")[1]);
+    setValue("email", LoggedUser?.email);
+    setValue("phone", LoggedUser?.phone);
+    // setValue("gender", LoggedUser?.gender);
+  }, [LoggedUser]);
+
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    if (event.target.value === "true") {
+      setSelected(true);
+    } else {
+      setSelected(false);
+    }
+  };
+  // console.log(selected);
+  // console.log(LoggedUser?.gender === "female");
+
   const onSubmit = async (data) => {
     try {
-      // var gender;
-      console.log("Account: dataaaaaaaaaaaa", data);
-      setEditbtn(0);
-      // if (data.female === "on") {
-      //   gender = "female";
-      // } else {
-      //   gender = "male";
+      // if (data.firstname === undefined && data.lastname !== undefined) {
+      //   delete Object.assign(data, {
+      //     userName: LoggedUser?.userName.split(" ")[0] + " " + data.lastname,
+      //   })["lastname"];
+      // } else if (data.firstname !== undefined && data.lastname === undefined) {
+      //   delete Object.assign(data, {
+      //     userName: data.firstname + " " + LoggedUser?.userName.split(" ")[1],
+      //   })["firstname"];
+      // } else if (data.firstname !== undefined && data.lastname !== undefined) {
+      //   delete Object.assign(data, {
+      //     userName: data.firstname + " " + data.lastname,
+      //   })["lastname"];
+      //   delete data["firstname"];
       // }
+
+      // console.log(LoggedUser?.userName.split(" ")[1]);
+
+      // const [updatedPhoto, setUpdatedphoto] = useState("");
+
+      console.log("Account: dataaaa", data);
+      setEditbtn(0);
+
       console.log(emailBeforeEdit, " ", data.email);
-      // let DataObj = (emailBeforeEdit === data.email) ? {
-      //   userName: data.firstname + " " + data.lastname,
-      //   phone: data.phone,
-      //   gender: gender,
-      // } : {
-      //   email: data.email,
-      //   userName: data.firstname + " " + data.lastname,
-      //   phone: data.phone,
-      //   gender: gender,
-      // };
+
+      if (data.gender === "true") {
+        data.gender = "female";
+      } else if (data.gender === "false" || data.gender === "null") {
+        data.gender = "male";
+      }
+
       let DataObj;
       if (emailBeforeEdit === data.email) {
         DataObj = {
@@ -104,69 +136,29 @@ const Personallnfo = ({
           },
         }
       );
-      // DataObj = { ...DataObj, profileImg: updatedPhoto };
-      handleEditUserAccount(DataObj);
+      if (photo !== "") {
+        await axios
+          .put("https://bekya.onrender.com/api/v1/user/updatePhoto", photo, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((response) => {
+            console.log("hello photo", response?.data);
+            console.log(photo);
+
+            // let FullObj = { ...DataObj, profileImg: photo.get("profileImg") };
+            // console.log(FullObj);
+            handleEditUserAccount(DataObj);
+          });
+      } else {
+        handleEditUserAccount(DataObj);
+      }
       localStorage.setItem("user", JSON.stringify(userData.data));
       notify("Data Updated Successfully", "success");
-      // const FullName = LoggedUser?.userName?.split(" ");
-      // console.log(FullName);
-      // FName = FullName[0];
-      // LName = FullName[1];
-
-      // console.log(update);
-      // toast.success("data Changed Successfully");
     } catch (err) {
       console.log(err);
     }
-  };
-
-  useEffect(() => {
-    setEmailBeforeEdit(LoggedUser?.email);
-    setValue("firstname", LoggedUser?.userName?.split(" ")[0]);
-    setValue("lastname", LoggedUser?.userName?.split(" ")[1]);
-    setValue("email", LoggedUser?.email);
-    setValue("phone", LoggedUser?.phone);
-    setValue("gender", LoggedUser?.gender);
-    // let defaultValues = {
-    //   firstname: LoggedUser?.userName?.split(" ")[0],
-    //   lastname: LoggedUser?.userName?.split(" ")[1],
-    //   email: LoggedUser?.email,
-    //   phone: LoggedUser?.phone,
-    //   gender: LoggedUser?.gender,
-    // };
-    // console.log(defaultValues)
-    // reset( {...defaultValues} );
-  }, [LoggedUser]);
-
-  // useEffect(() => {
-  //   async function getUser() {
-  //     await axios
-  //       .get("https://bekya.onrender.com/api/v1/user/getMe/", {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       })
-  //       .then((Response) => {
-  //         // setValue("photo", Response?.data.photo);
-  //         // setSelectedImage(data.data.photo);
-  //         setEmailBeforeEdit(getValues("email"));
-  //         setValue("firstname", (Response?.data.data.userName?.split(" "))[0]);
-  //         setValue("lastname", (Response?.data.data.userName?.split(" "))[1]);
-  //         setValue("email", Response?.data.data.email);
-  //         setValue("phone", Response?.data.data.phone);
-  //         setValue("gender", Response?.data.data.gender);
-  //         // setLoggedUser(Response?.data?.data);
-  //         console.log("profile Response", Response?.data.data);
-  //       });
-  //   }
-  //   getUser();
-  // }, []);
-
-  const [editbtn, setEditbtn] = useState(0);
-  const [selected, setSelected] = useState("yes");
-  const handleChange = (event) => {
-    console.log(event.target.value);
-    setSelected(event.target.value);
   };
 
   return (
@@ -192,32 +184,24 @@ const Personallnfo = ({
         )}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} >
+      <form onSubmit={handleSubmit(onSubmit)}>
         {editbtn === 1 && (
           <ProfilePhoto
             LoggedUser={LoggedUser}
-            imgFile={imgFile}
-            setImgFile={setImgFile}
+            setPhoto={setPhoto}
             // handleEditUserAccount={handleEditUserAccount}
             // setUpdatedphoto={setUpdatedphoto}
           />
         )}
         <div className="flex md:flex-row flex-col md:gap-16 gap-4 md:justify-center">
           <div className="md:w-[50%]">
-            {/* <p className="font-[600] mb-2 text-[15px]">First Name</p> */}
             <Input
               label="First Name"
               name="firstname"
               type="text"
-              // value={
-              //   LoggedUser?.userName
-              //     ? (LoggedUser?.userName?.split(" "))[0]
-              //     : " "
-              // }
               register={{ ...register("firstname") }}
               errorMessage={errors.firstname?.message}
               disabled
-              // disabled={!watch("firstname")}
               editbtn={editbtn}
             />
           </div>
@@ -226,14 +210,8 @@ const Personallnfo = ({
               label="Last Name"
               name="lastname"
               type="text"
-              // value={
-              //   LoggedUser?.userName
-              //     ? (LoggedUser?.userName?.split(" "))[1]
-              //     : " "
-              // }
               register={{ ...register("lastname") }}
               errorMessage={errors.lastname?.message}
-              // disabled={!watch("email")}
               disabled
               editbtn={editbtn}
             />
@@ -245,11 +223,8 @@ const Personallnfo = ({
               label="Email"
               name="email"
               type="text"
-              // value={LoggedUser.email}
-              // value={LoggedUser.email || ""}
               register={{ ...register("email") }}
               errorMessage={errors.email?.message}
-              // disabled={!watch("email")}
               disabled
               editbtn={editbtn}
             />
@@ -259,10 +234,8 @@ const Personallnfo = ({
               label="Phone Number"
               name="phone"
               type="text"
-              // value={LoggedUser?.phone}
               register={{ ...register("phone") }}
               errorMessage={errors.phone?.message}
-              // disabled={!watch("phone")}
               disabled
               editbtn={editbtn}
             />
@@ -274,38 +247,27 @@ const Personallnfo = ({
             id="male-radio"
             type="radio"
             name="gender"
-            value="male"
             {...register("gender")}
             className="radio radio-primary h-5 w-5"
-            // checked={selected === "no"}
-            // onChange={handleChange}
-            // disabled
-            // {editbtn === 0 && disabled}
+            value={false}
+            checked={selected === false}
+            onChange={handleChange}
           />
-          <label
-            htmlFor="male-radio"
-            className="cursor-pointer"
-          >
+          <label htmlFor="male-radio" className="cursor-pointer">
             Male
           </label>
-          
+
           <input
             id="female-radio"
             type="radio"
             name="gender"
-            value="female"
             {...register("gender")}
             className="radio radio-primary h-5 w-5"
-            // checked={selected === "yes"}
-            // onChange={handleChange}
-            // {...(editbtn === 0 && disabled)}
-            // defaultChecked
-            // {...(editbtn === 0 && !watch("radio-4"))}
+            value={true}
+            checked={selected === true}
+            onChange={handleChange}
           />
-          <label
-            htmlFor="female-radio"
-            className="cursor-pointer"
-          >
+          <label htmlFor="female-radio" className="cursor-pointer">
             Female
           </label>
         </div>
