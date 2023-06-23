@@ -21,8 +21,10 @@ const AddProduct = ({ listOfCategories }) => {
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
   const [isLoading, setIsLoading] = useState(null);
-  const [editPhotos, setEditPhotos] = useState(false);
   const [prodPhotos, setProdPhotos] = useState("");
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [fileList, setFileList] = useState([]);
+
   let countries = [
     "Cairo",
     "Ismailia",
@@ -31,17 +33,12 @@ const AddProduct = ({ listOfCategories }) => {
     "Suez",
     "Giza",
   ];
-
   const navigate = useNavigate();
   const { id } = useParams();
-
-  const [uploadedImages, setUploadedImages] = useState([]);
-
-  const [fileList, setFileList] = useState([]);
+  const token = localStorage.getItem("token");
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm();
 
@@ -57,8 +54,6 @@ const AddProduct = ({ listOfCategories }) => {
       setCategoryId(data.data.category._id);
       setPhone(data.data.phone);
       setProdPhotos(data.data.images);
-
-      // setUploadedImages(data.data.images);
       setFileList(
         data.data.images.map((image) => {
           return { url: image.image, _id: image._id };
@@ -77,8 +72,7 @@ const AddProduct = ({ listOfCategories }) => {
       setPhone("");
       setFileList([]);
     }
-  }, [id]);
-  console.log(fileList);
+  }, [id, fileList.length]);
 
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -89,6 +83,7 @@ const AddProduct = ({ listOfCategories }) => {
     });
 
   const handleCancel = () => setPreviewOpen(false);
+
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -99,13 +94,57 @@ const AddProduct = ({ listOfCategories }) => {
       file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
     );
   };
-  const handleChange = ({ fileList: newFileList }) => {
+
+  const handleBeforeUpload = async (file) => {
+    if (id != "add") {
+      const formData = new FormData();
+      formData.append("image", file);
+      try {
+        const res = await axios.put(
+          `https://bekya.onrender.com/api/v1/products/addPhoto/${id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (res.data.message) {
+          notify(res.data.message, "success");
+        }
+      } catch (err) {
+        if (err.response.data.message) {
+          notify(err.response.data.message, "error");
+        }
+      }
+    }
+  };
+
+  const handleChange = async ({ fileList: newFileList }) => {
     setFileList(newFileList);
     setUploadedImages(newFileList.map((item) => item.originFileObj));
   };
-  const handleRemove = (file) => {
+
+  const handleRemove = async (file) => {
     if (id != "add") {
-      setProdPhotos(file._id);
+      try {
+        const res = await axios.delete(
+          `https://bekya.onrender.com/api/v1/products/deletePhoto/${file._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (res.status == 204) {
+          notify("imaged deleted successfully", "success");
+        }
+      } catch (err) {
+        if (err.response.data.message) {
+          notify(err.response.data.message, "error");
+        }
+      }
     }
   };
 
@@ -121,10 +160,9 @@ const AddProduct = ({ listOfCategories }) => {
       </div>
     </div>
   );
-  const token = localStorage.getItem("token");
+
   const onSubmit = async (data) => {
     setIsLoading(true);
-
     try {
       const formData = new FormData();
       formData.append("title", data.name);
@@ -170,25 +208,8 @@ const AddProduct = ({ listOfCategories }) => {
             },
           }
         );
-        console.log(response);
         if (response.data) {
           notify("product updated successfully", "success");
-        }
-        console.log(prodPhotos);
-        if (prodPhotos) {
-          try {
-            const t = await axios.delete(
-              `https://bekya.onrender.com/api/v1/products/deletePhoto/${prodPhotos}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-            console.log(t);
-          } catch (err) {
-            console.log(err);
-          }
         }
       }
     } catch (error) {
@@ -381,26 +402,11 @@ const AddProduct = ({ listOfCategories }) => {
                 onPreview={handlePreview}
                 onChange={handleChange}
                 onRemove={handleRemove}
-                // onChange={(e) => {
-                //   if (e.target.files) {
-                //     console.log(e.target.files[0]);
-                //   }
-                // }}
+                beforeUpload={handleBeforeUpload}
                 className="justify-center"
               >
                 {fileList.length >= 8 ? null : uploadButton}
               </Upload>
-              {/* <input
-                type="file"
-                className="file-input file-input-bordered file-input-info max-w-xl m-3"
-                name="profileImg"
-                id="profileImg"
-                onChange={(e) => {
-                  if (e.target.files) {
-                    setPhoto(e.target.files[0]);
-                  }
-                }}
-              /> */}
             </div>
             <Modal
               open={previewOpen}

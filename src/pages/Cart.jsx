@@ -39,7 +39,6 @@ function Cart({ cartItems, setCartItems }) {
     getLoggedUserCart();
   }, []);
 
-  // console.log("hi,=", cartItemsId);
   const handleRemoveFromCart = async (productID) => {
     try {
       const { data } = await axios.delete(
@@ -107,7 +106,7 @@ function Cart({ cartItems, setCartItems }) {
               </div>
             </div>
           </div>
-          {isCartLoading ? (
+          {isCartLoading && cartItems?.length != 0 ? (
             <div
               role="status"
               className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center border-b-2 border-base-300 mt-4"

@@ -51,10 +51,6 @@ function Shop({ Categories, loginState, searchQuery }) {
             url += `country=${currentCountry}&`;
             console.log(url);
           }
-          if (currentCategory == 0) {
-            url = `${BaseURL}/products?`;
-            console.log(url);
-          }
           if (price.length) {
             url = url.replace(/price\[gte\]=\d+&?/, "");
             url = url.replace(/price\[lte\]=\d+&?/, "");
@@ -208,17 +204,25 @@ function Shop({ Categories, loginState, searchQuery }) {
             <Loading></Loading>
           ) : (
             <>
-              {filteredData?.map((item, index) => {
-                return (
-                  <div className="col-span-2 lg:col-span-3 2xl:col-span-2 min-[1700px]:col-span-1">
-                    <ProductCard
-                      key={index}
-                      product={item}
-                      loginState={loginState}
-                    />
-                  </div>
-                );
-              })}
+              {!filteredData.length ? (
+                <p className="font-bold text-center w-full text-2xl capitalize mt-[25vh]">
+                  no products to show
+                </p>
+              ) : (
+                <>
+                  {filteredData?.map((item, index) => {
+                    return (
+                      <div className="col-span-2 lg:col-span-3 2xl:col-span-2 min-[1700px]:col-span-1">
+                        <ProductCard
+                          key={index}
+                          product={item}
+                          loginState={loginState}
+                        />
+                      </div>
+                    );
+                  })}
+                </>
+              )}
             </>
           )}
         </div>
