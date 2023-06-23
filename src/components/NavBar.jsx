@@ -41,8 +41,11 @@ function NavBar({
       <div className="shadow-lg">
         <header className="navbar flex-col lg:flex-row  justify-between items-center ">
           <div className="mb-3 lg:ml-28 lg:mb-0">
-            <Link to="/" className="btn btn-primary normal-case text-xl">
-              MYReFurB
+            <Link to="/" className=" normal-case text-xl">
+              <img
+                src="../../public/images/myrefurb.png"
+                className="w-32 h-[4.8rem]"
+              ></img>
             </Link>
           </div>
           <div>
