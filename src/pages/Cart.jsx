@@ -8,12 +8,8 @@ import { Link } from "react-router-dom";
 function Cart({ cartItems, setCartItems }) {
   const [numberOfCartItems, setNumberOfCartItems] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  // const [cartItems, setCartItems] = useState([]);
   const [isCartLoading, setIsCartLoading] = useState(false);
   const [cartItemsId, setCartItemsId] = useState();
-
-  console.log(cartItems);
-
   const BaseURL = "https://bekya.onrender.com";
   const token = localStorage.getItem("token");
 
@@ -27,13 +23,18 @@ function Cart({ cartItems, setCartItems }) {
   useEffect(() => {
     setIsCartLoading(true);
     async function getLoggedUserCart() {
-      const { data } = await axios.get(`${BaseURL}/api/v1/cart/`, config);
-      console.log("data from cart", data);
-      setIsCartLoading(false);
-      setNumberOfCartItems(data.numberOfCartItems);
-      setCartItems(data.userCart.cartItems);
-      setTotalPrice(data.userCart.totalPrice);
-      setCartItemsId(data.userCart);
+      try {
+        const { data } = await axios.get(`${BaseURL}/api/v1/cart/`, config);
+        setIsCartLoading(false);
+        setNumberOfCartItems(data.numberOfCartItems);
+        setCartItems(data.userCart.cartItems);
+        setTotalPrice(data.userCart.totalPrice);
+        setCartItemsId(data.userCart);
+      } catch (err) {
+        if (err.response.data.message) {
+          notify(err.response.data.message, "error");
+        }
+      }
     }
     getLoggedUserCart();
   }, []);
@@ -45,15 +46,16 @@ function Cart({ cartItems, setCartItems }) {
         `${BaseURL}/api/v1/cart/${productID}`,
         config
       );
-      console.log("data after remove one item", data);
       notify(data.message, "success");
       const newListofCart = cartItems.filter((item) => item._id !== productID);
       setCartItems(newListofCart);
       setNumberOfCartItems(newListofCart.length);
       setTotalPrice(data.userCart.totalPrice);
       return data;
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      if (err.response.data.message) {
+        notify(err.response.data.message, "error");
+      }
     }
   };
 
@@ -67,7 +69,9 @@ function Cart({ cartItems, setCartItems }) {
       notify("All items have been removed from cart ", "success");
       return data;
     } catch (error) {
-      console.log(error);
+      if (err.response.data.message) {
+        notify(err.response.data.message, "error");
+      }
     }
   };
 
