@@ -45,7 +45,7 @@ function Profile() {
     }
     getUser();
     getAddressUser();
-  }, [photo]);
+  }, []);
 
   console.log("profile: User", LoggedUser);
 
