@@ -268,7 +268,7 @@ function ProductCard({
             </div>
             <div className="card-actions w-full mt-2">
               <button
-                disabled={product?.user?._id === userData._id}
+                disabled={product?.user?._id === userData?._id}
                 onClick={() => {
                   handleAddToCart(product._id);
                 }}
