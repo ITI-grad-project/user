@@ -20,6 +20,7 @@ function Shop({ Categories, loginState, searchQuery }) {
   const [currentCategory, setCurrentCategory] = useState(0);
   const [currentCountry, setCurrentCountry] = useState(0);
   const [price, setPrice] = useState([]);
+  const [pagination, setPagination] = useState([]);
   const { id } = useParams();
   let countries = [
     "Cairo",
@@ -204,7 +205,7 @@ function Shop({ Categories, loginState, searchQuery }) {
             <Loading></Loading>
           ) : (
             <>
-              {!filteredData.length ? (
+              {!filteredData?.length ? (
                 <p className="font-bold text-center w-full text-2xl capitalize mt-[25vh]">
                   no products to show
                 </p>
