@@ -31,12 +31,13 @@ const Personallnfo = ({
   // defaultValues,
   // emailBeforeEdit,
   handleEditUserAccount,
-  imgFile,
-  setImgFile,
+  photo,
+  setPhoto,
 }) => {
   const [editbtn, setEditbtn] = useState(0);
   const [selected, setSelected] = useState(true);
   const [emailBeforeEdit, setEmailBeforeEdit] = useState();
+  // const [photo, setPhoto] = useState("");
 
   const {
     register,
@@ -135,8 +136,24 @@ const Personallnfo = ({
           },
         }
       );
-      // DataObj = { ...DataObj, profileImg: updatedPhoto };
-      handleEditUserAccount(DataObj);
+      if (photo !== "") {
+        await axios
+          .put("https://bekya.onrender.com/api/v1/user/updatePhoto", photo, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((response) => {
+            console.log("hello photo", response?.data);
+            console.log(photo);
+
+            // let FullObj = { ...DataObj, profileImg: photo.get("profileImg") };
+            // console.log(FullObj);
+            handleEditUserAccount(DataObj);
+          });
+      } else {
+        handleEditUserAccount(DataObj);
+      }
       localStorage.setItem("user", JSON.stringify(userData.data));
       notify("Data Updated Successfully", "success");
     } catch (err) {
@@ -171,8 +188,7 @@ const Personallnfo = ({
         {editbtn === 1 && (
           <ProfilePhoto
             LoggedUser={LoggedUser}
-            imgFile={imgFile}
-            setImgFile={setImgFile}
+            setPhoto={setPhoto}
             // handleEditUserAccount={handleEditUserAccount}
             // setUpdatedphoto={setUpdatedphoto}
           />
