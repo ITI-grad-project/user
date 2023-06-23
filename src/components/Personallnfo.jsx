@@ -192,7 +192,7 @@ const Personallnfo = ({
         )}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} >
+      <form onSubmit={handleSubmit(onSubmit)}>
         {editbtn === 1 && (
           <ProfilePhoto
             LoggedUser={LoggedUser}
@@ -282,13 +282,10 @@ const Personallnfo = ({
             // disabled
             // {editbtn === 0 && disabled}
           />
-          <label
-            htmlFor="male-radio"
-            className="cursor-pointer"
-          >
+          <label htmlFor="male-radio" className="cursor-pointer">
             Male
           </label>
-          
+
           <input
             id="female-radio"
             type="radio"
@@ -302,10 +299,7 @@ const Personallnfo = ({
             // defaultChecked
             // {...(editbtn === 0 && !watch("radio-4"))}
           />
-          <label
-            htmlFor="female-radio"
-            className="cursor-pointer"
-          >
+          <label htmlFor="female-radio" className="cursor-pointer">
             Female
           </label>
         </div>

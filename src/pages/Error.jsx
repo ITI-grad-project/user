@@ -1,7 +1,10 @@
 function NotFound() {
   return (
     <>
-      <h1>404 not found page...</h1>
+      <img
+        className="w-full h-[65vh] mb-[-50px]"
+        src="../../public/images/error-404.jpg"
+      ></img>
     </>
   );
 }
