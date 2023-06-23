@@ -2,9 +2,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Input from "./Input";
-import ProfilePhoto from "./ProfilePhoto";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import notify from "../hooks/useNotification";
 
 const schema = yup.object({
   country: yup.string().required("required field"),
@@ -14,7 +14,7 @@ const schema = yup.object({
   buildNo: yup.number().required("required field"),
 });
 
-const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
+const Address = ({ UserAddress, setUserAddress }) => {
   const {
     register,
     handleSubmit,
@@ -23,13 +23,17 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  // useEffect(() => {
+  //   setAddressEditBtn(0);
+  // }, [UserAddress]);
+
   const onSubmit = async (data) => {
     try {
-      console.log("Address: dataaaaaaaaaaaa", data);
-      setAddressEditBtn(0);
+      console.log("Address: dataaaa", data);
 
       const NewAddress = {
-        alias: "Home",
+        alias: data.alias,
         country: data.country,
         governorate: data.governorate,
         city: data.city,
@@ -45,10 +49,12 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
-        // }
       );
-      handleAddAddress(NewAddress);
-      console.log(update);
+
+      await setUserAddress([...UserAddress, NewAddress]);
+      // setAddressEditBtn(0);
+      notify("Address Added Successfully", "success");
+      setAddressEditBtn(0);
     } catch (err) {
       console.log(err);
     }
@@ -64,14 +70,30 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
           },
         }
       );
+      const newAddress = UserAddress.filter((Add) => Add._id !== AddressID);
+      setUserAddress(newAddress);
+      notify("Address Deleted Successfully", "success");
     } catch (err) {
       console.log(err);
     }
   };
 
   const [AddressEditBtn, setAddressEditBtn] = useState(0);
-  // const [removebtn, setRemovebtn] = useState(0);
-  const [selected, setSelected] = useState("yes");
+
+  // let i = 0;
+  // useEffect(() => {
+  //   setValue("alias", UserAddress[i]?.alias);
+  //   if (i === UserAddress?.length) {
+  //     i = 0;
+  //   } else {
+  //     i++;
+  //   }
+  // }, [UserAddress]);
+  const [selectedAdd, setSelectedAdd] = useState("Home");
+  const handleChangeAdd = (event) => {
+    console.log(event.target.value);
+    setSelectedAdd(event.target.value);
+  };
 
   return (
     <div className="p-6">
@@ -86,7 +108,7 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
           // console.log(address);
           AddressEditBtn === 1 && index > 0 ? null : (
             <div
-              key={address._id}
+              key={address?._id}
               className={AddressEditBtn === 0 && `border-2 p-6 mb-4`}
             >
               <div className="flex justify-between">
@@ -123,7 +145,7 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
                       fill="currentColor"
                       height="1em"
                       width="1em"
-                      className="cursor-pointer"
+                      className="cursor-pointer text-red-700"
                       onClick={() => {
                         removeAddress(address?._id);
                       }}
@@ -174,28 +196,38 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
                 </div>
               </div>
               <div className="flex gap-3">
-                <p className="font-[600] mb-2 text-[15px]">Alias</p>
-                <input
-                  type="radio"
-                  name="alias"
-                  {...register("home")}
-                  className="radio radio-primary h-5 w-5"
-                  value={false}
-                  checked={selected === false}
-                  // onChange={handleChange}
-                />
-                Home
-                <input
-                  type="radio"
-                  name="alias"
-                  {...register("work")}
-                  className="radio radio-primary h-5 w-5"
-                  value={true}
-                  checked={selected === true}
-                  // onChange={handleChange}
-                  // {...(AddressEditBtn === 0 && !watch("radio-4"))}
-                />
-                Work
+                <p className="font-[600] mb-2 text-[15px]">Alias:</p>
+                {AddressEditBtn === 0 && (
+                  <p className="font-[600] mb-2 text-[15px]">
+                    {address?.alias}
+                  </p>
+                )}
+                {/* {setSelectedAdd(address?.alias)} */}
+                {AddressEditBtn === 1 && (
+                  <>
+                    <input
+                      type="radio"
+                      // name={`Address${index}`}
+                      {...register("alias")}
+                      className="radio radio-primary h-5 w-5"
+                      value="Home"
+                      checked={selectedAdd === "Home"}
+                      onChange={handleChangeAdd}
+                    />
+                    Home
+                    <input
+                      type="radio"
+                      // name={`Address${index}`}
+                      {...register("alias")}
+                      className="radio radio-primary h-5 w-5"
+                      value="Work"
+                      checked={selectedAdd === "Work"}
+                      onChange={handleChangeAdd}
+                      // {...(AddressEditBtn === 0 && !watch("radio-4"))}
+                    />
+                    Work
+                  </>
+                )}
               </div>
             </div>
           )

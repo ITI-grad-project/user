@@ -12,8 +12,6 @@ console.log(token);
 
 function Profile() {
   const [LoggedUser, setLoggedUser] = useState();
-  // const [defaultValues, setDefaultValues] = useState();
-  // const [emailBeforeEdit, setEmailBeforeEdit] = useState();
   const [UserAddress, setUserAddress] = useState([]);
   const [currentTab, setCurrentTab] = useState(1);
   const [activeButton, setActiveButton] = useState(1);
@@ -29,14 +27,6 @@ function Profile() {
         })
         .then((Response) => {
           setLoggedUser(Response?.data?.data);
-          // setEmailBeforeEdit(Response?.data?.data?.email);
-          // setDefaultValues({
-          //   firstname: Response?.data?.data?.userName?.split(" ")[0],
-          //   lastname: Response?.data?.data?.userName?.split(" ")[1],
-          //   email: Response?.data?.data?.email,
-          //   phone: Response?.data?.data?.phone,
-          //   gender: Response?.data?.data?.gender,
-          // });
           console.log("profile Response", Response?.data);
         });
     }
@@ -61,19 +51,19 @@ function Profile() {
   const handleEditUserAccount = (EditedUser) => {
     setLoggedUser({ ...LoggedUser, ...EditedUser });
   };
-  const handleAddAddress = (NewAdd) => {
-    console.log("newwwwwwwwwwww", NewAdd);
-    console.log("olddddddd", UserAddress);
-    setUserAddress([...UserAddress, NewAdd]);
-  };
+  // const handleAddAddress = (NewAdd) => {
+  //   console.log("newwwwww", NewAdd);
+  //   console.log("oldddd", UserAddress);
+  //   setUserAddress([...UserAddress, NewAdd]);
+  // };
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div className="container mx-auto px-6 md:px-0 lg:px-8 xl:px-8 2xl:px-32 py-10">
         <div className="grid grid-cols-10 lg:grid-cols-10 gap-6">
           <div className="col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col lg:border-2 rounded py-8">
-          {/* <div className="h-96 col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col justify-center items-center lg:border-2 rounded py-8"> */}
+            {/* <div className="h-96 col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col justify-center items-center lg:border-2 rounded py-8"> */}
             <div className="flex flex-col justify-center items-center">
               <img
                 className="w-28 h-28 object-cover rounded-full mb-2"
@@ -167,7 +157,7 @@ function Profile() {
             ) : currentTab === 3 ? (
               <Address
                 UserAddress={UserAddress}
-                handleAddAddress={handleAddAddress}
+                // handleAddAddress={handleAddAddress}
                 setUserAddress={setUserAddress}
               />
             ) : currentTab === 4 ? (
