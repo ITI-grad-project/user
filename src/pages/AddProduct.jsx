@@ -158,7 +158,7 @@ const AddProduct = ({ listOfCategories }) => {
         if (response.data) {
           setIsLoading(false);
 
-          notify("product added successfully", "success");
+          notify("product updated successfully", "success");
           setTimeout(() => {
             navigate("/");
           }, 2000);
