@@ -46,7 +46,6 @@ function App() {
     <>
       <BrowserRouter>
         <ProductsProvider>
-          {/* <NavBar listOfCategories={listOfCategories} /> */}
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
