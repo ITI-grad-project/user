@@ -147,14 +147,28 @@ const Personallnfo = ({
             console.log("hello photo", response?.data);
             console.log(photo);
 
-            // let FullObj = { ...DataObj, profileImg: photo.get("profileImg") };
-            // console.log(FullObj);
-            handleEditUserAccount(DataObj);
+            let UrlImg = URL.createObjectURL(photo.get("profileImg"));
+
+            let FullObj = {
+              ...DataObj,
+              profileImg: UrlImg,
+            };
+
+            handleEditUserAccount(FullObj);
+            let Userdata = userData.data;
+
+            let StorageObj = {
+              ...Userdata,
+              profileImg: UrlImg,
+            };
+            localStorage.setItem("user", JSON.stringify(StorageObj));
           });
       } else {
         handleEditUserAccount(DataObj);
+        localStorage.setItem("user", JSON.stringify(userData.data));
       }
-      localStorage.setItem("user", JSON.stringify(userData.data));
+      // localStorage.setItem("user", JSON.stringify({...userData.data, profileImg:photo}));
+
       notify("Data Updated Successfully", "success");
     } catch (err) {
       console.log(err);
