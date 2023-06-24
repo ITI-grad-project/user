@@ -58,7 +58,6 @@ function Shop({ Categories, loginState, searchQuery, debouncedValue }) {
           //   urlWithId += `keyword=${currentCountry}&`;
           // }
           const { data } = await axios.get(`${urlWithId}`);
-
           setItems(data);
         } else {
           if (currentCategory != 0) {
@@ -76,6 +75,8 @@ function Shop({ Categories, loginState, searchQuery, debouncedValue }) {
             url += `keyword=${debouncedValue}&`;
           }
           const { data } = await axios.get(`${url}`);
+          console.log(data);
+
           setItems(data);
         }
         setIsLoading(false);
