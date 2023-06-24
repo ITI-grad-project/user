@@ -8,9 +8,6 @@ import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import Avatar from "../components/avatar";
 
-const token = localStorage.getItem("token");
-console.log(token);
-
 function Profile() {
   const [LoggedUser, setLoggedUser] = useState();
   const [UserAddress, setUserAddress] = useState([
@@ -25,6 +22,9 @@ function Profile() {
   const [currentTab, setCurrentTab] = useState(1);
   const [activeButton, setActiveButton] = useState(1);
   const [photo, setPhoto] = useState("");
+
+  const token = localStorage.getItem("token");
+  console.log("token", token);
 
   useEffect(() => {
     async function getUser() {

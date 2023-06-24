@@ -32,8 +32,8 @@ function NavBar({
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setLoginState(false);
-    // window.location.href = "/";
-    navigate("/");
+    window.location.href = "/";
+    // navigate("/");
   };
 
   return (
