@@ -21,9 +21,9 @@ function NavBar({
   }, []);
 
   const handleSearchChange = (event) => {
-    console.log(event.target.value);
     setSearchQuery(event.target.value);
   };
+
   const handleNavigate = () => {
     navigate(`/shop/`);
   };
@@ -32,8 +32,8 @@ function NavBar({
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setLoginState(false);
-    // window.location.href = "/";
-    navigate("/");
+    window.location.href = "/";
+    // navigate("/");
   };
 
   return (
@@ -43,8 +43,8 @@ function NavBar({
           <div className="mb-3 lg:ml-28 lg:mb-0">
             <Link to="/" className=" normal-case text-xl">
               <img
-                src="../../public/images/myrefurb.png"
-                className="w-32 h-[4.8rem]"
+                src="/images/logoblack.png"
+                className="w-fit h-[4.8rem]"
               ></img>
             </Link>
           </div>

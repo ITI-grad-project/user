@@ -28,7 +28,7 @@ const AddProduct = ({ listOfCategories }) => {
   let countries = [
     "Cairo",
     "Ismailia",
-    "Port Said",
+    "PortSaid",
     "Alexandria",
     "Suez",
     "Giza",
@@ -67,12 +67,12 @@ const AddProduct = ({ listOfCategories }) => {
       setProductName("");
       setPrice("");
       setDescription("");
-      setCountry("");
+      setCountry("Pick one");
       setCategoryId("Pick one");
       setPhone("");
       setFileList([]);
     }
-  }, [id, fileList.length]);
+  }, [id]);
 
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -111,6 +111,11 @@ const AddProduct = ({ listOfCategories }) => {
           }
         );
         if (res.data.message) {
+          const newFilesList = res.data.data.map((image) => ({
+            url: image.image,
+            _id: image._id,
+          }));
+          setFileList(newFilesList);
           notify(res.data.message, "success");
         }
       } catch (err) {
@@ -122,7 +127,9 @@ const AddProduct = ({ listOfCategories }) => {
   };
 
   const handleChange = async ({ fileList: newFileList }) => {
-    setFileList(newFileList);
+    if (id == "add") {
+      setFileList(newFileList);
+    }
     setUploadedImages(newFileList.map((item) => item.originFileObj));
   };
 
@@ -138,6 +145,7 @@ const AddProduct = ({ listOfCategories }) => {
           }
         );
         if (res.status == 204) {
+          setFileList(fileList.filter((ele) => ele._id != file._id));
           notify("imaged deleted successfully", "success");
         }
       } catch (err) {
@@ -264,7 +272,7 @@ const AddProduct = ({ listOfCategories }) => {
                 <span className="label-text">Description</span>
               </label>
               <textarea
-                {...((id == "add") == "add" && {
+                {...(id == "add" && {
                   ...register("description", { required: true, minLength: 3 }),
                 })}
                 className="textarea textarea-bordered border-primary h-24 focus:outline-primary"
