@@ -261,25 +261,10 @@ export default function ProductDetails({
                 <h6 className="font-semibold">{product?.user?.userName}</h6>
                 <div className="flex items-center gap-2">
                   <div className="flex">
-                    <StarRating rating={product?.user?.rating}/>
-                    {/* <span className="text-[#FF9934]">
-                      <StarIcon w={"w-5"} h={"h-5"} />
-                    </span>
-                    <span className="text-[#FF9934]">
-                      <StarIcon w={"w-5"} h={"h-5"} />
-                    </span>
-                    <span className="text-[#FF9934]">
-                      <StarIcon w={"w-5"} h={"h-5"} />
-                    </span>
-                    <span className="text-[#FF9934]">
-                      <StarIcon w={"w-5"} h={"h-5"} />
-                    </span>
-                    <span className="text-[#FF9934]">
-                      <StarIcon w={"w-5"} h={"h-5"} />
-                    </span> */}
+                    <StarRating rating={product?.user?.ratingsAverage || 0}/>
                   </div>
                   <div className="text-[#404040] font-medium">
-                    {"(0 Reviews)"}
+                    {`(${product?.user?.ratingQuantity} Reviews)`}
                   </div>
                 </div>
               </div>
@@ -344,6 +329,7 @@ export default function ProductDetails({
                       handleAddNewAnswer={handleAddNewAnswer}
                       handleDeleteQuestion={handleDeleteQuestion}
                       handleDeleteAnswer={handleDeleteAnswer}
+                      setLoading={setLoading}
                     />
                   ))}
                 </>

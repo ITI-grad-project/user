@@ -21,10 +21,11 @@ export default function Question({
   handleAddNewAnswer,
   handleDeleteQuestion,
   handleDeleteAnswer,
+  setLoading
 }) {
   const [showReplyInput, setShowReplyInput] = useState(false);
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const {
     handleSubmit,
     register,
@@ -73,8 +74,10 @@ export default function Question({
       );
       // Update app state
       handleDeleteQuestion(question);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
       // toast.error("Something went wrong, please try again later");
     }
   };
