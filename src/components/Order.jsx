@@ -50,7 +50,7 @@ export default function Order({ order }) {
               <>
                 <label
                   // onClick={() => handleCancelOrder(order?._id)}
-                  className="bg-gray-50 border-none py-2 px-4 rounded-lg normal-case md:max-w-[25%] flex justify-center items-center"
+                  className="bg-gray-50 border-none py-2 px-4 rounded-lg normal-case md:max-w-[25%] flex justify-center items-center cursor-pointer"
                   htmlFor={`my_modal_${order?._id}`}
                 >
                   <span className="pr-0 lg:pr-2">
@@ -139,7 +139,7 @@ export default function Order({ order }) {
             <>
               <label
                 // onClick={() => handleCancelOrder(order?._id)}
-                className="bg-gray-50 border-none py-2 px-4 rounded-lg normal-case md:max-w-[25%] flex justify-center items-center"
+                className="bg-gray-50 border-none py-2 px-4 rounded-lg normal-case md:max-w-[25%] flex justify-center items-center cursor-pointer"
                 htmlFor={`my_modal_${order?._id}_mobile`}
               >
                 <span className="pr-0 lg:pr-2">

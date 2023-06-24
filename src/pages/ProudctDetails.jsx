@@ -17,6 +17,7 @@ import QAInput from "../components/QAInput";
 import { ThreeDots } from "react-loader-spinner";
 import notify from "../hooks/useNotification";
 import { ToastContainer } from "react-toastify";
+import StarRating from "../components/Stars";
 
 const schema = yup.object({
   question: yup
@@ -260,7 +261,8 @@ export default function ProductDetails({
                 <h6 className="font-semibold">{product?.user?.userName}</h6>
                 <div className="flex items-center gap-2">
                   <div className="flex">
-                    <span className="text-[#FF9934]">
+                    <StarRating rating={product?.user?.rating}/>
+                    {/* <span className="text-[#FF9934]">
                       <StarIcon w={"w-5"} h={"h-5"} />
                     </span>
                     <span className="text-[#FF9934]">
@@ -274,7 +276,7 @@ export default function ProductDetails({
                     </span>
                     <span className="text-[#FF9934]">
                       <StarIcon w={"w-5"} h={"h-5"} />
-                    </span>
+                    </span> */}
                   </div>
                   <div className="text-[#404040] font-medium">
                     {"(0 Reviews)"}
