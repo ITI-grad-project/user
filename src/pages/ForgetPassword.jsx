@@ -43,12 +43,11 @@ const ForgetPassword = () => {
   };
   return (
     <div className="flex flex-col">
-      <Link
-        to="/"
-        className="btn btn-ghost normal-case w-fit text-xl mx-auto my-7"
-      >
-        MYReFurB
-      </Link>
+      <div className="mb-12  lg:mb-0 flex items-center justify-center mt-20 pt-10">
+        <Link to="/" className=" normal-case text-xl">
+          <img src="/images/logoblack.png" className="w-fit h-[4.8rem]"></img>
+        </Link>
+      </div>
       <div className="border mx-auto mt-4 mr-52 ml-52 rounded-lg shadow-lg flex flex-col items-center justify-center md:flex-row md:items-center md:justify-center md:border-0">
         <ToastContainer />
 
@@ -94,7 +93,10 @@ const ForgetPassword = () => {
 
           <div className="flex justify-center">
             {isLoading ? (
-              <ThreeDots color="#FFD336" />
+              <ThreeDots
+                wrapperClass="text-primary flex justify-center items-center"
+                color="currentColor"
+              />
             ) : (
               <button className="w-full py-3 bg-primary border  border-primary hover:bg-white hover:border-primary hover:text-primary rounded-lg text-white font-semibold text-[20px]">
                 Continue{" "}
