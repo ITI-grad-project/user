@@ -66,19 +66,7 @@ export default function ProductDetails({
         console.log(error);
       }
     }
-    // async function getProductQuestions(){
-    //   try {
-    //     console.log( await axios.get(
-    //       `https://bekya.onrender.com/api/v1/questions/${productId}`
-    //     ))
-    //     console.log(data.data);
-    //     setQuestions(data?.data);
-    //     setLoading(false);
-    //   } catch (error) {
-    //     setLoading(true);
-    //     console.log(error);
-    //   }
-    // }
+
     getProductDetails();
     // getProductQuestions();
   }, []);

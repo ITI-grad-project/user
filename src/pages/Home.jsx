@@ -281,15 +281,12 @@ function Home({
         )}
       </div>
       <div className="mt-20 mx-2 sm:mx-10 lg:mx-32 flex justify-center ">
-        <div className="card w-fit bg-base-100 shadow-xl image-full ">
+        <div className="card w-fit bg-base-100 shadow image-full ">
           <figure>
-            <img
-              src="https://miro.medium.com/max/1400/1*iS8Ta0egGT5NYPVl6hzMoQ.jpeg"
-              alt="Shoes"
-            />
+            <img src="../../public/images/girl.png" alt="Shoes" />
           </figure>
           <div className="card-body flex flex-col justify-center">
-            <h2 className="card-title text-5xl justify-center">
+            <h2 className="card-title text-5xl mb-8 justify-center text-white">
               Variety Of Selling Items
             </h2>
             <div className="card-actions justify-center ">
