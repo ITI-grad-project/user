@@ -10,23 +10,22 @@ function Slider() {
     //   img: "../../public/images/MYReFurB (2).png",
     // },
     {
-      img: "../../public/images/happy.png",
+      img: "/images/happy.png",
     },
     {
-      img: "../../public/images/happy.png",
-    },
-
-    {
-      img: "../../public/images/camera girl.png",
+      img: "/images/happy.png",
     },
     {
-      img: "../../public/images/camera girl.png",
+      img: "/images/camera girl.png",
     },
     {
-      img: "../../public/images/antique.png",
+      img: "/images/camera girl.png",
     },
     {
-      img: "../../public/images/antique.png",
+      img: "/images/antique.png",
+    },
+    {
+      img: "/images/antique.png",
     },
   ];
   useEffect(() => {
