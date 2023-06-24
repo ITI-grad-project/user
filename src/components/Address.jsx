@@ -2,9 +2,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Input from "./Input";
-import ProfilePhoto from "./ProfilePhoto";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import notify from "../hooks/useNotification";
 
 const schema = yup.object({
   country: yup.string().required("required field"),
@@ -14,7 +14,7 @@ const schema = yup.object({
   buildNo: yup.number().required("required field"),
 });
 
-const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
+const Address = ({ UserAddress, setUserAddress }) => {
   const {
     register,
     handleSubmit,
@@ -23,13 +23,17 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  // useEffect(() => {
+  //   setAddressEditBtn(0);
+  // }, [UserAddress]);
+
   const onSubmit = async (data) => {
     try {
-      console.log("Address: dataaaaaaaaaaaa", data);
-      setAddressEditBtn(0);
+      console.log("Address: dataaaa", data);
 
       const NewAddress = {
-        alias: "Home",
+        alias: data.alias,
         country: data.country,
         governorate: data.governorate,
         city: data.city,
@@ -45,10 +49,12 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
-        // }
       );
-      handleAddAddress(NewAddress);
-      console.log(update);
+
+      await setUserAddress([...UserAddress, NewAddress]);
+      // setAddressEditBtn(0);
+      notify("Address Added Successfully", "success");
+      setAddressEditBtn(0);
     } catch (err) {
       console.log(err);
     }
@@ -64,14 +70,30 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
           },
         }
       );
+      const newAddress = UserAddress.filter((Add) => Add._id !== AddressID);
+      setUserAddress(newAddress);
+      notify("Address Deleted Successfully", "success");
     } catch (err) {
       console.log(err);
     }
   };
 
   const [AddressEditBtn, setAddressEditBtn] = useState(0);
-  // const [removebtn, setRemovebtn] = useState(0);
-  const [selected, setSelected] = useState("yes");
+
+  // let i = 0;
+  // useEffect(() => {
+  //   setValue("alias", UserAddress[i]?.alias);
+  //   if (i === UserAddress?.length) {
+  //     i = 0;
+  //   } else {
+  //     i++;
+  //   }
+  // }, [UserAddress]);
+  const [selectedAdd, setSelectedAdd] = useState("Home");
+  const handleChangeAdd = (event) => {
+    console.log(event.target.value);
+    setSelectedAdd(event.target.value);
+  };
 
   return (
     <div className="p-6">
@@ -86,7 +108,7 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
           // console.log(address);
           AddressEditBtn === 1 && index > 0 ? null : (
             <div
-              key={index}
+              key={address?._id}
               className={AddressEditBtn === 0 && `border-2 p-6 mb-4`}
             >
               <div className="flex justify-between">
@@ -120,15 +142,15 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
                   {AddressEditBtn === 0 && (
                     <svg
                       viewBox="0 0 24 24"
-                      fill="primary"
-                      height="1.2em"
-                      width="1.2em"
-                      className="text-primary cursor-pointer"
+                      fill="currentColor"
+                      height="1em"
+                      width="1em"
+                      className="cursor-pointer text-red-700"
                       onClick={() => {
                         removeAddress(address?._id);
                       }}
                     >
-                      <path d="M8.707 19.707L18 10.414 13.586 6l-9.293 9.293a1.003 1.003 0 00-.263.464L3 21l5.242-1.03c.176-.044.337-.135.465-.263zM21 7.414a2 2 0 000-2.828L19.414 3a2 2 0 00-2.828 0L15 4.586 19.414 9 21 7.414z" />
+                      <path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12z" />
                     </svg>
                   )}
                 </div>
@@ -174,23 +196,38 @@ const Address = ({ UserAddress, setUserAddress, handleAddAddress }) => {
                 </div>
               </div>
               <div className="flex gap-3">
-                <p className="font-[600] mb-2 text-[15px]">Alias</p>
-                <input
-                  type="radio"
-                  name="alias"
-                  {...register("home")}
-                  className="radio radio-primary h-5 w-5"
-                />
-                Home
-                <input
-                  type="radio"
-                  name="alias"
-                  {...register("work")}
-                  className="radio radio-primary h-5 w-5"
-                  defaultChecked
-                  // {...(AddressEditBtn === 0 && !watch("radio-4"))}
-                />
-                Work
+                <p className="font-[600] mb-2 text-[15px]">Alias:</p>
+                {AddressEditBtn === 0 && (
+                  <p className="font-[600] mb-2 text-[15px]">
+                    {address?.alias}
+                  </p>
+                )}
+                {/* {setSelectedAdd(address?.alias)} */}
+                {AddressEditBtn === 1 && (
+                  <>
+                    <input
+                      type="radio"
+                      // name={`Address${index}`}
+                      {...register("alias")}
+                      className="radio radio-primary h-5 w-5"
+                      value="Home"
+                      checked={selectedAdd === "Home"}
+                      onChange={handleChangeAdd}
+                    />
+                    Home
+                    <input
+                      type="radio"
+                      // name={`Address${index}`}
+                      {...register("alias")}
+                      className="radio radio-primary h-5 w-5"
+                      value="Work"
+                      checked={selectedAdd === "Work"}
+                      onChange={handleChangeAdd}
+                      // {...(AddressEditBtn === 0 && !watch("radio-4"))}
+                    />
+                    Work
+                  </>
+                )}
               </div>
             </div>
           )

@@ -1,18 +1,48 @@
-function Footer() {
+import { Link, NavLink } from "react-router-dom";
+
+function Footer({ listOfCategories }) {
   return (
     <>
       <footer className="footer p-10 bg-secondary text-white justify-around mt-12">
         <div>
           <span className="footer-title">Categories</span>
-          <a className="link link-hover">Branding</a>
-          <a className="link link-hover">Design</a>
-          <a className="link link-hover">Marketing</a>
-          <a className="link link-hover">Advertisement</a>
+          {listOfCategories?.map((category) => {
+            return (
+              <NavLink
+                to={`shop/${category._id}`}
+                className={({ isActive }) =>
+                  isActive
+                    ? "link link-hover capitalize text-primary"
+                    : "link link-hover capitalize"
+                }
+              >
+                {category.name}
+              </NavLink>
+            );
+          })}
         </div>
         <div>
           <span className="footer-title">Company</span>
-          <a className="link link-hover">About us</a>
-          <a className="link link-hover">Contact</a>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive
+                ? "link link-hover capitalize text-primary"
+                : "link link-hover capitalize"
+            }
+          >
+            About us
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive
+                ? "link link-hover capitalize text-primary"
+                : "link link-hover capitalize"
+            }
+          >
+            Contact Us
+          </NavLink>
         </div>
         <div>
           <span className="footer-title">Legal</span>
@@ -26,10 +56,10 @@ function Footer() {
             If you have any question. Please
             <br /> contact us at{" "}
             <a
-              href="mailto:demo@example.com"
+              href="mailto:myrefurb87@gmail.com"
               className="text-primary hover:underline"
             >
-              demo@example.com
+              myrefurb87@gmail.com
             </a>{" "}
           </p>
           <div className="mt-1 flex gap-3">

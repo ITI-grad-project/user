@@ -20,6 +20,7 @@ import CheckOut from "./pages/CheckOut";
 import ProfileUser from "./pages/profileUser";
 import About from "./pages/About";
 import Contact from "./pages/ContactUs";
+import Error from "./pages/Error";
 
 function App() {
   const [listOfCategories, setListOfCategories] = useState([]);
@@ -45,7 +46,6 @@ function App() {
     <>
       <BrowserRouter>
         <ProductsProvider>
-          {/* <NavBar listOfCategories={listOfCategories} /> */}
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
@@ -118,6 +118,8 @@ function App() {
                     cartItems={cartItems}
                     setCartItems={setCartItems}
                     loginState={loginState}
+                    wishlistedItems={wishlistedItems}
+                    setWishlistedItems={setWishlistedItems}
                   />
                 }
               ></Route>
@@ -129,6 +131,7 @@ function App() {
               />
 
               <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<Error />} />
             </Route>
           </Routes>
           {/* <Footer /> */}

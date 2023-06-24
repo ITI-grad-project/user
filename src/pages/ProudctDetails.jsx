@@ -38,6 +38,7 @@ export default function ProductDetails({
   const [showFav, setShowFav] = useState(false);
   const navigate = useNavigate();
   const BaseURL = "https://bekya.onrender.com";
+  const userData = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     async function getProductDetails() {
@@ -136,6 +137,32 @@ export default function ProductDetails({
       // toast.error("Something went wrong, please try again later");
       //   const { data } = error.response;
       //   toast.error(data.message);
+    }
+  };
+  const handleAddToWishlist = async (productID) => {
+    if (loginState === true) {
+      if (!wishListed) {
+        const prodID = { productId: productID };
+        try {
+          const response = await axios.post(
+            `${BaseURL}/api/v1/wishlist/`,
+            prodID,
+            config
+          );
+          toggleWishListed(productID);
+          notify("Item Added to wishlist successfully", "success");
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        toggleWishListed(productID);
+      }
+    } else {
+      notify("You must login first", "warn");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     }
   };
 
@@ -268,6 +295,7 @@ export default function ProductDetails({
               +2{product?.phone}
             </div>
             <button
+              disabled={product?.user?._id === userData._id}
               className="btn btn-primary text-white normal-case lg:w-[70%] md:w-[70%] mt-6"
               onClick={() => {
                 handleAddToCart(product._id);
@@ -289,7 +317,7 @@ export default function ProductDetails({
               <QuestionIcon />
             </span>
             Questions
-            <span className="text-[#404040] font-medium pl-2">{`(${product?.questions?.length})`}</span>
+            {/* <span className="text-[#404040] font-medium pl-2">{`(${product?.questions?.length})`}</span> */}
           </h5>
           {/*Users Questions/Comments */}
           {!loading && questions?.length === 0 ? (

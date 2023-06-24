@@ -46,16 +46,24 @@ export default function Order({ order }) {
                   })}</p>
             </div>
             {!order?.cancelOrder && !isCancel ? (
-              <button
+              <>
+                <label
+                  // onClick={() => handleCancelOrder(order?._id)}
+                  className="bg-gray-50 border-none py-2 px-4 rounded-lg normal-case md:max-w-[25%] flex justify-center items-center"
+                  htmlFor={`my_modal_${order?._id}`}
+                >
+                  <span className="pr-0 lg:pr-2">
+                    {" "}
+                    <CancelIcon />{" "}
+                  </span>{" "}
+                  Cancel Order
+                </label>
+                <ConfirmModal
+                id={order?._id}
                 onClick={() => handleCancelOrder(order?._id)}
-                className="bg-gray-50 border-none py-2 px-4 rounded-lg normal-case md:max-w-[25%] flex justify-center items-center"
-              >
-                <span className="pr-0 lg:pr-2">
-                  {" "}
-                  <CancelIcon />{" "}
-                </span>{" "}
-                Cancel Order
-              </button>
+                message={"Cancel This Order?"}
+              />
+              </>
             ) : (
               <span className="text-gray-600">Canceled</span>
             )}
@@ -127,16 +135,24 @@ export default function Order({ order }) {
           </p>
          </div>
           {!order?.cancelOrder && !isCancel ? (
-            <button
+            <>
+              <label
+                // onClick={() => handleCancelOrder(order?._id)}
+                className="bg-gray-50 border-none py-2 px-4 rounded-lg normal-case md:max-w-[25%] flex justify-center items-center"
+                htmlFor={`my_modal_${order?._id}_mobile`}
+              >
+                <span className="pr-0 lg:pr-2">
+                  {" "}
+                  <CancelIcon />{" "}
+                </span>{" "}
+                Cancel
+              </label>
+              <ConfirmModal
+              id={`${order?._id}_mobile`}
               onClick={() => handleCancelOrder(order?._id)}
-              className="bg-gray-50 border-none py-2 px-4 rounded-lg normal-case md:max-w-[25%] flex justify-center items-center"
-            >
-              <span className="pr-0 lg:pr-2">
-                {" "}
-                <CancelIcon />{" "}
-              </span>{" "}
-              Cancel
-            </button>
+              message={"Cancel This Order?"}
+            />
+            </>
           ) : (
             <span className="text-gray-600">Canceled</span>
           )}

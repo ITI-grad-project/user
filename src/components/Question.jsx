@@ -6,6 +6,7 @@ import axios from "axios";
 
 import QAInput from "./QAInput";
 import TrashIcon from "../assets/icons/TrashIcon";
+import ConfirmModal from "./ConfirmModal";
 
 const schema = yup.object({
   answer: yup
@@ -34,7 +35,7 @@ export default function Question({
   });
 
   const formSubmit = async (dataForm) => {
-    console.log(question?.user?.profileImg)
+    console.log(question?.user?.profileImg);
     try {
       setLoading(true);
       // Call Backend
@@ -129,12 +130,20 @@ export default function Question({
               {/* -------- Question Delete ------ */}
               {JSON.parse(localStorage.getItem("user"))._id ===
                 question?.user?._id && (
-                <span
-                  onClick={() => handleDeleteQ(question)}
-                  className="text-red-800 cursor-pointer"
-                >
-                  <TrashIcon />
-                </span>
+                <>
+                  <label
+                    // onClick={() => handleDeleteQ(question)}
+                    className="text-red-800 cursor-pointer"
+                    htmlFor={`my_modal_${question?._id}_question`}
+                  >
+                    <TrashIcon />
+                  </label>
+                  <ConfirmModal
+                    id={`${question?._id}_question`}
+                    onClick={() => handleDeleteQ(question)}
+                    message={"Delete This Question?"}
+                  />
+                </>
               )}
             </div>
             <div>{question?.question}</div>
@@ -159,12 +168,26 @@ export default function Question({
                     {/* --------- Answer|Reply Delete */}
                     {JSON.parse(localStorage.getItem("user"))._id ===
                       productUser?._id && (
-                      <span
-                        onClick={() => handleDeleteA(question)}
-                        className="text-red-800 cursor-pointer"
-                      >
-                        <TrashIcon />
-                      </span>
+                      // <span
+                      //   onClick={() => handleDeleteA(question)}
+                      //   className="text-red-800 cursor-pointer"
+                      // >
+                      //   <TrashIcon />
+                      // </span>
+                      <>
+                        <label
+                          // onClick={() => handleDeleteA(question)}
+                          className="text-red-800 cursor-pointer"
+                          htmlFor={`my_modal_${question?._id}_answer`}
+                        >
+                          <TrashIcon />
+                        </label>
+                        <ConfirmModal
+                          id={`${question?._id}_answer`}
+                          onClick={() => handleDeleteA(question)}
+                          message={"Delete This Answer?"}
+                        />
+                      </>
                     )}
                   </div>
                   <div>{question?.answer}</div>
