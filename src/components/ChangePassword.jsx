@@ -117,7 +117,7 @@ export default function ChangePassword() {
             label="Confirm Password"
             name="confirmPassword"
             type={showConfirmPass ? "text" : "password"}
-            placeholder="●●●●●●●●●●●●"
+            placeholder=""
             register={{ ...register("confirmPassword") }}
             errorMessage={errors.confirmPassword?.message}
           />
