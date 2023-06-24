@@ -38,7 +38,7 @@ const Layout = ({
           setSearchQuery={setSearchQuery}
         />
         <Outlet />
-        <Footer />
+        <Footer listOfCategories={listOfCategories} />
       </>
     );
   }

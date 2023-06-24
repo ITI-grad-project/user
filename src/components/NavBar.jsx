@@ -145,14 +145,14 @@ function NavBar({
                           isActive ? "bg-primary capitalize" : "capitalize"
                         }
                       >
-                        All
+                        Shop
                       </NavLink>
                     </li>
                     {listOfCategories?.map((category) => {
                       return (
                         <li key={category?._id}>
                           <NavLink
-                            to="/shop"
+                            to={`/shop/${category._id}`}
                             className={({ isActive }) =>
                               isActive ? "bg-primary capitalize" : "capitalize"
                             }
@@ -337,32 +337,7 @@ function NavBar({
                   className={({ isActive }) => (isActive ? "bg-primary " : "")}
                 >
                   Shop
-                  <svg
-                    className="fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                  </svg>
                 </NavLink>
-                <ul className="p-2 z-10 bg-white border-base-300 border shadow-md">
-                  {listOfCategories?.map((category) => {
-                    return (
-                      <li key={category?._id}>
-                        <NavLink
-                          to={`/shop/${category._id}`}
-                          className={({ isActive }) =>
-                            isActive ? "bg-primary capitalize" : "capitalize"
-                          }
-                        >
-                          {category.name}
-                        </NavLink>
-                      </li>
-                    );
-                  })}
-                </ul>
               </li>
               {listOfCategories?.map((category) => {
                 return (
