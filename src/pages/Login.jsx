@@ -161,11 +161,14 @@ export default function Login() {
               )}
             </div>
 
-            <div className="flex justify-between text-primary py-5">
-              <div className="pt-4 pl-6 md:pl-24">
+            <div className="flex flex-col gap-3 justify-between text-primary ">
+              <div className="pt-4 md:pl-24">
                 <GoogleLogin onSuccess={onSuccess} />
               </div>
-              <Link to="/forgotPassword" className="cursor-pointer">
+              <Link
+                to="/forgotPassword"
+                className="cursor-pointer flex justify-center mb-3"
+              >
                 Forgot Password?
               </Link>
             </div>
