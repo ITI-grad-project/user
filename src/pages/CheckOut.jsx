@@ -34,7 +34,7 @@ function CheckOut() {
   const handleCheckOut = async () => {
     console.log(!Object.keys(selectedAddress).length && !selectedMethod.length);
     if (!Object.keys(selectedAddress).length || !selectedMethod.length) {
-      notify("you must choose the address and method", "error");
+      return notify("you must choose the address and method", "error");
     }
     if (selectedMethod === "cash") {
       setIsLoading(true);
