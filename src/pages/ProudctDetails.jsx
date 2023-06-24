@@ -47,19 +47,7 @@ export default function ProductDetails() {
         console.log(error);
       }
     }
-    // async function getProductQuestions(){
-    //   try {
-    //     console.log( await axios.get(
-    //       `https://bekya.onrender.com/api/v1/questions/${productId}`
-    //     ))
-    //     console.log(data.data);
-    //     setQuestions(data?.data);
-    //     setLoading(false);
-    //   } catch (error) {
-    //     setLoading(true);
-    //     console.log(error);
-    //   }
-    // }
+
     getProductDetails();
     // getProductQuestions();
   }, []);
@@ -109,7 +97,7 @@ export default function ProductDetails() {
     setQuestions(newQuestion);
   };
   const handleAddNewQuestion = (NewQuestion) => {
-    console.log(NewQuestion)
+    console.log(NewQuestion);
     setQuestions([...questions, NewQuestion]);
   };
 
@@ -180,7 +168,13 @@ export default function ProductDetails() {
             <div className="flex gap-2 items-center">
               <div className="avatar">
                 <div className="w-12 rounded-full">
-                  <img src={product?.user?.profileImg || "https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png"} alt="user" />
+                  <img
+                    src={
+                      product?.user?.profileImg ||
+                      "https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png"
+                    }
+                    alt="user"
+                  />
                 </div>
               </div>
               <div>
@@ -217,7 +211,7 @@ export default function ProductDetails() {
             </div>
             <div className="flex">
               <span className="pr-2 text-center">
-                <PhoneIcon w={"w-6"} h={"h-6"}/>
+                <PhoneIcon w={"w-6"} h={"h-6"} />
               </span>
               +2{product?.phone}
             </div>
@@ -246,15 +240,15 @@ export default function ProductDetails() {
               <img src="/images/No Question.png" alt="" className="w-48 h-48" />
               <p className="text-xl font-bold">No Question Yet</p>
             </div>
-          ):(
+          ) : (
             <>
-            {!questions?.length && loading ? (
+              {!questions?.length && loading ? (
                 <ThreeDots
                   wrapperClass="text-primary flex justify-center items-center"
                   color="currentColor"
                 />
               ) : (
-                <> 
+                <>
                   {questions?.map((question) => (
                     <Question
                       key={question?._id}

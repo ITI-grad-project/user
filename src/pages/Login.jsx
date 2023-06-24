@@ -61,33 +61,6 @@ export default function Login() {
     }
   };
 
-  // const onSuccess = async (credentialResponse) => {
-  //   if (credentialResponse) {
-  //     document.body.style.overflowX = "hidden";
-  //     try {
-  //       const { data } = await axios.post(
-  //         "https://bekya.onrender.com/api/v1/auth/googleLogin",
-  //         {
-  //           googleToken: credentialResponse.credential,
-  //         }
-  //       );
-  //       if (data.message == "login success") {
-  //         localStorage.setItem("token", data.token);
-  //         localStorage.setItem("user", JSON.stringify(data.user));
-  //         // setTimeout(() => {
-  //         //   window.location.href = "/";
-  //         //   window.location.replace = true;
-  //         // }, 1500);
-  //       }
-  //     } catch (err) {
-  //       if (err.response) {
-  //         // toast.error(err.response.data.message);
-  //         console.log(err);
-  //       }
-  //     }
-  //     // setLoading(false);
-  //   }
-  //};
   return (
     <div className="flex flex-col">
       <Link

@@ -23,22 +23,22 @@ const About = () => {
           <div className="justify-self-start">
             <h1 className="font-bold">Our Stories</h1>
             <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-              animi vitae cum quibusdam eligendi laborum impedit voluptates
-              dignissimos in optio omnis, quasi veritatis tenetur iure
-              aspernatur voluptatum rem sequi suscipit.
+              We aim to create a trusted online marketplace where individuals
+              can easily list their used items and connect with potential
+              buyers. By facilitating the reuse and recycling of pre-owned
+              goods.
             </p>
             <div className="flex gap-9 mt-10 ">
               <pre>
-                <h1 className="w-fit mt-9 ">Our Mission</h1>
+                <h1 className="w-fit mt-9 ">Our Vision</h1>
               </pre>
 
               <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id
-                sequi dolores odio recusandae optio suscipit eos doloremque
-                architecto consequuntur deserunt? Consequuntur perspiciatis
-                nesciunt reiciendis doloribus modi possimus hic, voluptas
-                suscipit?
+                Our vision is to become the leading ecommerce platform for
+                buying and selling used items. We aspire to build a vibrant
+                online community where individuals can effortlessly discover,
+                trade, and connect with others who share a passion for
+                sustainable living and cost-effective shopping.
               </p>
             </div>
             <div className="flex gap-9 mt-10 ">
@@ -47,11 +47,13 @@ const About = () => {
               </pre>
 
               <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id
-                sequi dolores odio recusandae optio suscipit eos doloremque
-                architecto consequuntur deserunt? Consequuntur perspiciatis
-                nesciunt reiciendis doloribus modi possimus hic, voluptas
-                suscipit?
+                Our mission is to provide a reliable and convenient platform for
+                buying and selling used items. We aim to create a trusted online
+                marketplace where individuals can easily list their used items
+                and connect with potential buyers. Our mission is to empower
+                individuals to unlock the value in their possessions while
+                offering affordable and quality second-hand products to our
+                customers.
               </p>
             </div>
           </div>
@@ -68,7 +70,7 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="../../public/images/image 1.png"
+                  src="../../public/images/rania.jpeg"
                   alt="Your Image"
                 />
               </div>
@@ -114,7 +116,7 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="../../public/images/image 1.png"
+                  src="../../public/images/fatma.jpeg"
                   alt="Your Image"
                 />
               </div>
@@ -140,7 +142,7 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="../../public/images/image 1.png"
+                  src="../../public/images/beshoy.jpeg"
                   alt="Your Image"
                 />
               </div>

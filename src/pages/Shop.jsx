@@ -18,6 +18,9 @@ function Shop({ Categories, loginState }) {
   const [items, setItems] = useState([]);
   const { id } = useParams();
 
+  const [currentCategory, setCurrentCategory] = useState(0);
+  const [currentCountry, setCurrentCountry] = useState(0);
+
   useEffect(() => {
     async function getItemsByPage() {
       try {
@@ -46,9 +49,6 @@ function Shop({ Categories, loginState }) {
     getItemsByPage();
   }, [CurrentPage, id]);
   console.log("items", items);
-
-  const [currentCategory, setCurrentCategory] = useState(0);
-  const [currentCountry, setCurrentCountry] = useState(0);
 
   let FilteredItems = useMemo(() => {
     return currentCategory === 0 && currentCountry === 0

@@ -287,10 +287,7 @@ function Home({
       <div className="mt-20 mx-2 sm:mx-10 lg:mx-32 flex justify-center ">
         <div className="card w-fit bg-base-100 shadow-xl image-full ">
           <figure>
-            <img
-              src="https://miro.medium.com/max/1400/1*iS8Ta0egGT5NYPVl6hzMoQ.jpeg"
-              alt="Shoes"
-            />
+            <img src="../../public/images/Untitled design.png" alt="Shoes" />
           </figure>
           <div className="card-body flex flex-col justify-center">
             <h2 className="card-title text-5xl justify-center">

@@ -7,26 +7,26 @@ function Slider() {
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const img = [
     {
-      img: "https://www.badcredit.org/wp-content/uploads/2020/04/Best-Sites-to-Sell-Your-Stuff.jpg",
+      img: "../../public/images/MYReFurB (1).png",
     },
     {
-      img: "https://g.foolcdn.com/editorial/images/567925/gettyimages-1165073587.jpg",
+      img: "../../public/images/MYReFurB (2).png",
     },
     {
-      img: "https://avatars.mds.yandex.net/i?id=2084febe8229eb3de961dbc4c9786087f08e472c-7683610-images-thumbs&n=13",
+      img: "../../public/images/4 (1).png",
     },
     {
-      img: "https://foodpackthai.com/wp-content/uploads/2022/06/gift.jpg",
+      img: "../../public/images/6.png",
     },
     {
-      img: "https://golocad.com/wp-content/uploads/2022/12/e-comm-packaging.webp",
+      img: "../../public/images/MYReFurB (3).png",
     },
     {
-      img: "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1240w,f_auto,q_auto:best/newscms/2019_01/2704581/190104-clutter-home-drawers-stock-cs-215p.jpg",
+      img: "../../public/images/my.png",
     },
 
     {
-      img: "https://www.badcredit.org/wp-content/uploads/2020/04/Best-Sites-to-Sell-Your-Stuff.jpg",
+      img: "../../public/images/MYReFurB (4).png",
     },
   ];
   useEffect(() => {
@@ -71,9 +71,13 @@ function Slider() {
   }, [index]);
   return (
     <>
-      <div className="carousel w-full h-96">
+      <div className="carousel w-full h-screen">
         <div id="slide1" className="carousel-item relative w-full">
-          <img className="w-full" src={img[index].img} key={index} />
+          <img
+            className="w-full bg-contain "
+            src={img[index].img}
+            key={index}
+          />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="#slide2" className="btn btn-circle btn-primary">
               ❮
