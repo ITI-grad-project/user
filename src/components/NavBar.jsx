@@ -21,9 +21,9 @@ function NavBar({
   }, []);
 
   const handleSearchChange = (event) => {
-    console.log(event.target.value);
     setSearchQuery(event.target.value);
   };
+
   const handleNavigate = () => {
     navigate(`/shop/`);
   };

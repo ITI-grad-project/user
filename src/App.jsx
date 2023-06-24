@@ -7,6 +7,7 @@ import VerifyCode from "./pages/VerifyCode";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProudctDetails";
+import { useDebounce } from "use-debounce";
 
 import { ProductsProvider } from "./context/ProductContext";
 import { useEffect, useState } from "react";
@@ -29,6 +30,7 @@ function App() {
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
   const [wishlistedItems, setWishlistedItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedValue] = useDebounce(searchQuery, 1000);
 
   const BaseURL = "https://bekya.onrender.com";
 
@@ -108,6 +110,7 @@ function App() {
                     loginState={loginState}
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
+                    debouncedValue={debouncedValue}
                   />
                 }
               />
