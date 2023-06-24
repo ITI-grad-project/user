@@ -12,7 +12,7 @@ const MIN = 0;
 const MAX = 10000;
 const BaseURL = "https://bekya.onrender.com/api/v1";
 
-function Shop({ Categories, loginState, searchQuery }) {
+function Shop({ Categories, loginState, searchQuery, debouncedValue }) {
   const [Values, setValues] = useState([MIN, MAX]);
   const [CurrentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(null);
@@ -20,8 +20,9 @@ function Shop({ Categories, loginState, searchQuery }) {
   const [currentCategory, setCurrentCategory] = useState(0);
   const [currentCountry, setCurrentCountry] = useState(0);
   const [price, setPrice] = useState([]);
-  const [pagination, setPagination] = useState([]);
+  const [keyword, setKeyword] = useState("");
   const { id } = useParams();
+  let limit = 2;
   let countries = [
     "Cairo",
     "Ismailia",
@@ -30,43 +31,52 @@ function Shop({ Categories, loginState, searchQuery }) {
     "Suez",
     "Giza",
   ];
-  let url = `${BaseURL}/products?`;
+  let url = `${BaseURL}/products/?`;
+  let urlWithId = `${BaseURL}/categories/${id}/products?`;
+
+  // useEffect(() => {
+  //   console.log("debou", debouncedValue);
+  //   setKeyword(debouncedValue);
+  // }, [debouncedValue]);
 
   useEffect(() => {
     async function getItemsByPage() {
       try {
         setIsLoading(true);
         if (id) {
-          const { data } = await axios.get(
-            CurrentPage === 1
-              ? `${BaseURL}/categories/${id}/products?page=1&limit=6`
-              : `${BaseURL}/categories/${id}/products?page=${CurrentPage}&limit=6`
-          );
+          console.log(urlWithId);
+          if (currentCountry != 0) {
+            console.log(currentCountry);
+            urlWithId += `country=${currentCountry}&`;
+          }
+          if (price.length) {
+            urlWithId = urlWithId.replace(/price\[gte\]=\d+&?/, "");
+            urlWithId = urlWithId.replace(/price\[lte\]=\d+&?/, "");
+            urlWithId += `price[gte]=${price[0]}&price[lte]=${price[1]}`;
+          }
+          // if (price.searchQuery) {
+          //   urlWithId += `keyword=${currentCountry}&`;
+          // }
+          const { data } = await axios.get(`${urlWithId}`);
+
           setItems(data);
         } else {
           if (currentCategory != 0) {
             url += `category=${currentCategory}&`;
           }
           if (currentCountry != 0) {
-            console.log(currentCountry);
             url += `country=${currentCountry}&`;
-            console.log(url);
           }
           if (price.length) {
             url = url.replace(/price\[gte\]=\d+&?/, "");
             url = url.replace(/price\[lte\]=\d+&?/, "");
             url += `price[gte]=${price[0]}&price[lte]=${price[1]}`;
-            console.log(url);
-            console.log(price);
           }
-
-          const { data } = await axios.get(
-            CurrentPage === 1
-              ? `${url}`
-              : `${BaseURL}/products?page=${CurrentPage}&limit=6&category=${currentCategory}`
-          );
+          if (debouncedValue) {
+            url += `keyword=${debouncedValue}&`;
+          }
+          const { data } = await axios.get(`${url}`);
           setItems(data);
-          console.log(items);
         }
         setIsLoading(false);
       } catch (error) {
@@ -75,22 +85,37 @@ function Shop({ Categories, loginState, searchQuery }) {
     }
 
     getItemsByPage();
-  }, [CurrentPage, id, currentCategory, currentCountry, price]);
+  }, [CurrentPage, id, currentCategory, currentCountry, price, debouncedValue]);
 
-  let filteredData = [];
-  //apply search query if ensure there is data found in postData
-  if (items) {
-    filteredData = items.data?.filter(
-      (item) =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }
+  let noOfPages = 1;
+  let pageSize = 9;
+  let itemsRender = [];
+  noOfPages = Math.ceil((items?.data?.length || 0) / pageSize); // Ensure filteredData?.length is not undefined or null
+  const pages = Array(noOfPages)
+    .fill(0)
+    .map((item, i) => i + 1);
+
+  const start = CurrentPage * pageSize - pageSize;
+  const end = start + pageSize;
+
+  itemsRender = items?.data?.slice(start, end);
+
+  const changeCurrentPage = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
-    <div className="lg:px-36 px-12 py-10">
+    <div className="lg:px-36 px-12 py-5">
       <ToastContainer />
       {/* max-[700px]:grid-rows-2 */}
+
+      <h2 className="w-3/4 ml-[-5rem] text-center font-light capitalize text-gray-400 py-2">
+        total items:{" "}
+        <span className="font-bold">
+          {items?.data?.length == 0 ? "0" : items?.data?.length}
+        </span>
+      </h2>
+
       <div className="grid grid-cols-12 w-full xl:gap-12 lg:gap-[5.2rem]">
         <div className="rounded-lg border-[2px] border-[#ECE8E8] lg:col-span-3 lg:min-w-[15rem] w-full col-span-12 h-fit font-['Roboto'] px-10">
           {!id && (
@@ -205,13 +230,13 @@ function Shop({ Categories, loginState, searchQuery }) {
             <Loading></Loading>
           ) : (
             <>
-              {!filteredData?.length ? (
+              {!itemsRender?.length ? (
                 <p className="font-bold text-center w-full text-2xl capitalize mt-[25vh]">
                   no products to show
                 </p>
               ) : (
                 <>
-                  {filteredData?.map((item, index) => {
+                  {itemsRender?.map((item, index) => {
                     return (
                       <div className="col-span-2 lg:col-span-3 2xl:col-span-2 min-[1700px]:col-span-1">
                         <ProductCard
@@ -229,11 +254,25 @@ function Shop({ Categories, loginState, searchQuery }) {
         </div>
       </div>
       <div className="px-36">
-        <PaginationPage
-          setCurrentPage={setCurrentPage}
-          CurrentPage={CurrentPage}
-          // NoOfPages={items?.pagination?.numOfPages}
-        />
+        <div className="flex flex-wrap gap-1 items-center justify-center bg-white py-3 sm:px-6 ">
+          {pages.length > 1 && (
+            <div>
+              <div className="btn-group">
+                {pages.map((page) => (
+                  <button
+                    onClick={() => changeCurrentPage(page)}
+                    key={page}
+                    className={`btn ${
+                      CurrentPage === page ? "btn-active" : ""
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

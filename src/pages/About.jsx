@@ -15,7 +15,7 @@ const About = () => {
             <div className=" absolute inset-0 w-72 h-72 rounded-full overflow-hidden border border-primary  ">
               <img
                 className="w-full h-full object-cover  "
-                src="../../public/images/image 1.png"
+                src="/images/image 1.png"
                 alt="Your Image"
               />
             </div>
@@ -70,7 +70,7 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="../../public/images/rania.jpeg"
+                  src="/images/rania.jpeg"
                   alt="Your Image"
                 />
               </div>
@@ -93,7 +93,7 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="../../public/images/image 1.png"
+                  src="/images/image 1.png"
                   alt="Your Image"
                 />
               </div>
@@ -116,7 +116,7 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="../../public/images/fatma.jpeg"
+                  src="/images/fatma.jpeg"
                   alt="Your Image"
                 />
               </div>
@@ -142,7 +142,7 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="../../public/images/beshoy.jpeg"
+                  src="/images/beshoy.jpeg"
                   alt="Your Image"
                 />
               </div>
@@ -166,7 +166,7 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="../../public/images/image 1.png"
+                  src="/images/image 1.png"
                   alt="Your Image"
                 />
               </div>
@@ -197,7 +197,7 @@ const About = () => {
                 </div>
                 <img
                   className="w-20 h-20 rounded-full mx-auto mb-4"
-                  src="../../public/images/man.jpg"
+                  src="/images/man.jpg"
                   alt="Testimonial Image"
                 />
 
@@ -217,7 +217,7 @@ const About = () => {
                 </div>
                 <img
                   className="w-20 h-20 rounded-full mx-auto mb-4"
-                  src="../../public/images/man.jpg"
+                  src="/images/man.jpg"
                   alt="Testimonial Image"
                 />
                 <h3 className="text-lg font-bold mb-2">Jane Smith</h3>
@@ -236,7 +236,7 @@ const About = () => {
                 </div>
                 <img
                   className="w-20 h-20 rounded-full mx-auto mb-4"
-                  src="../../public/images/man.jpg"
+                  src="/images/man.jpg"
                   alt="Testimonial Image"
                 />
                 <h3 className="text-lg font-bold mb-2">Jane Smith</h3>
@@ -255,7 +255,7 @@ const About = () => {
                 </div>
                 <img
                   className="w-20 h-20 rounded-full mx-auto mb-4"
-                  src="../../public/images/man.jpg"
+                  src="/images/man.jpg"
                   alt="Testimonial Image"
                 />
                 <h3 className="text-lg font-bold mb-2">Jane Smith</h3>
