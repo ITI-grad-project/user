@@ -9,6 +9,8 @@ import { ToastContainer } from "react-toastify";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import Password from "../components/password";
+import { GoogleLogin } from "@react-oauth/google";
+
 export default function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -61,33 +63,33 @@ export default function Login() {
     }
   };
 
-  // const onSuccess = async (credentialResponse) => {
-  //   if (credentialResponse) {
-  //     document.body.style.overflowX = "hidden";
-  //     try {
-  //       const { data } = await axios.post(
-  //         "https://bekya.onrender.com/api/v1/auth/googleLogin",
-  //         {
-  //           googleToken: credentialResponse.credential,
-  //         }
-  //       );
-  //       if (data.message == "login success") {
-  //         localStorage.setItem("token", data.token);
-  //         localStorage.setItem("user", JSON.stringify(data.user));
-  //         // setTimeout(() => {
-  //         //   window.location.href = "/";
-  //         //   window.location.replace = true;
-  //         // }, 1500);
-  //       }
-  //     } catch (err) {
-  //       if (err.response) {
-  //         // toast.error(err.response.data.message);
-  //         console.log(err);
-  //       }
-  //     }
-  //     // setLoading(false);
-  //   }
-  //};
+  const onSuccess = async (credentialResponse) => {
+    if (credentialResponse) {
+      document.body.style.overflowX = "hidden";
+      try {
+        setIsLoading(true);
+        const { data } = await axios.post(
+          "https://bekya.onrender.com/api/v1/auth/googleLogin",
+          { googleToken: credentialResponse.credential }
+        );
+        if (data.message == "login success") {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          notify("login success", "success");
+          setTimeout(() => {
+            window.location.href = "/";
+            window.location.replace = true;
+          }, 1500);
+        }
+      } catch (err) {
+        console.log(err);
+        if (err.response) {
+          notify(err.response.data.message, "error");
+        }
+      }
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="flex flex-col">
       <Link
@@ -160,10 +162,9 @@ export default function Login() {
             </div>
 
             <div className="flex justify-between text-primary py-5">
-              {/* <p className="flex items-center">
-              <input className="mr-2 bg-primary text-primary" type="checkbox" />{" "}
-              Remember Me
-            </p> */}
+              <div className="pt-4 pl-6 md:pl-24">
+                <GoogleLogin onSuccess={onSuccess} />
+              </div>
               <Link to="/forgotPassword" className="cursor-pointer">
                 Forgot Password?
               </Link>
