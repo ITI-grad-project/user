@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 import CancelIcon from "../assets/icons/CancelIcon";
+import ConfirmModal from "./ConfirmModal";
 
 export default function Order({ order }) {
   const [isCancel, setIsCancel] = useState();
