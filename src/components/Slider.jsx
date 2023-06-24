@@ -10,22 +10,16 @@ function Slider() {
     //   img: "../../public/images/MYReFurB (2).png",
     // },
     {
-      img: "/images/happy.png",
+      img: "/images/rr.jpeg",
     },
     {
-      img: "/images/happy.png",
+      img: "/images/nn.jpeg",
     },
     {
-      img: "/images/camera girl.png",
+      img: "/images/mm.jpeg",
     },
     {
-      img: "/images/camera girl.png",
-    },
-    {
-      img: "/images/antique.png",
-    },
-    {
-      img: "/images/antique.png",
+      img: "/images/mm.jpeg",
     },
   ];
   useEffect(() => {

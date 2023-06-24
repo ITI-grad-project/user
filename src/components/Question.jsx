@@ -22,7 +22,7 @@ export default function Question({
   handleAddNewAnswer,
   handleDeleteQuestion,
   handleDeleteAnswer,
-  setLoading
+  setLoading,
 }) {
   const [showReplyInput, setShowReplyInput] = useState(false);
 
@@ -200,7 +200,7 @@ export default function Question({
             ) : (
               // </div>
               <>
-                {JSON.parse(localStorage.getItem("user"))._id ===
+                {JSON.parse(localStorage.getItem("user"))?._id ===
                   productUser?._id && (
                   <span
                     className="text-primary font-bold mt-3 cursor-pointer w-12"

@@ -70,8 +70,8 @@ export default function Signup() {
 
   return (
     <div className="flex flex-col">
-      <div className="mb-12 lg:ml-28 lg:mb-0 flex items-center justify-center">
-        <Link to="/" className=" normal-case text-xl">
+      <div className="mb-12 lg:mb-0 flex items-center justify-center">
+        <Link to="/" className=" normal-case text-xl mb-5">
           <img src="/images/logoblack.png" className="w-fit h-[4.8rem]"></img>
         </Link>
       </div>
@@ -198,7 +198,10 @@ export default function Signup() {
           </div> */}
             <div className="flex justify-center mt-5">
               {isLoading ? (
-                <ThreeDots color="#FFD336" />
+                <ThreeDots
+                  wrapperClass="text-primary flex justify-center items-center"
+                  color="currentColor"
+                />
               ) : (
                 <button className="w-full py-3 bg-primary border  border-primary hover:bg-white hover:border-primary hover:text-primary rounded-lg text-white font-semibold text-[20px]">
                   Sign Up

@@ -93,12 +93,12 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="/images/menna.jpeg"
+                  src="/images/menna (2).jpeg"
                   alt="Your Image"
                 />
               </div>
               <h5 className="mb-1  mt-5 text-xl font-medium text-gray-900 dark:text-white">
-                Mennattullah Kamal
+                Mennat allah Kamal
               </h5>
               <span className="text-sm text-gray-500 dark:text-gray-400">
                 Frontend Developer
