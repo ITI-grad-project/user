@@ -2,7 +2,13 @@ import { Outlet, useLocation } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 
-const Layout = ({ listOfCategories, setLoginState, loginState }) => {
+const Layout = ({
+  listOfCategories,
+  setLoginState,
+  loginState,
+  searchQuery,
+  setSearchQuery,
+}) => {
   const location = useLocation();
 
   // Check if the current route is the login route
@@ -11,7 +17,7 @@ const Layout = ({ listOfCategories, setLoginState, loginState }) => {
   const isForgetPasswordRoute = location.pathname === "/forgotPassword";
   const isVerifyRoute = location.pathname === "/verify";
   const isNewPasswordRoute = location.pathname === "/newPassword";
-  //   const isErrorRoute = location.pathname === "/*";
+  // const isErrorRoute = location.pathname === "/*";
 
   if (
     isLoginRoute ||
@@ -28,9 +34,11 @@ const Layout = ({ listOfCategories, setLoginState, loginState }) => {
           listOfCategories={listOfCategories}
           setLoginState={setLoginState}
           loginState={loginState}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
         />
         <Outlet />
-        <Footer />
+        <Footer listOfCategories={listOfCategories} />
       </>
     );
   }

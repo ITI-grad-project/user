@@ -1,19 +1,32 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import notify from "../hooks/useNotification";
 import Avatar from "./avatar";
 
-function NavBar({ listOfCategories, loginState, setLoginState }) {
-  // console.log("List of categories from navbar", listOfCategories.data);
-  // const [loginState, setLoginState] = useState(false);
+function NavBar({
+  listOfCategories,
+  loginState,
+  setLoginState,
+  searchQuery,
+  setSearchQuery,
+}) {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const location = useLocation();
 
   useEffect(() => {
     if (localStorage.getItem("token") != null) {
       setLoginState(true);
     }
   }, []);
+
+  const handleSearchChange = (event) => {
+    console.log(event.target.value);
+    setSearchQuery(event.target.value);
+  };
+  const handleNavigate = () => {
+    navigate(`/shop/`);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -28,33 +41,43 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
       <div className="shadow-lg">
         <header className="navbar flex-col lg:flex-row  justify-between items-center ">
           <div className="mb-3 lg:ml-28 lg:mb-0">
-            <Link to="/" className="btn btn-primary normal-case text-xl">
-              MYReFurB
+            <Link to="/" className=" normal-case text-xl">
+              <img
+                src="../../public/images/logoblack.png"
+                className="w-fit h-[4.8rem]"
+              ></img>
             </Link>
           </div>
           <div>
             <div className="form-control relative w-96 h-fit">
-              <input
-                type="text"
-                placeholder="Search for items..."
-                className="input input-bordered input-primary input-sm"
-              />
-              <div className="btn-primary rounded-lg p-2 absolute right-0 hover:cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-4 h-4 text-white font-semibold"
+              <>
+                <input
+                  type="text"
+                  placeholder="Search for items..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  className="input input-bordered input-primary input-sm"
+                />
+                <div
+                  onClick={handleNavigate}
+                  className="btn-primary rounded-lg p-2 absolute right-0 hover:cursor-pointer"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                  />
-                </svg>
-              </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4 text-white font-semibold"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    />
+                  </svg>
+                </div>
+              </>
             </div>
           </div>
           <div className=" flex gap-4 justify-between mt-3 sm:mr-28 ">
@@ -122,14 +145,14 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                           isActive ? "bg-primary capitalize" : "capitalize"
                         }
                       >
-                        All
+                        Shop
                       </NavLink>
                     </li>
                     {listOfCategories?.map((category) => {
                       return (
                         <li key={category?._id}>
                           <NavLink
-                            to="/shop"
+                            to={`/shop/${category._id}`}
                             className={({ isActive }) =>
                               isActive ? "bg-primary capitalize" : "capitalize"
                             }
@@ -314,32 +337,7 @@ function NavBar({ listOfCategories, loginState, setLoginState }) {
                   className={({ isActive }) => (isActive ? "bg-primary " : "")}
                 >
                   Shop
-                  <svg
-                    className="fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                  </svg>
                 </NavLink>
-                <ul className="p-2 z-10 bg-white border-base-300 border shadow-md">
-                  {listOfCategories?.map((category) => {
-                    return (
-                      <li key={category?._id}>
-                        <NavLink
-                          to={`/shop/${category._id}`}
-                          className={({ isActive }) =>
-                            isActive ? "bg-primary capitalize" : "capitalize"
-                          }
-                        >
-                          {category.name}
-                        </NavLink>
-                      </li>
-                    );
-                  })}
-                </ul>
               </li>
               {listOfCategories?.map((category) => {
                 return (

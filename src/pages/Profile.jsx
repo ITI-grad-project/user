@@ -6,16 +6,17 @@ import Orders from "../components/Orders";
 import Products from "../components/Products";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
+import Avatar from "../components/avatar";
 
 const token = localStorage.getItem("token");
 console.log(token);
 
 function Profile() {
-  const [LoggedUser, setLoggedUser] = useState([]);
+  const [LoggedUser, setLoggedUser] = useState();
   const [UserAddress, setUserAddress] = useState([]);
   const [currentTab, setCurrentTab] = useState(1);
   const [activeButton, setActiveButton] = useState(1);
-  const [imgFile, setImgFile] = useState([]);
+  const [photo, setPhoto] = useState("");
 
   useEffect(() => {
     async function getUser() {
@@ -44,32 +45,37 @@ function Profile() {
     }
     getUser();
     getAddressUser();
-  }, [imgFile]);
+  }, []);
 
   console.log("profile: User", LoggedUser);
 
   const handleEditUserAccount = (EditedUser) => {
     setLoggedUser({ ...LoggedUser, ...EditedUser });
   };
-  const handleAddAddress = (NewAdd) => {
-    console.log("newwwwwwwwwwww", NewAdd);
-    console.log("olddddddd", UserAddress);
-    setUserAddress([...UserAddress, NewAdd]);
-  };
+  // const handleAddAddress = (NewAdd) => {
+  //   console.log("newwwwww", NewAdd);
+  //   console.log("oldddd", UserAddress);
+  //   setUserAddress([...UserAddress, NewAdd]);
+  // };
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div className="container mx-auto px-6 md:px-0 lg:px-8 xl:px-8 2xl:px-32 py-10">
         <div className="grid grid-cols-10 lg:grid-cols-10 gap-6">
           <div className="col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col lg:border-2 rounded py-8">
-          {/* <div className="h-96 col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col justify-center items-center lg:border-2 rounded py-8"> */}
+            {/* <div className="h-96 col-span-10 lg:col-span-2 2xl:col-span-2 flex flex-col justify-center items-center lg:border-2 rounded py-8"> */}
             <div className="flex flex-col justify-center items-center">
-              <img
-                className="w-28 h-28 object-cover rounded-full mb-2"
-                src={LoggedUser?.profileImg}
-                alt=""
-              />
+              {LoggedUser?.profileImg ? (
+                <img
+                  className="w-28 h-28 object-cover rounded-full mb-2"
+                  src={LoggedUser?.profileImg}
+                  alt="ProfileImg"
+                />
+              ) : (
+                <Avatar width={28} />
+              )}
+
               <h3 className="text-center text-[20px] font-[600] mb-3">
                 {LoggedUser?.userName}
               </h3>
@@ -147,15 +153,15 @@ function Profile() {
               <Personallnfo
                 LoggedUser={LoggedUser}
                 handleEditUserAccount={handleEditUserAccount}
-                imgFile={imgFile}
-                setImgFile={setImgFile}
+                photo={photo}
+                setPhoto={setPhoto}
               />
             ) : currentTab === 2 ? (
               <ChangePassword />
             ) : currentTab === 3 ? (
               <Address
                 UserAddress={UserAddress}
-                handleAddAddress={handleAddAddress}
+                // handleAddAddress={handleAddAddress}
                 setUserAddress={setUserAddress}
               />
             ) : currentTab === 4 ? (

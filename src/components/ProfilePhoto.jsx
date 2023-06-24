@@ -1,32 +1,21 @@
 import { useState, useRef } from "react";
-import axios from "axios";
 
-const ProfilePhoto = ({ LoggedUser, imgFile, setImgFile }) => {
-  // const [imgFile, setImgFile] = useState([]);
+const ProfilePhoto = ({ LoggedUser, setPhoto }) => {
+  const [imgFile, setImgFile] = useState([]);
   const [initalPhoto, setinitalPhoto] = useState(0);
 
   const FileInput = useRef();
   const handleClick = (event) => {
     FileInput.current?.click();
   };
+
   const handleUploadFile = async (event) => {
-    const dataphoto = new FormData();
-    dataphoto.append("profileImg", event.target.files[0]);
+    const photo = new FormData();
+    photo.append("profileImg", event.target.files[0]);
     console.log("img", event.target.files[0]);
     setImgFile(URL.createObjectURL(event.target.files[0]));
     setinitalPhoto(1);
-
-    await axios
-      .put("https://bekya.onrender.com/api/v1/user/updatePhoto", dataphoto, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        console.log("hello photo", response); // do something with the response
-        // handleEditUserAccount(dataphoto);
-        // setUpdatedphoto(dataphoto);
-      });
+    setPhoto(photo);
   };
   return (
     <>

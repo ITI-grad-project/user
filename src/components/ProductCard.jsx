@@ -13,12 +13,9 @@ function ProductCard({
   setWishlistedItems,
   wishlistedItems,
 }) {
-  // console.log("product from card", product);
-
   const navigate = useNavigate();
 
   const [wishListed, setWishListed] = useState(false);
-
   const BaseURL = "https://bekya.onrender.com";
   const token = localStorage.getItem("token");
   const config = {
@@ -27,10 +24,10 @@ function ProductCard({
       "Content-Type": "application/json",
     },
   };
+  const userData = JSON.parse(localStorage.getItem("user"));
 
   const toggleWishListed = async (productID) => {
     setWishListed((prevState) => !prevState);
-    console.log(wishListed);
     if (wishListed) {
       try {
         const { data } = await axios.delete(
@@ -41,7 +38,6 @@ function ProductCard({
         const newWishlist = wishlistedItems.filter(
           (item) => item._id !== productID
         );
-        console.log(newWishlist);
         setWishlistedItems(newWishlist);
       } catch (error) {
         console.log(error);
@@ -87,12 +83,8 @@ function ProductCard({
   };
 
   const handleAddToCart = async (productID) => {
-    console.log("productID", productID);
-    console.log("login state", loginState);
-
     if (loginState === true) {
       const check = cartItems?.find(product._id == productID);
-      console.log("check", check);
       const token = localStorage.getItem("token");
       const prodID = { productId: productID };
 
@@ -188,18 +180,28 @@ function ProductCard({
             </div>
             <div className="flex justify-between">
               <div className="flex gap-2 mt-2 self-center">
-                {product.user?.profileImg ? (
-                  <img
-                    src={product.user?.profileImg}
-                    className="w-13 h-11 rounded-full"
-                  />
-                ) : (
-                  <Avatar></Avatar>
-                )}
+                <Link
+                  to={`/userProfile/${product.user?._id}`}
+                  className="hover:scale-110 "
+                >
+                  {product.user?.profileImg ? (
+                    <img
+                      src={product.user?.profileImg}
+                      className="w-13 h-11 rounded-full hover:ring-2 hover:ring-primary"
+                    />
+                  ) : (
+                    <Avatar
+                      ring={"ring-2"}
+                      ringPrimary={"ring-primary"}
+                    ></Avatar>
+                  )}
+                </Link>
+
                 <h3 className="self-center capitalize text-sm">
-                  {product.user?.userName}
+                  {product?.user?.userName}
                 </h3>
               </div>
+
               <div className="self-center flex">
                 {filledStar.map((fStar, idx) => {
                   return (
@@ -266,6 +268,7 @@ function ProductCard({
             </div>
             <div className="card-actions w-full mt-2">
               <button
+                disabled={product?.user?._id === userData?._id}
                 onClick={() => {
                   handleAddToCart(product._id);
                 }}

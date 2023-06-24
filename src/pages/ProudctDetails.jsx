@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,6 +15,8 @@ import Question from "../components/Question";
 import QuestionIcon from "../assets/icons/QuestionIcon";
 import QAInput from "../components/QAInput";
 import { ThreeDots } from "react-loader-spinner";
+import notify from "../hooks/useNotification";
+import { ToastContainer } from "react-toastify";
 
 const schema = yup.object({
   question: yup
@@ -23,13 +25,20 @@ const schema = yup.object({
     .min(5, "Answer must be at least 5 characters"),
 });
 
-export default function ProductDetails() {
+export default function ProductDetails({
+  cartItems,
+  setCartItems,
+  loginState,
+}) {
   const { productId } = useParams();
   const [product, setProduct] = useState();
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [indexActive, setIndexActive] = useState(0);
   const [showFav, setShowFav] = useState(false);
+  const navigate = useNavigate();
+  const BaseURL = "https://bekya.onrender.com";
+  const userData = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     async function getProductDetails() {
@@ -51,7 +60,38 @@ export default function ProductDetails() {
     getProductDetails();
     // getProductQuestions();
   }, []);
+  const handleAddToCart = async (productID) => {
+    console.log(loginState);
+    if (loginState === true) {
+      const prodID = { productId: productID };
 
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      };
+      try {
+        const response = await axios.post(
+          `${BaseURL}/api/v1/cart/`,
+          prodID,
+          config
+        );
+        if (response.data.status == "fail") {
+          notify(response.data.message, "error");
+        } else {
+          notify(response.data.message, "success");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      notify("You must login first", "warn");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
+  };
   const {
     handleSubmit,
     register,
@@ -87,6 +127,32 @@ export default function ProductDetails() {
       //   toast.error(data.message);
     }
   };
+  const handleAddToWishlist = async (productID) => {
+    if (loginState === true) {
+      if (!wishListed) {
+        const prodID = { productId: productID };
+        try {
+          const response = await axios.post(
+            `${BaseURL}/api/v1/wishlist/`,
+            prodID,
+            config
+          );
+          toggleWishListed(productID);
+          notify("Item Added to wishlist successfully", "success");
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        toggleWishListed(productID);
+      }
+    } else {
+      notify("You must login first", "warn");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
+  };
 
   const handleAddNewAnswer = (UpdatedQuestion) => {
     let newQuestion = questions?.map((question) =>
@@ -117,6 +183,7 @@ export default function ProductDetails() {
 
   return (
     <div className="max-w-7xl mx-auto p-8">
+      <ToastContainer></ToastContainer>
       <div className="flex flex-col gap-16">
         <div className="flex flex-col justify-between lg:flex-row gap-16 lg:items-start">
           {/* Images */}
@@ -215,7 +282,13 @@ export default function ProductDetails() {
               </span>
               +2{product?.phone}
             </div>
-            <button className="btn btn-primary text-white normal-case lg:w-[70%] md:w-[70%] mt-6">
+            <button
+              disabled={product?.user?._id === userData._id}
+              className="btn btn-primary text-white normal-case lg:w-[70%] md:w-[70%] mt-6"
+              onClick={() => {
+                handleAddToCart(product._id);
+              }}
+            >
               <span className="pr-2">
                 {" "}
                 <CartIcon />{" "}

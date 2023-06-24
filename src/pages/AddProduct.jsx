@@ -21,20 +21,24 @@ const AddProduct = ({ listOfCategories }) => {
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
   const [isLoading, setIsLoading] = useState(null);
+  const [prodPhotos, setProdPhotos] = useState("");
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [fileList, setFileList] = useState([]);
 
-  const [arr, setArr] = useState([]);
-  const [files, setFiles] = useState([]);
+  let countries = [
+    "Cairo",
+    "Ismailia",
+    "Port Said",
+    "Alexandria",
+    "Suez",
+    "Giza",
+  ];
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log(id);
-
-  const [uploadedImages, setUploadedImages] = useState([]);
-
-  const [fileList, setFileList] = useState([]);
+  const token = localStorage.getItem("token");
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm();
 
@@ -47,12 +51,12 @@ const AddProduct = ({ listOfCategories }) => {
       setPrice(data.data.price);
       setDescription(data.data.description);
       setCountry(data.data.country);
-      setCategoryId(data.data.category.name);
+      setCategoryId(data.data.category._id);
       setPhone(data.data.phone);
-      // setUploadedImages(data.data.images);
+      setProdPhotos(data.data.images);
       setFileList(
         data.data.images.map((image) => {
-          return { url: image.image };
+          return { url: image.image, _id: image._id };
         })
       );
     }
@@ -68,8 +72,7 @@ const AddProduct = ({ listOfCategories }) => {
       setPhone("");
       setFileList([]);
     }
-  }, [id]);
-  console.log(fileList);
+  }, [id, fileList.length]);
 
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -80,6 +83,7 @@ const AddProduct = ({ listOfCategories }) => {
     });
 
   const handleCancel = () => setPreviewOpen(false);
+
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -90,10 +94,60 @@ const AddProduct = ({ listOfCategories }) => {
       file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
     );
   };
-  const handleChange = ({ fileList: newFileList }) => {
+
+  const handleBeforeUpload = async (file) => {
+    if (id != "add") {
+      const formData = new FormData();
+      formData.append("image", file);
+      try {
+        const res = await axios.put(
+          `https://bekya.onrender.com/api/v1/products/addPhoto/${id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (res.data.message) {
+          notify(res.data.message, "success");
+        }
+      } catch (err) {
+        if (err.response.data.message) {
+          notify(err.response.data.message, "error");
+        }
+      }
+    }
+  };
+
+  const handleChange = async ({ fileList: newFileList }) => {
     setFileList(newFileList);
     setUploadedImages(newFileList.map((item) => item.originFileObj));
   };
+
+  const handleRemove = async (file) => {
+    if (id != "add") {
+      try {
+        const res = await axios.delete(
+          `https://bekya.onrender.com/api/v1/products/deletePhoto/${file._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (res.status == 204) {
+          notify("imaged deleted successfully", "success");
+        }
+      } catch (err) {
+        if (err.response.data.message) {
+          notify(err.response.data.message, "error");
+        }
+      }
+    }
+  };
+
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -106,17 +160,9 @@ const AddProduct = ({ listOfCategories }) => {
       </div>
     </div>
   );
-  const token = localStorage.getItem("token");
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-      accept: "application/json",
-    },
-  };
+
   const onSubmit = async (data) => {
     setIsLoading(true);
-
     try {
       const formData = new FormData();
       formData.append("title", data.name);
@@ -132,7 +178,12 @@ const AddProduct = ({ listOfCategories }) => {
         const response = await axios.post(
           "https://bekya.onrender.com/api/v1/products/",
           formData,
-          config
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
         if (response.data) {
           notify("product added successfully", "success");
@@ -143,24 +194,31 @@ const AddProduct = ({ listOfCategories }) => {
       } else {
         const response = await axios.put(
           `https://bekya.onrender.com/api/v1/products/${id}`,
-          formData,
-          config
+          {
+            ...(price && { price }),
+            ...(description && { description }),
+            ...(country && { country }),
+            ...(productName && { title: productName }),
+            ...(categoryId && { category: categoryId }),
+            ...(phone && { phone }),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         if (response.data) {
-          setIsLoading(false);
-
-          notify("product added successfully", "success");
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
+          notify("product updated successfully", "success");
         }
       }
     } catch (error) {
-      if (error.response.data.errors) {
+      if (error?.response?.data?.errors) {
         let arr = error.response.data.errors.map((err) => err.msg);
         arr.forEach((ele) => notify(ele, "error"));
       }
     }
+    setIsLoading(false);
   };
 
   return (
@@ -168,7 +226,7 @@ const AddProduct = ({ listOfCategories }) => {
       <ToastContainer></ToastContainer>
       <div className="flex flex-col justify-center items-center m-10">
         <h2 className="font-bold text-3xl uppercase text-center">
-          Add Product
+          {id === "add" ? `Add Product` : `Edit Product`}
         </h2>
         <hr className="w-16 bg-primary h-1 mt-2" />
       </div>
@@ -180,7 +238,9 @@ const AddProduct = ({ listOfCategories }) => {
                 <span className="label-text text-base">Product Name</span>
               </label>
               <input
-                {...register("name", { required: true, minLength: 5 })}
+                {...(id == "add" && {
+                  ...register("name", { required: true, minLength: 5 }),
+                })}
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered border-primary w-full  focus:outline-primary"
@@ -203,7 +263,9 @@ const AddProduct = ({ listOfCategories }) => {
                 <span className="label-text">Description</span>
               </label>
               <textarea
-                {...register("description", { required: true, minLength: 3 })}
+                {...((id == "add") == "add" && {
+                  ...register("description", { required: true, minLength: 3 }),
+                })}
                 className="textarea textarea-bordered border-primary h-24 focus:outline-primary"
                 placeholder="Bio"
                 onChange={(e) => {
@@ -227,7 +289,9 @@ const AddProduct = ({ listOfCategories }) => {
                 <span className="label-text">Price</span>
               </label>
               <input
-                {...register("price", { required: true })}
+                {...(id == "add" && {
+                  ...register("price", { required: true }),
+                })}
                 type="number"
                 className="input input-bordered border-primary w-full focus:outline-primary"
                 placeholder="Price"
@@ -247,7 +311,9 @@ const AddProduct = ({ listOfCategories }) => {
                 <span className="label-text">Categories</span>
               </label>
               <select
-                {...register("category", { required: true })}
+                {...(id == "add" && {
+                  ...register("category", { required: true }),
+                })}
                 className="select select-bordered border-primary w-full  focus:outline-primary"
                 onChange={(e) => {
                   setCategoryId(e.target.value);
@@ -270,7 +336,9 @@ const AddProduct = ({ listOfCategories }) => {
                 <span className="label-text">Phone</span>
               </label>
               <input
-                {...register("phone", { required: true })}
+                {...(id == "add" && {
+                  ...register("phone", { required: true }),
+                })}
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered border-primary w-full  focus:outline-primary"
@@ -287,16 +355,23 @@ const AddProduct = ({ listOfCategories }) => {
               <label className="label">
                 <span className="label-text">Country</span>
               </label>
-              <input
-                {...register("country", { required: true })}
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered border-primary w-full  focus:outline-primary"
+              <select
+                {...(id == "add" && {
+                  ...register("country", { required: true }),
+                })}
+                className="select select-bordered border-primary w-full  focus:outline-primary"
                 onChange={(e) => {
                   setCountry(e.target.value);
                 }}
                 value={country}
-              />
+              >
+                <option disabled selected>
+                  Pick one
+                </option>
+                {countries?.map((country) => {
+                  return <option value={country}>{country}</option>;
+                })}
+              </select>
               {errors.country?.type === "required" && (
                 <span className="text-red-500 ">Country is required</span>
               )}
@@ -326,26 +401,12 @@ const AddProduct = ({ listOfCategories }) => {
                 fileList={fileList}
                 onPreview={handlePreview}
                 onChange={handleChange}
-                // onChange={(e) => {
-                //   if (e.target.files) {
-                //     console.log(e.target.files[0]);
-                //   }
-                // }}
+                onRemove={handleRemove}
+                beforeUpload={handleBeforeUpload}
                 className="justify-center"
               >
                 {fileList.length >= 8 ? null : uploadButton}
               </Upload>
-              {/* <input
-                type="file"
-                className="file-input file-input-bordered file-input-info max-w-xl m-3"
-                name="profileImg"
-                id="profileImg"
-                onChange={(e) => {
-                  if (e.target.files) {
-                    setPhoto(e.target.files[0]);
-                  }
-                }}
-              /> */}
             </div>
             <Modal
               open={previewOpen}

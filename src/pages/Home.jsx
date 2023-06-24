@@ -20,11 +20,7 @@ function Home({
   const [isLoading, setIsLoading] = useState(false);
 
   const { listOfProducts, setListOfProducts } = useContext(ProductContext);
-  console.log(listOfProducts);
   const BaseURL = "https://bekya.onrender.com";
-
-  // const ourItems = [...listOfProducts.data].reverse();
-  // console.log(ourItems);
 
   useEffect(() => {
     setIsLoading(true);
@@ -285,12 +281,12 @@ function Home({
         )}
       </div>
       <div className="mt-20 mx-2 sm:mx-10 lg:mx-32 flex justify-center ">
-        <div className="card w-fit bg-base-100 shadow-xl image-full ">
+        <div className="card w-fit bg-base-100 shadow image-full ">
           <figure>
-            <img src="../../public/images/Untitled design.png" alt="Shoes" />
+            <img src="../../public/images/girl.png" alt="Shoes" />
           </figure>
           <div className="card-body flex flex-col justify-center">
-            <h2 className="card-title text-5xl justify-center">
+            <h2 className="card-title text-5xl mb-8 justify-center text-white">
               Variety Of Selling Items
             </h2>
             <div className="card-actions justify-center ">
