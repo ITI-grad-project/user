@@ -42,10 +42,7 @@ function NavBar({
         <header className="navbar flex-col lg:flex-row  justify-between items-center ">
           <div className="mb-3 lg:ml-28 lg:mb-0">
             <Link to="/" className=" normal-case text-xl">
-              <img
-                src="../../public/images/myrefurb.png"
-                className="w-32 h-[4.8rem]"
-              ></img>
+              <img src="/images/myrefurb.png" className="w-32 h-[4.8rem]"></img>
             </Link>
           </div>
           <div>
