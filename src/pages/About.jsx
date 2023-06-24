@@ -93,7 +93,7 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="../../public/images/menna (2).jpeg"
+                  src="/images/menna (2).jpeg"
                   alt="Your Image"
                 />
               </div>
