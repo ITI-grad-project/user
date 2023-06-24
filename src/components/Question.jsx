@@ -7,6 +7,7 @@ import axios from "axios";
 import QAInput from "./QAInput";
 import TrashIcon from "../assets/icons/TrashIcon";
 import ConfirmModal from "./ConfirmModal";
+import notify from "../hooks/useNotification";
 
 const schema = yup.object({
   answer: yup
@@ -53,12 +54,12 @@ export default function Question({
       // handleAddNewQA(data?.data.answer);
       handleAddNewAnswer(data?.data);
       reset();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       setLoading(false);
-      // toast.error("Something went wrong, please try again later");
-      //   const { data } = error.response;
-      //   toast.error(data.message);
+      if (err.response.data.message) {
+        notify(err.response.data.message, "error");
+      }
     }
   };
 
@@ -131,7 +132,7 @@ export default function Question({
                   JSON.parse(localStorage.getItem("user")).userName}
               </h6>
               {/* -------- Question Delete ------ */}
-              {JSON.parse(localStorage.getItem("user"))._id ===
+              {JSON.parse(localStorage.getItem("user"))?._id ===
                 question?.user?._id && (
                 <>
                   <label
@@ -169,7 +170,7 @@ export default function Question({
                   <div className="flex justify-between">
                     <h6 className="font-semibold">{productUser?.userName}</h6>
                     {/* --------- Answer|Reply Delete */}
-                    {JSON.parse(localStorage.getItem("user"))._id ===
+                    {JSON.parse(localStorage.getItem("user"))?._id ===
                       productUser?._id && (
                       // <span
                       //   onClick={() => handleDeleteA(question)}

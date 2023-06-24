@@ -132,12 +132,12 @@ export default function ProductDetails({
       // console.log(questions);
       handleAddNewQuestion(data?.questionData);
       reset();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       setLoading(false);
-      // toast.error("Something went wrong, please try again later");
-      //   const { data } = error.response;
-      //   toast.error(data.message);
+      if (err.response.data.message) {
+        notify(err.response.data.message, "error");
+      }
     }
   };
   const handleAddToWishlist = async (productID) => {
@@ -282,10 +282,10 @@ export default function ProductDetails({
               +2{product?.phone}
             </div>
             <button
-              disabled={product?.user?._id === userData._id}
+              disabled={product?.user?._id === userData?._id}
               className="btn btn-primary text-white normal-case lg:w-[70%] md:w-[70%] mt-6"
               onClick={() => {
-                handleAddToCart(product._id);
+                handleAddToCart(product?._id);
               }}
             >
               <span className="pr-2">
@@ -355,17 +355,21 @@ export default function ProductDetails({
               <p className="text-xl font-bold">No Question Yet</p>
             </div>
           )} */}
-
-          {JSON.parse(localStorage.getItem("user"))._id !==
-            product?.user?._id && (
-            <form onSubmit={handleSubmit(formSubmit)}>
-              <QAInput
-                placeholder={"write your question"}
-                register={{ ...register("question") }}
-                errorMessage={errors.question?.message}
-              />
-            </form>
-          )}
+          {
+            localStorage.getItem("token") ? (
+              <>
+                {JSON.parse(localStorage.getItem("user"))?._id !== product?.user?._id && (
+                  <form onSubmit={handleSubmit(formSubmit)}>
+                    <QAInput
+                      placeholder={"write your question"}
+                      register={{ ...register("question") }}
+                      errorMessage={errors.question?.message}
+                    />
+                  </form>
+                )}
+              </>
+            ):("")
+          }
         </div>
       </div>
     </div>
