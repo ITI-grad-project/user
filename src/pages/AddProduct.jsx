@@ -386,7 +386,10 @@ const AddProduct = ({ listOfCategories }) => {
             </div>
             <div className="btn-group btn-group-vertical w-full lg:btn-group-horizontal">
               {isLoading ? (
-                <ThreeDots color="#FFD336" />
+                <ThreeDots
+                  wrapperClass="text-primary flex justify-center items-center"
+                  color="currentColor"
+                />
               ) : (
                 <button
                   type="submit"
