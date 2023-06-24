@@ -29,16 +29,26 @@ export default function ProductDetails({
   cartItems,
   setCartItems,
   loginState,
+  wishlistedItems,
+  setWishlistedItems,
 }) {
   const { productId } = useParams();
   const [product, setProduct] = useState();
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [indexActive, setIndexActive] = useState(0);
-  const [showFav, setShowFav] = useState(false);
+  const [wishListed, setWishListed] = useState(false);
+
   const navigate = useNavigate();
   const BaseURL = "https://bekya.onrender.com";
   const userData = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  };
 
   useEffect(() => {
     async function getProductDetails() {
@@ -56,33 +66,15 @@ export default function ProductDetails({
         console.log(error);
       }
     }
-    // async function getProductQuestions(){
-    //   try {
-    //     console.log( await axios.get(
-    //       `https://bekya.onrender.com/api/v1/questions/${productId}`
-    //     ))
-    //     console.log(data.data);
-    //     setQuestions(data?.data);
-    //     setLoading(false);
-    //   } catch (error) {
-    //     setLoading(true);
-    //     console.log(error);
-    //   }
-    // }
+
     getProductDetails();
     // getProductQuestions();
   }, []);
+
   const handleAddToCart = async (productID) => {
     console.log(loginState);
     if (loginState === true) {
       const prodID = { productId: productID };
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      };
       try {
         const response = await axios.post(
           `${BaseURL}/api/v1/cart/`,
@@ -104,6 +96,7 @@ export default function ProductDetails({
       }, 2000);
     }
   };
+
   const {
     handleSubmit,
     register,
@@ -139,6 +132,26 @@ export default function ProductDetails({
       //   toast.error(data.message);
     }
   };
+
+  const toggleWishListed = async (productID) => {
+    setWishListed((prevState) => !prevState);
+    if (wishListed) {
+      try {
+        const { data } = await axios.delete(
+          `${BaseURL}/api/v1/wishlist/${productID}`,
+          config
+        );
+        notify(data.message, "warn");
+        const newWishlist = wishlistedItems.filter(
+          (item) => item._id !== productID
+        );
+        setWishlistedItems(newWishlist);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const handleAddToWishlist = async (productID) => {
     if (loginState === true) {
       if (!wishListed) {
@@ -189,10 +202,6 @@ export default function ProductDetails({
     setQuestions(updatedQuestions);
   };
 
-  const handleShowFav = () => {
-    setShowFav(!showFav);
-  };
-
   return (
     <div className="max-w-7xl mx-auto p-8">
       <ToastContainer></ToastContainer>
@@ -208,9 +217,11 @@ export default function ProductDetails({
               />
               <span
                 className="absolute top-4 right-4 text-primary bg-white/95 p-1 rounded-xl cursor-pointer"
-                onClick={handleShowFav}
+                onClick={() => {
+                  handleAddToWishlist(product?._id);
+                }}
               >
-                {showFav ? <HeartSolidIcon /> : <HeartIcon />}
+                {wishListed ? <HeartSolidIcon /> : <HeartIcon />}
               </span>
             </div>
             <ul className="flex justify-evenly items-center flex-wrap">

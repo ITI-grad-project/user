@@ -19,7 +19,7 @@ const schema = yup.object({
   confirmPassword: yup
     .string()
     .required("required field")
-    .oneOf([yup.ref("password")], "Confirm Password do not match")
+    .oneOf([yup.ref("password")], "Confirm Password do not match"),
 });
 
 export default function ChangePassword() {
@@ -56,7 +56,9 @@ export default function ChangePassword() {
       setLoading(false);
       const { data } = error.response;
       console.log(data.errors[0]);
-      if(data.errors[0].path === "currentPassword") {notify(data.errors[0].msg, "error")}
+      if (data.errors[0].path === "currentPassword") {
+        notify(data.errors[0].msg, "error");
+      }
       // if(data.errors[0].path === "currentPassword") {setError(data.errors[0].msg)}
       // if(data.errors[0].path !== "password" && data.errors[0].path !== "currentPassword"){
       //   toast.error(data.errors[0].msg);
@@ -83,7 +85,7 @@ export default function ChangePassword() {
             label="Current Password"
             name="currentPassword"
             type={showCurrentPass ? "text" : "password"}
-            placeholder="●●●●●●●●●●●●"
+            placeholder=""
             register={{ ...register("currentPassword") }}
             errorMessage={errors.currentPassword?.message}
           />
@@ -99,7 +101,7 @@ export default function ChangePassword() {
             label="New Password"
             name="password"
             type={showNewPass ? "text" : "password"}
-            placeholder="●●●●●●●●●●●●"
+            placeholder=""
             register={{ ...register("password") }}
             errorMessage={errors.password?.message}
           />
@@ -115,7 +117,7 @@ export default function ChangePassword() {
             label="Confirm Password"
             name="confirmPassword"
             type={showConfirmPass ? "text" : "password"}
-            placeholder="●●●●●●●●●●●●"
+            placeholder=""
             register={{ ...register("confirmPassword") }}
             errorMessage={errors.confirmPassword?.message}
           />

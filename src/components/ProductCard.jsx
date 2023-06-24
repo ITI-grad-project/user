@@ -41,7 +41,6 @@ function ProductCard({
         setWishlistedItems(newWishlist);
       } catch (error) {
         console.log(error);
-        // notify()
       }
     }
   };
@@ -49,16 +48,7 @@ function ProductCard({
   const handleAddToWishlist = async (productID) => {
     if (loginState === true) {
       if (!wishListed) {
-        // const check = cartItems?.find(product._id == productID);
-        // console.log("check", check);
-        // const token = localStorage.getItem("token");
         const prodID = { productId: productID };
-        // const config = {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //     "Content-Type": "application/json",
-        //   },
-        // };
         try {
           const response = await axios.post(
             `${BaseURL}/api/v1/wishlist/`,
@@ -84,7 +74,6 @@ function ProductCard({
 
   const handleAddToCart = async (productID) => {
     if (loginState === true) {
-      const check = cartItems?.find(product._id == productID);
       const token = localStorage.getItem("token");
       const prodID = { productId: productID };
 
