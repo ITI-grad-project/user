@@ -6,7 +6,7 @@ export default function Avatar({ width, ring, ringPrimary }) {
           width ? `w-[${width}]` : "w-10"
         } rounded-full hover:${ring} hover:${ringPrimary}`}
       >
-        <img src="../../public/images/avatar1.avif" />
+        <img src="https://www.pngitem.com/pimgs/m/466-4660076_unknown-person-hd-png-download.png" />
       </div>
     </div>
   );
