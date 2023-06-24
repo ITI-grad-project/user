@@ -63,7 +63,7 @@ const About = () => {
           <FeatureCard />
         </div>
         <h1 className="text-center font-bold text-3xl m-10">Team Members</h1>
-        <div className="flex flex-col md:flex-row gap-7">
+        <div className="flex flex-col md:flex-row gap-7 justify-center items-center">
           <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div className="flex justify-end px-4 pt-4"></div>
             <div className="flex flex-col items-center pb-10">
@@ -93,7 +93,7 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="/images/image 1.png"
+                  src="/images/menna.jpeg"
                   alt="Your Image"
                 />
               </div>
@@ -134,7 +134,7 @@ const About = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row gap-32 justify-center mt-14">
+        <div className="flex flex-col md:flex-row gap-32 mt-14 justify-center items-center">
           {/* </div> */}
           <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div className="flex justify-end px-4 pt-4"></div>
@@ -166,7 +166,7 @@ const About = () => {
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
                 <img
                   className="w-full h-full object-cover  "
-                  src="/images/image 1.png"
+                  src="/images/yusef.jpeg"
                   alt="Your Image"
                 />
               </div>

@@ -92,12 +92,11 @@ export default function Login() {
   };
   return (
     <div className="flex flex-col">
-      <Link
-        to="/"
-        className="btn btn-ghost normal-case w-fit text-xl mx-auto my-7"
-      >
-        MYReFurB
-      </Link>
+      <div className="mb-12 lg:ml-28 lg:mb-0 flex items-center justify-center">
+        <Link to="/" className=" normal-case text-xl">
+          <img src="/images/logoblack.png" className="w-fit h-[4.8rem]"></img>
+        </Link>
+      </div>
       <div className="border mx-16 rounded-lg shadow-lg flex items-center justify-center md:border-0">
         <ToastContainer />
         <div className="grid grid-cols-1 sm:grid-cols-2 w-full  ">
