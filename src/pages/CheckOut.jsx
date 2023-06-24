@@ -189,7 +189,7 @@ function CheckOut() {
                     </span>
                   </div>
                   <img
-                    src="../../public/images/car2.gif"
+                    src="/images/car2.gif"
                     width="30%"
                     height="30%"
                     className="rounded-3xl"
@@ -209,7 +209,7 @@ function CheckOut() {
                     Cash with card
                   </span>
                   <img
-                    src="../../public/images/visa.gif"
+                    src="/images/visa.gif"
                     className="rounded-3xl"
                     width="30%"
                     height="30%"
