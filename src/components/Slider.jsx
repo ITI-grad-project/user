@@ -7,26 +7,16 @@ function Slider() {
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const img = [
     {
-      img: "../../public/images/MYReFurB (1).png",
-    },
-    {
       img: "../../public/images/MYReFurB (2).png",
     },
     {
-      img: "../../public/images/4 (1).png",
+      img: "../../public/images/girl.png",
     },
     {
-      img: "../../public/images/6.png",
+      img: "../../public/images/cofee.png",
     },
     {
-      img: "../../public/images/MYReFurB (3).png",
-    },
-    {
-      img: "../../public/images/my.png",
-    },
-
-    {
-      img: "../../public/images/MYReFurB (4).png",
+      img: "../../public/images/cofee.png",
     },
   ];
   useEffect(() => {
@@ -71,13 +61,9 @@ function Slider() {
   }, [index]);
   return (
     <>
-      <div className="carousel w-full h-screen">
+      <div className="carousel w-full h-[80vh] ">
         <div id="slide1" className="carousel-item relative w-full">
-          <img
-            className="w-full bg-contain "
-            src={img[index].img}
-            key={index}
-          />
+          <img className="w-full h-full  " src={img[index].img} key={index} />
           <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href="#slide2" className="btn btn-circle btn-primary">
               ❮
