@@ -10,16 +10,16 @@ function Slider() {
     //   img: "../../public/images/MYReFurB (2).png",
     // },
     {
-      img: "/public/images/rr.jpeg",
+      img: "/images/rr.jpeg",
     },
     {
-      img: "/public/images/nn.jpeg",
+      img: "/images/nn.jpeg",
     },
     {
-      img: "/public/images/mm.jpeg",
+      img: "/images/mm.jpeg",
     },
     {
-      img: "/public/images/mm.jpeg",
+      img: "/images/mm.jpeg",
     },
   ];
   useEffect(() => {
