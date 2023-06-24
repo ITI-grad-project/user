@@ -221,6 +221,7 @@ const AddProduct = ({ listOfCategories }) => {
         }
       }
     } catch (error) {
+      console.log(error)
       if (error?.response?.data?.errors) {
         let arr = error.response.data.errors.map((err) => err.msg);
         arr.forEach((ele) => notify(ele, "error"));

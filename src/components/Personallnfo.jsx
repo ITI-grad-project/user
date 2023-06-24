@@ -8,6 +8,7 @@ import axios from "axios";
 import notify from "../hooks/useNotification";
 
 const schema = yup.object({
+  profileImg: yup.mixed(),
   firstname: yup
     .string()
     .required("required field")
@@ -136,6 +137,7 @@ const Personallnfo = ({
           },
         }
       );
+
       if (photo !== "") {
         await axios
           .put("https://bekya.onrender.com/api/v1/user/updatePhoto", photo, {
@@ -148,6 +150,7 @@ const Personallnfo = ({
             console.log(photo);
 
             let UrlImg = URL.createObjectURL(photo.get("profileImg"));
+
 
             let FullObj = {
               ...DataObj,

@@ -6,6 +6,8 @@ import axios from "axios";
 
 import QAInput from "./QAInput";
 import TrashIcon from "../assets/icons/TrashIcon";
+import ConfirmModal from "./ConfirmModal";
+import notify from "../hooks/useNotification";
 
 const schema = yup.object({
   answer: yup
@@ -20,10 +22,11 @@ export default function Question({
   handleAddNewAnswer,
   handleDeleteQuestion,
   handleDeleteAnswer,
+  setLoading
 }) {
   const [showReplyInput, setShowReplyInput] = useState(false);
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const {
     handleSubmit,
     register,
@@ -34,7 +37,7 @@ export default function Question({
   });
 
   const formSubmit = async (dataForm) => {
-    console.log(question?.user?.profileImg)
+    console.log(question?.user?.profileImg);
     try {
       setLoading(true);
       // Call Backend
@@ -51,12 +54,12 @@ export default function Question({
       // handleAddNewQA(data?.data.answer);
       handleAddNewAnswer(data?.data);
       reset();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       setLoading(false);
-      // toast.error("Something went wrong, please try again later");
-      //   const { data } = error.response;
-      //   toast.error(data.message);
+      if (err.response.data.message) {
+        notify(err.response.data.message, "error");
+      }
     }
   };
 
@@ -72,8 +75,10 @@ export default function Question({
       );
       // Update app state
       handleDeleteQuestion(question);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
       // toast.error("Something went wrong, please try again later");
     }
   };
@@ -127,14 +132,22 @@ export default function Question({
                   JSON.parse(localStorage.getItem("user")).userName}
               </h6>
               {/* -------- Question Delete ------ */}
-              {JSON.parse(localStorage.getItem("user"))._id ===
+              {JSON.parse(localStorage.getItem("user"))?._id ===
                 question?.user?._id && (
-                <span
-                  onClick={() => handleDeleteQ(question)}
-                  className="text-red-800 cursor-pointer"
-                >
-                  <TrashIcon />
-                </span>
+                <>
+                  <label
+                    // onClick={() => handleDeleteQ(question)}
+                    className="text-red-800 cursor-pointer"
+                    htmlFor={`my_modal_${question?._id}_question`}
+                  >
+                    <TrashIcon />
+                  </label>
+                  <ConfirmModal
+                    id={`${question?._id}_question`}
+                    onClick={() => handleDeleteQ(question)}
+                    message={"Delete This Question?"}
+                  />
+                </>
               )}
             </div>
             <div>{question?.question}</div>
@@ -157,14 +170,28 @@ export default function Question({
                   <div className="flex justify-between">
                     <h6 className="font-semibold">{productUser?.userName}</h6>
                     {/* --------- Answer|Reply Delete */}
-                    {JSON.parse(localStorage.getItem("user"))._id ===
+                    {JSON.parse(localStorage.getItem("user"))?._id ===
                       productUser?._id && (
-                      <span
-                        onClick={() => handleDeleteA(question)}
-                        className="text-red-800 cursor-pointer"
-                      >
-                        <TrashIcon />
-                      </span>
+                      // <span
+                      //   onClick={() => handleDeleteA(question)}
+                      //   className="text-red-800 cursor-pointer"
+                      // >
+                      //   <TrashIcon />
+                      // </span>
+                      <>
+                        <label
+                          // onClick={() => handleDeleteA(question)}
+                          className="text-red-800 cursor-pointer"
+                          htmlFor={`my_modal_${question?._id}_answer`}
+                        >
+                          <TrashIcon />
+                        </label>
+                        <ConfirmModal
+                          id={`${question?._id}_answer`}
+                          onClick={() => handleDeleteA(question)}
+                          message={"Delete This Answer?"}
+                        />
+                      </>
                     )}
                   </div>
                   <div>{question?.answer}</div>

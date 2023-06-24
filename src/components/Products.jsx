@@ -7,6 +7,7 @@ import EditIcon from "../assets/icons/EditIcon";
 import PlusIcon from "../assets/icons/PlusIcon";
 import { Link } from "react-router-dom";
 import notify from "../hooks/useNotification";
+import ConfirmModal from "./ConfirmModal";
 
 export default function Products() {
   const [products, setProducts] = useState();
@@ -57,12 +58,15 @@ export default function Products() {
     <div className="p-6">
       <div className="flex flex-col gap-2 sm:gap-0 sm:flex-row sm:justify-between sm:items-center md:mb-3">
         <h4 className="font-bold text-lg text-primary">My Products</h4>
-        <Link to={"/addProduct/add"} className="btn btn-primary h-[2.5rem] min-h-[2.5rem] text-white normal-case md:max-w-[20%]">
-            <span className="pr-2">
-              {" "}
-              <PlusIcon />{" "}
-            </span>{" "}
-            Add Product
+        <Link
+          to={"/addProduct/add"}
+          className="btn btn-primary h-[2.5rem] min-h-[2.5rem] text-white normal-case md:max-w-[20%]"
+        >
+          <span className="pr-2">
+            {" "}
+            <PlusIcon />{" "}
+          </span>{" "}
+          Add Product
         </Link>
       </div>
       <div className="overflow-x-auto hidden md:block">
@@ -107,14 +111,26 @@ export default function Products() {
                       </td>
                       <td>EGP {product?.price}</td>
                       <td>
-                        <Link to={`/addProduct/${product?._id}`} className="text-sky-800 cursor-pointer">
+                        <Link
+                          to={`/addProduct/${product?._id}`}
+                          className="text-sky-800 cursor-pointer"
+                        >
                           <EditIcon />
                         </Link>
                       </td>
                       <td>
-                        <span onClick={() => handleDeleteProduct(product)} className="text-red-800 cursor-pointer">
+                        <label
+                          // onClick={() => handleDeleteProduct(product)}
+                          className="text-red-800 cursor-pointer"
+                          htmlFor={`my_modal_${product?._id}`}
+                        >
                           <TrashIcon />
-                        </span>
+                        </label>
+                        <ConfirmModal
+                          id={product?._id}
+                          onClick={() => handleDeleteProduct(product)}
+                          message={"Delete This Product?"}
+                        />
                       </td>
                     </tr>
                   ))}
@@ -154,13 +170,25 @@ export default function Products() {
                           {product?.title}
                         </h3>
                         <p className="pt-2">EGP {product?.price}</p>
-                        <Link to={`/addProduct/${product?._id}`} className="text-sky-800 cursor-pointer flex gap-2 mb-1">
+                        <Link
+                          to={`/addProduct/${product?._id}`}
+                          className="text-sky-800 cursor-pointer flex gap-2 mb-1"
+                        >
                           <EditIcon /> Edit
                         </Link>
                         <p>
-                          <span onClick={() => handleDeleteProduct(product)} className="text-red-800 cursor-pointer flex gap-2">
+                          <label
+                            // onClick={() => handleDeleteProduct(product)}
+                            className="text-red-800 cursor-pointer flex gap-2"
+                            htmlFor={`my_modal_${product?._id}_mobile`}
+                          >
                             <TrashIcon /> Remove
-                          </span>
+                          </label>
+                          <ConfirmModal
+                            id={`${product?._id}_mobile`}
+                            onClick={() => handleDeleteProduct(product)}
+                            message={"Delete This Product?"}
+                          />
                         </p>
                       </div>
                     </div>

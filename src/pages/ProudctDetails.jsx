@@ -17,6 +17,7 @@ import QAInput from "../components/QAInput";
 import { ThreeDots } from "react-loader-spinner";
 import notify from "../hooks/useNotification";
 import { ToastContainer } from "react-toastify";
+import StarRating from "../components/Stars";
 
 const schema = yup.object({
   question: yup
@@ -124,12 +125,12 @@ export default function ProductDetails({
       // console.log(questions);
       handleAddNewQuestion(data?.questionData);
       reset();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       setLoading(false);
-      // toast.error("Something went wrong, please try again later");
-      //   const { data } = error.response;
-      //   toast.error(data.message);
+      if (err.response.data.message) {
+        notify(err.response.data.message, "error");
+      }
     }
   };
 
@@ -271,24 +272,10 @@ export default function ProductDetails({
                 <h6 className="font-semibold">{product?.user?.userName}</h6>
                 <div className="flex items-center gap-2">
                   <div className="flex">
-                    <span className="text-[#FF9934]">
-                      <StarIcon w={"w-5"} h={"h-5"} />
-                    </span>
-                    <span className="text-[#FF9934]">
-                      <StarIcon w={"w-5"} h={"h-5"} />
-                    </span>
-                    <span className="text-[#FF9934]">
-                      <StarIcon w={"w-5"} h={"h-5"} />
-                    </span>
-                    <span className="text-[#FF9934]">
-                      <StarIcon w={"w-5"} h={"h-5"} />
-                    </span>
-                    <span className="text-[#FF9934]">
-                      <StarIcon w={"w-5"} h={"h-5"} />
-                    </span>
+                    <StarRating rating={product?.user?.ratingsAverage || 0}/>
                   </div>
                   <div className="text-[#404040] font-medium">
-                    {"(0 Reviews)"}
+                    {`(${product?.user?.ratingQuantity} Reviews)`}
                   </div>
                 </div>
               </div>
@@ -306,10 +293,10 @@ export default function ProductDetails({
               +2{product?.phone}
             </div>
             <button
-              disabled={product?.user?._id === userData._id}
+              disabled={product?.user?._id === userData?._id}
               className="btn btn-primary text-white normal-case lg:w-[70%] md:w-[70%] mt-6"
               onClick={() => {
-                handleAddToCart(product._id);
+                handleAddToCart(product?._id);
               }}
             >
               <span className="pr-2">
@@ -328,7 +315,7 @@ export default function ProductDetails({
               <QuestionIcon />
             </span>
             Questions
-            <span className="text-[#404040] font-medium pl-2">{`(${product?.questions?.length})`}</span>
+            {/* <span className="text-[#404040] font-medium pl-2">{`(${product?.questions?.length})`}</span> */}
           </h5>
           {/*Users Questions/Comments */}
           {!loading && questions?.length === 0 ? (
@@ -353,6 +340,7 @@ export default function ProductDetails({
                       handleAddNewAnswer={handleAddNewAnswer}
                       handleDeleteQuestion={handleDeleteQuestion}
                       handleDeleteAnswer={handleDeleteAnswer}
+                      setLoading={setLoading}
                     />
                   ))}
                 </>
@@ -378,17 +366,21 @@ export default function ProductDetails({
               <p className="text-xl font-bold">No Question Yet</p>
             </div>
           )} */}
-
-          {JSON.parse(localStorage.getItem("user"))._id !==
-            product?.user?._id && (
-            <form onSubmit={handleSubmit(formSubmit)}>
-              <QAInput
-                placeholder={"write your question"}
-                register={{ ...register("question") }}
-                errorMessage={errors.question?.message}
-              />
-            </form>
-          )}
+          {
+            localStorage.getItem("token") ? (
+              <>
+                {JSON.parse(localStorage.getItem("user"))?._id !== product?.user?._id && (
+                  <form onSubmit={handleSubmit(formSubmit)}>
+                    <QAInput
+                      placeholder={"write your question"}
+                      register={{ ...register("question") }}
+                      errorMessage={errors.question?.message}
+                    />
+                  </form>
+                )}
+              </>
+            ):("")
+          }
         </div>
       </div>
     </div>

@@ -1,4 +1,7 @@
 import { useState, useRef } from "react";
+import axios from "axios";
+
+import notify from "../hooks/useNotification";
 
 const ProfilePhoto = ({ LoggedUser, setPhoto }) => {
   const [imgFile, setImgFile] = useState([]);
