@@ -9,6 +9,7 @@ import notify from "../hooks/useNotification";
 // import { useRef } from "react";
 
 const schema = yup.object({
+  profileImg: yup.mixed(),
   firstname: yup
     .string()
     .required("required field")
@@ -54,7 +55,6 @@ const Personallnfo = ({
     // },
   });
 
-  let FName, LName;
   // const [defaultValuesInputs, setDefaultValuesInputs] = useState(defaultValues);
   const [emailBeforeEdit, setEmailBeforeEdit] = useState();
   // const [updatedPhoto, setUpdatedphoto] = useState("");
@@ -104,6 +104,7 @@ const Personallnfo = ({
           },
         }
       );
+      
       // DataObj = { ...DataObj, profileImg: updatedPhoto };
       handleEditUserAccount(DataObj);
       localStorage.setItem("user", JSON.stringify(userData.data));
@@ -122,6 +123,7 @@ const Personallnfo = ({
 
   useEffect(() => {
     setEmailBeforeEdit(LoggedUser?.email);
+    setValue("profileImg", LoggedUser?.profileImg);
     setValue("firstname", LoggedUser?.userName?.split(" ")[0]);
     setValue("lastname", LoggedUser?.userName?.split(" ")[1]);
     setValue("email", LoggedUser?.email);

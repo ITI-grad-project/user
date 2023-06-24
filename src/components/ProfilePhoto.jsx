@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import axios from "axios";
+import notify from "../hooks/useNotification";
 
 const ProfilePhoto = ({ LoggedUser, imgFile, setImgFile }) => {
   // const [imgFile, setImgFile] = useState([]);
@@ -24,9 +25,13 @@ const ProfilePhoto = ({ LoggedUser, imgFile, setImgFile }) => {
       })
       .then((response) => {
         console.log("hello photo", response); // do something with the response
+        notify("Profile Image Updated Successfully", "success")
         // handleEditUserAccount(dataphoto);
         // setUpdatedphoto(dataphoto);
-      });
+      })
+      .catch((error) =>{
+        console.log(error);
+      })
   };
   return (
     <>
