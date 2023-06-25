@@ -12,7 +12,7 @@ const token = localStorage.getItem("token");
 console.log(token);
 
 function Profile() {
-  const [LoggedUser, setLoggedUser] = useState();
+  const [LoggedUser, setLoggedUser] = useState([]);
   const [UserAddress, setUserAddress] = useState([
     {
       country: "",
