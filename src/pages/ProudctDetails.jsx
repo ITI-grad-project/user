@@ -211,16 +211,11 @@ export default function ProductDetails({
           {/* Images */}
           <div className="flex flex-col gap-6 lg:w-2/4">
             <div className="relative">
-              <Link
-                to={`/userProfile/${product?.user?._id}`}
-                className="hover:scale-110 "
-              >
-                <img
-                  src={product?.images[indexActive]?.image}
-                  alt=""
-                  className="w-full h-full object-cover aspect-square rounded-xl"
-                />
-              </Link>
+              <img
+                src={product?.images[indexActive]?.image}
+                alt=""
+                className="w-full h-full object-cover aspect-square rounded-xl"
+              />
               <span
                 className="absolute top-4 right-4 text-primary bg-white/95 p-1 rounded-xl cursor-pointer"
                 onClick={() => {
@@ -264,15 +259,20 @@ export default function ProductDetails({
             </h4>
             <div className="flex gap-2 items-center">
               <div className="avatar">
-                <div className="w-12 rounded-full">
-                  <img
-                    src={
-                      product?.user?.profileImg ||
-                      "https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png"
-                    }
-                    alt="user"
-                  />
-                </div>
+                <Link
+                  to={`/userProfile/${product?.user?._id}`}
+                  className="hover:scale-110 "
+                >
+                  <div className="w-12 rounded-full">
+                    <img
+                      src={
+                        product?.user?.profileImg ||
+                        "https://www.pinclipart.com/picdir/big/394-3949395_stacey-scott-icono-de-mi-cuenta-png-clipart.png"
+                      }
+                      alt="user"
+                    />
+                  </div>
+                </Link>
               </div>
               <div>
                 <h6 className="font-semibold">{product?.user?.userName}</h6>
