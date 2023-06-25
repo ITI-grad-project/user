@@ -18,6 +18,7 @@ function Favorite({ wishlistedItems, setWishlistedItems }) {
       "Content-Type": "application/json",
     },
   };
+  const userData = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     setIsWishListLoading(true);
@@ -149,6 +150,7 @@ function Favorite({ wishlistedItems, setWishlistedItems }) {
                         Item Added at {product?.createdAt}
                       </h4>
                       <button
+                        disabled={product?.user?._id === userData?._id}
                         onClick={() => {
                           handleAddToCart(product?._id);
                         }}
