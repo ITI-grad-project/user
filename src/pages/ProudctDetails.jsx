@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -211,11 +211,16 @@ export default function ProductDetails({
           {/* Images */}
           <div className="flex flex-col gap-6 lg:w-2/4">
             <div className="relative">
-              <img
-                src={product?.images[indexActive]?.image}
-                alt=""
-                className="w-full h-full object-cover aspect-square rounded-xl"
-              />
+              <Link
+                to={`/userProfile/${product.user?._id}`}
+                className="hover:scale-110 "
+              >
+                <img
+                  src={product?.images[indexActive]?.image}
+                  alt=""
+                  className="w-full h-full object-cover aspect-square rounded-xl"
+                />
+              </Link>
               <span
                 className="absolute top-4 right-4 text-primary bg-white/95 p-1 rounded-xl cursor-pointer"
                 onClick={() => {
@@ -231,8 +236,9 @@ export default function ProductDetails({
                   key={image._id}
                   onClick={() => setIndexActive(index)}
                   className={`${
-                    index === indexActive ?
-                    "ring ring-primary ring-offset-base-100 ring-offset-2 p-2 scale-75 transition-all duration-300 opacity-75":""
+                    index === indexActive
+                      ? "ring ring-primary ring-offset-base-100 ring-offset-2 p-2 scale-75 transition-all duration-300 opacity-75"
+                      : ""
                   } rounded-2xl overflow-hidden cursor-pointer`}
                 >
                   <img
@@ -272,7 +278,7 @@ export default function ProductDetails({
                 <h6 className="font-semibold">{product?.user?.userName}</h6>
                 <div className="flex items-center gap-2">
                   <div className="flex">
-                    <StarRating rating={product?.user?.ratingsAverage || 0}/>
+                    <StarRating rating={product?.user?.ratingsAverage || 0} />
                   </div>
                   <div className="text-[#404040] font-medium">
                     {`(${product?.user?.ratingQuantity} Reviews)`}
@@ -366,21 +372,22 @@ export default function ProductDetails({
               <p className="text-xl font-bold">No Question Yet</p>
             </div>
           )} */}
-          {
-            localStorage.getItem("token") ? (
-              <>
-                {JSON.parse(localStorage.getItem("user"))?._id !== product?.user?._id && (
-                  <form onSubmit={handleSubmit(formSubmit)}>
-                    <QAInput
-                      placeholder={"write your question"}
-                      register={{ ...register("question") }}
-                      errorMessage={errors.question?.message}
-                    />
-                  </form>
-                )}
-              </>
-            ):("")
-          }
+          {localStorage.getItem("token") ? (
+            <>
+              {JSON.parse(localStorage.getItem("user"))?._id !==
+                product?.user?._id && (
+                <form onSubmit={handleSubmit(formSubmit)}>
+                  <QAInput
+                    placeholder={"write your question"}
+                    register={{ ...register("question") }}
+                    errorMessage={errors.question?.message}
+                  />
+                </form>
+              )}
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
