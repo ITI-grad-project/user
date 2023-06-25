@@ -225,14 +225,14 @@ export default function ProductDetails({
                 {wishListed ? <HeartSolidIcon /> : <HeartIcon />}
               </span>
             </div>
-            <ul className="flex justify-evenly items-center flex-wrap">
+            <ul className="flex gap-1 justify-evenly items-center flex-wrap">
               {product?.images?.map((image, index) => (
                 <li
                   key={image._id}
                   onClick={() => setIndexActive(index)}
                   className={`${
-                    index === indexActive &&
-                    "ring ring-primary ring-offset-base-100 ring-offset-2 p-2 scale-75 transition-all duration-300 opacity-75"
+                    index === indexActive ?
+                    "ring ring-primary ring-offset-base-100 ring-offset-2 p-2 scale-75 transition-all duration-300 opacity-75":""
                   } rounded-2xl overflow-hidden cursor-pointer`}
                 >
                   <img
