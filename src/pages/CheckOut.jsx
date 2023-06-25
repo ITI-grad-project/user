@@ -51,7 +51,7 @@ function CheckOut() {
         if (res.data.message == "success") {
           notify("order created successfully", "success");
           setTimeout(() => {
-            navigate("/");
+            navigate("/profile");
           }, 2000);
         }
       } catch (err) {
