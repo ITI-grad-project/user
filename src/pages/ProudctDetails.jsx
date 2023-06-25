@@ -212,7 +212,7 @@ export default function ProductDetails({
           <div className="flex flex-col gap-6 lg:w-2/4">
             <div className="relative">
               <Link
-                to={`/userProfile/${product.user?._id}`}
+                to={`/userProfile/${product?.user?._id}`}
                 className="hover:scale-110 "
               >
                 <img
