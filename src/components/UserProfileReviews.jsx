@@ -167,7 +167,7 @@ export default function UserProfileReviews({ reviews, setReviews, id }) {
                   <StarRating rating={ele?.rating}></StarRating>
                 </td>
                 <th>
-                  {ele?.user?._id == user._id ? (
+                  {ele?.user?._id == user?._id ? (
                     <DeleteItem
                       id={ele._id}
                       reviews={reviews}
