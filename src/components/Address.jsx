@@ -192,6 +192,7 @@ const Address = ({ UserAddress, setUserAddress }) => {
                     errorMessage={errors.buildNo?.message}
                     disabled={!watch("buildNo")}
                     editbtn={AddressEditBtn}
+                    min={1}
                   />
                 </div>
               </div>

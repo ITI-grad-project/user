@@ -24,7 +24,8 @@ const schema = yup.object({
   phone: yup
     .string()
     .required("required field")
-    .min(11, "Password should be 11 numbers"),
+    .min(11, "Password should be 11 numbers")
+    .matches(/^01[0125][0-9]{8}$/gm, "egypt phone number only"),
 });
 
 const Personallnfo = ({
@@ -151,12 +152,11 @@ const Personallnfo = ({
 
             let UrlImg = URL.createObjectURL(photo.get("profileImg"));
 
-
             let FullObj = {
               ...DataObj,
               profileImg: UrlImg,
             };
-
+            console.log(response);
             handleEditUserAccount(FullObj);
             let Userdata = userData.data;
 
@@ -168,13 +168,18 @@ const Personallnfo = ({
           });
       } else {
         handleEditUserAccount(DataObj);
-        localStorage.setItem("user", JSON.stringify(userData.data));
+        // localStorage.setItem("user", JSON.stringify(userData.data));
       }
       // localStorage.setItem("user", JSON.stringify({...userData.data, profileImg:photo}));
 
       notify("Data Updated Successfully", "success");
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      if (error.response.data) {
+        if (error?.response?.data?.errors) {
+          let arr = error.response.data.errors.map((err) => err.msg);
+          arr.forEach((ele) => notify(ele, "error"));
+        }
+      }
     }
   };
 

@@ -9,6 +9,7 @@ export default function Input({
   disabled,
   editbtn,
   onChange,
+  min,
 }) {
   return (
     <div className="form-control">
@@ -29,6 +30,7 @@ export default function Input({
         }`}
         {...register}
         {...(editbtn === 0 && (disabled = { disabled }))}
+        min={min}
       />
       {errorMessage && (
         <span className="text-red-500 text-sm">{errorMessage}</span>
