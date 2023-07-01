@@ -221,7 +221,7 @@ const AddProduct = ({ listOfCategories }) => {
         }
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error?.response?.data?.errors) {
         let arr = error.response.data.errors.map((err) => err.msg);
         arr.forEach((ele) => notify(ele, "error"));
@@ -302,6 +302,7 @@ const AddProduct = ({ listOfCategories }) => {
                   ...register("price", { required: true }),
                 })}
                 type="number"
+                min={1}
                 className="input input-bordered border-primary w-full focus:outline-primary"
                 placeholder="Price"
                 onChange={(e) => {
