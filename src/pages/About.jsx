@@ -64,7 +64,7 @@ const About = () => {
         </div>
         <h1 className="text-center font-bold text-3xl m-10">Team Members</h1>
         <div className="flex flex-col md:flex-row gap-7 justify-center items-center">
-          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
             <div className="flex justify-end px-4 pt-4"></div>
             <div className="flex flex-col items-center pb-10">
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
@@ -74,12 +74,10 @@ const About = () => {
                   alt="Your Image"
                 />
               </div>
-              <h5 className="mb-1 text-xl mt-5 font-medium text-gray-900 dark:text-white">
+              <h5 className="mb-1 text-xl mt-5 font-medium text-gray-900 ">
                 Rania Atef{" "}
               </h5>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Frontend Developer
-              </span>
+              <span className="text-sm text-gray-500 ">Frontend Developer</span>
               <div className="flex mt-4 space-x-3 md:mt-6">
                 <i class="fa-brands fa-facebook-f"></i>
                 <i class="fa-brands fa-twitter"></i>
@@ -87,7 +85,7 @@ const About = () => {
               </div>
             </div>
           </div>
-          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
             <div className="flex justify-end px-4 pt-4"></div>
             <div className="flex flex-col items-center pb-10">
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
@@ -97,12 +95,10 @@ const About = () => {
                   alt="Your Image"
                 />
               </div>
-              <h5 className="mb-1  mt-5 text-xl font-medium text-gray-900 dark:text-white">
+              <h5 className="mb-1  mt-5 text-xl font-medium text-gray-900 ">
                 Mennat allah Kamal
               </h5>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Frontend Developer
-              </span>
+              <span className="text-sm text-gray-500 ">Frontend Developer</span>
               <div className="flex mt-4 space-x-3 md:mt-6">
                 <i class="fa-brands fa-facebook-f"></i>
                 <i class="fa-brands fa-twitter"></i>
@@ -110,7 +106,7 @@ const About = () => {
               </div>
             </div>
           </div>
-          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
             <div className="flex justify-end px-4 pt-4"></div>
             <div className="flex flex-col items-center pb-10">
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
@@ -120,12 +116,10 @@ const About = () => {
                   alt="Your Image"
                 />
               </div>
-              <h5 className="mb-1  mt-5 text-xl font-medium text-gray-900 dark:text-white">
+              <h5 className="mb-1  mt-5 text-xl font-medium text-gray-900 ">
                 Fatma Elsayed
               </h5>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Frontend Developer
-              </span>
+              <span className="text-sm text-gray-500 ">Frontend Developer</span>
               <div className="flex mt-4 space-x-3 md:mt-6">
                 <i class="fa-brands fa-facebook-f"></i>
                 <i class="fa-brands fa-twitter"></i>
@@ -136,7 +130,7 @@ const About = () => {
         </div>
         <div className="flex flex-col md:flex-row gap-32 mt-14 justify-center items-center">
           {/* </div> */}
-          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
             <div className="flex justify-end px-4 pt-4"></div>
             <div className="flex flex-col items-center pb-10">
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
@@ -146,12 +140,10 @@ const About = () => {
                   alt="Your Image"
                 />
               </div>
-              <h5 className="mb-1  mt-5 text-xl font-medium text-gray-900 dark:text-white">
+              <h5 className="mb-1  mt-5 text-xl font-medium text-gray-900 ">
                 Beshoy Osama
               </h5>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Frontend Developer
-              </span>
+              <span className="text-sm text-gray-500 ">Frontend Developer</span>
               <div className="flex mt-4 space-x-3 md:mt-6">
                 <i class="fa-brands fa-facebook-f"></i>
                 <i class="fa-brands fa-twitter"></i>
@@ -160,7 +152,7 @@ const About = () => {
             </div>
           </div>
 
-          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
             <div className="flex justify-end px-4 pt-4"></div>
             <div className="flex flex-col items-center pb-10">
               <div className=" w-40 h-40 rounded-full overflow-hidden border border-primary">
@@ -170,12 +162,10 @@ const About = () => {
                   alt="Your Image"
                 />
               </div>
-              <h5 className="mb-1 mt-5 text-xl font-medium text-gray-900 dark:text-white">
+              <h5 className="mb-1 mt-5 text-xl font-medium text-gray-900 ">
                 Youssef Saeed
               </h5>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Frontend Developer
-              </span>
+              <span className="text-sm text-gray-500">Frontend Developer</span>
               <div className="flex mt-4 space-x-3 md:mt-6">
                 <i class="fa-brands fa-facebook-f"></i>
                 <i class="fa-brands fa-twitter"></i>
