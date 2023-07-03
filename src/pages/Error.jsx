@@ -3,7 +3,7 @@ function NotFound() {
     <>
       <img
         className="w-full h-[65vh] mb-[-50px]"
-        src="../../public/images/error-404.jpg"
+        src="/images/error-404.png"
       ></img>
     </>
   );

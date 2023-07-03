@@ -78,10 +78,20 @@ const About = () => {
                 Rania Atef{" "}
               </h5>
               <span className="text-sm text-gray-500 ">Frontend Developer</span>
-              <div className="flex mt-4 space-x-3 md:mt-6">
-                <i class="fa-brands fa-facebook-f"></i>
-                <i class="fa-brands fa-twitter"></i>
-                <i class="fa-brands fa-linkedin-in"></i>
+              <div className="flex mt-2 space-x-3 md:mt-4">
+                <span className="hover:text-primary hover:cursor-pointer">
+                  <i class="fa-brands fa-facebook-f"></i>
+                </span>
+                <span className="hover:text-primary hover:cursor-pointer">
+                  <i class="fa-brands fa-twitter"></i>
+                </span>
+                <a
+                  href="https://www.linkedin.com/in/raniaatefali"
+                  className="hover:text-primary"
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -99,10 +109,20 @@ const About = () => {
                 Mennat allah Kamal
               </h5>
               <span className="text-sm text-gray-500 ">Frontend Developer</span>
-              <div className="flex mt-4 space-x-3 md:mt-6">
-                <i class="fa-brands fa-facebook-f"></i>
-                <i class="fa-brands fa-twitter"></i>
-                <i class="fa-brands fa-linkedin-in"></i>
+              <div className="flex mt-2 space-x-3 md:mt-4">
+                <span className="hover:text-primary hover:cursor-pointer">
+                  <i class="fa-brands fa-facebook-f"></i>
+                </span>
+                <span className="hover:text-primary hover:cursor-pointer">
+                  <i class="fa-brands fa-twitter"></i>
+                </span>
+                <a
+                  href="https://www.linkedin.com/in/mennat-allah-kamal-0958a7174"
+                  className="hover:text-primary"
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -120,10 +140,20 @@ const About = () => {
                 Fatma Elsayed
               </h5>
               <span className="text-sm text-gray-500 ">Frontend Developer</span>
-              <div className="flex mt-4 space-x-3 md:mt-6">
-                <i class="fa-brands fa-facebook-f"></i>
-                <i class="fa-brands fa-twitter"></i>
-                <i class="fa-brands fa-linkedin-in"></i>
+              <div className="flex mt-2 space-x-3 md:mt-4">
+                <span className="hover:text-primary hover:cursor-pointer">
+                  <i class="fa-brands fa-facebook-f"></i>
+                </span>
+                <span className="hover:text-primary hover:cursor-pointer">
+                  <i class="fa-brands fa-twitter"></i>
+                </span>
+                <a
+                  href="https://www.linkedin.com/in/fatma-elsayed"
+                  className="hover:text-primary"
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -144,10 +174,20 @@ const About = () => {
                 Beshoy Osama
               </h5>
               <span className="text-sm text-gray-500 ">Frontend Developer</span>
-              <div className="flex mt-4 space-x-3 md:mt-6">
-                <i class="fa-brands fa-facebook-f"></i>
-                <i class="fa-brands fa-twitter"></i>
-                <i class="fa-brands fa-linkedin-in"></i>
+              <div className="flex mt-2 space-x-3 md:mt-4">
+                <span className="hover:text-primary hover:cursor-pointer">
+                  <i class="fa-brands fa-facebook-f"></i>
+                </span>
+                <span className="hover:text-primary hover:cursor-pointer">
+                  <i class="fa-brands fa-twitter"></i>
+                </span>
+                <a
+                  href="https://www.linkedin.com/in/bishoy-wadie"
+                  className="hover:text-primary"
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -166,10 +206,20 @@ const About = () => {
                 Youssef Saeed
               </h5>
               <span className="text-sm text-gray-500">Frontend Developer</span>
-              <div className="flex mt-4 space-x-3 md:mt-6">
-                <i class="fa-brands fa-facebook-f"></i>
-                <i class="fa-brands fa-twitter"></i>
-                <i class="fa-brands fa-linkedin-in"></i>
+              <div className="flex mt-2 space-x-3 md:mt-4">
+                <span className="hover:text-primary hover:cursor-pointer">
+                  <i class="fa-brands fa-facebook-f"></i>
+                </span>
+                <span className="hover:text-primary hover:cursor-pointer">
+                  <i class="fa-brands fa-twitter"></i>
+                </span>
+                <a
+                  href="https://www.linkedin.com/in/youssef-saeed-60aa931a6"
+                  className="hover:text-primary"
+                  target="_blank"
+                >
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
               </div>
             </div>
           </div>
