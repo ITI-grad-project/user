@@ -52,7 +52,7 @@ function Shop({ Categories, loginState, searchQuery, debouncedValue }) {
           if (price.length) {
             urlWithId = urlWithId.replace(/price\[gte\]=\d+&?/, "");
             urlWithId = urlWithId.replace(/price\[lte\]=\d+&?/, "");
-            urlWithId += `price[gte]=${price[0]}&price[lte]=${price[1]}`;
+            urlWithId += `price[gte]=${price[0]}&price[lte]=${price[1]}&`;
           }
           // if (price.searchQuery) {
           //   urlWithId += `keyword=${currentCountry}&`;
@@ -69,7 +69,7 @@ function Shop({ Categories, loginState, searchQuery, debouncedValue }) {
           if (price.length) {
             url = url.replace(/price\[gte\]=\d+&?/, "");
             url = url.replace(/price\[lte\]=\d+&?/, "");
-            url += `price[gte]=${price[0]}&price[lte]=${price[1]}`;
+            url += `price[gte]=${price[0]}&price[lte]=${price[1]}&`;
           }
           if (debouncedValue) {
             url += `keyword=${debouncedValue}&`;
